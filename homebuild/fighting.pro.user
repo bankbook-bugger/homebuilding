@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.2, 2022-06-23T18:37:14. -->
+<!-- Written by QtCreator 4.11.2, 2022-06-23T19:01:36. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -285,8 +285,9 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/run/media/root/linux/homebuilding/homebuild/fighting.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/run/media/root/linux/homebuilding/homebuild/fighting.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">fighting2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/run/media/root/study/homebuilding/homebuilding/homebuild/fighting.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/run/media/root/study/homebuilding/homebuilding/homebuild/fighting.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>
