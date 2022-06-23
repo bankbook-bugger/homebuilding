@@ -20,9 +20,9 @@ GameWindow {
 
   //level editor
 
-  /*MusicManager {             //背景音乐
+  MusicManager {             //背景音乐
     id: audioManager
-  }*/
+  }
 
   EntityManager {             //通过容器管理实体
     id: entityManager
@@ -53,6 +53,9 @@ GameWindow {
       gameWindow.state = "level"
     }*/
   }
+  KindsScene{
+      id:kindsScene
+  }
 
 
   // states
@@ -66,9 +69,9 @@ GameWindow {
       PropertyChanges {target: gameWindow; activeScene: menuScene}
     },
     State {
-      name: "level"
-      PropertyChanges {target: levelScene; opacity: 1}
-      PropertyChanges {target: gameWindow; activeScene: levelScene}
+      name: "kinds"
+      PropertyChanges {target: kindsScene; opacity: 1}
+      PropertyChanges {target: gameWindow; activeScene: kindsScene}
     },
     State {
       name: "game"

@@ -5,12 +5,12 @@ import QtQuick 2.0
 import QtQuick 2.15
 import Felgo 3.0
 import QtQuick.Controls 2.12
-
+import QtQuick.Controls.Styles 1.0
 
 Scene {
     id: menuScene
 
-    //signal KindsScenePressed
+    signal kindsScenePressed
 
     Rectangle {            //整体背景
         id:background
@@ -54,12 +54,18 @@ Scene {
       anchors.topMargin: 40
 
       radius: height / 4
-      borderColor: "transparent"
 
-      /*onClicked: {
-        levelScene.state = "demoLevels"
-        levelScenePressed() //KindsScenePressed
-      }*/
+      style:ButtonStyle{
+          background:  Rectangle {
+              radius: imageButton.radius
+              color: "transparent"
+            }
+      }
+
+      onClicked: {
+        kindsScene.state = "demoKinds"
+        kindsScenePressed()
+      }
     }
 
 
@@ -75,8 +81,12 @@ Scene {
       anchors.topMargin: 40
 
       radius: height / 4
-      borderColor: "transparent"
-
+      style:ButtonStyle{
+          background:  Rectangle {
+              radius: imageButton.radius
+              color: "transparent"
+            }
+      }
       /*onClicked: {
       levelScene.state = "myLevels"
       levelScene.subState = "createdLevels"
