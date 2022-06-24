@@ -48,8 +48,12 @@ MultiResolutionImage {
 
       property int buttonWidth: width / 2 - spacing / 2
 
-
+<<<<<<< HEAD
+      // undo button
+      HomeImageButton {
+=======
       HomeImageButton {             //撤销按钮
+>>>>>>> 20b4227980cf895e1a21556f4e97a21473cf9bd7
         width: parent.buttonWidth
 
         //检测是否能撤销 如果可以为蓝色 如果不能撤销(没有可以撤销的)为灰色
@@ -86,7 +90,11 @@ MultiResolutionImage {
       spacing: 2
       property int buttonWidth: width / 2 - spacing / 2
 
+<<<<<<< HEAD
+      HomeSelectableImageButton {
+=======
       HomeSelectableImageButton {         //编辑界面 擦出按钮或则填写按钮
+>>>>>>> 20b4227980cf895e1a21556f4e97a21473cf9bd7
         id: drawEraseButton
 
         property bool drawActive: true  //此时为编辑状态 有时为擦除状态
@@ -279,8 +287,12 @@ MultiResolutionImage {
             verticalAlignment: Text.AlignVCenter
           }
 
-
+<<<<<<< HEAD
+          // button to switch between gridSizes 16 and 32
+          HomeTextButton {
+=======
           HomeTextButton {          //网格button
+>>>>>>> 20b4227980cf895e1a21556f4e97a21473cf9bd7
             id: gridSizeButton
             screenText: "32"       //默认为32
             width: 30
