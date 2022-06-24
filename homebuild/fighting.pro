@@ -60,6 +60,7 @@ macx {
 }
 
 DISTFILES += \
+    qml/HomeBuildEntityButton.qml \
     qml/MenuScene.qml \
     qml/SceneBase.qml \
     qml/code-admob.png \
@@ -68,4 +69,5 @@ DISTFILES += \
     qml/common/HomeTextButton.qml \
     qml/common/HomeSelectableImageButton.qml \
     qml/helper/EditorGrid.qml \
-    qml/logo-admob.png
+    qml/logo-admob.png \
+    qml/moveButton.qml

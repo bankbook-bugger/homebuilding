@@ -25,6 +25,7 @@ SceneBase {
 
        // back button to leave scene
        Buttons {
+           //回到菜单的按钮
          text: "Back to menu"
          // anchor the button to the gameWindowAnchorItem to be on the edge of the screen on any device
          anchors.right: gameScene.gameWindowAnchorItem.right
@@ -47,26 +48,32 @@ SceneBase {
           text: activeLevel !== undefined ? activeLevel.levelName : ""
 //          text:"hahaha"
         }
-       // load levels at runtime
-       Loader {
-         id: loader
-         source: activeLevelFileName !== "" ? "../qml/" + activeLevelFileName : ""
-//         source: activeLevelFileName !== "" ? activeLevelFileName : ""
-//         source:"../qml/Level1.qml"
-         onLoaded: {
-           // since we did not define a width and height in the level item itself, we are doing it here
-           item.width = gameScene.width
-           item.height = gameScene.height
-           // store the loaded level as activeLevel for easier access
-           activeLevel = item
-         }
+       MoveButton {
+         id: moveTouchButton
+
+         // pass TwoAxisController to moveTouchButton
+         controller: controller
        }
-       Connections {
-           // only connect if a level is loaded, to prevent errors
-           target: activeLevel !== undefined ? activeLevel : null
-           // increase the score when the rectangle is clicked
-           onRectanglePressed: {
-             score++
-           }
-         }
+       JumpButton {
+         id: jumpTouchButton
+
+         onPressed: player.startJump(true)
+         onReleased: player.endJump()
+       }
+       // load levels at runtime
+//       Loader {
+//           //当你点击相应的关卡名字 就加载它
+//         id: loader
+//         source: activeLevelFileName !== "" ? "../qml/" + activeLevelFileName : ""
+////         source: activeLevelFileName !== "" ? activeLevelFileName : ""
+////         source:"../qml/Level1.qml"
+//         onLoaded: {
+//           // since we did not define a width and height in the level item itself, we are doing it here
+//           item.width = gameScene.width
+//           item.height = gameScene.height
+//           // store the loaded level as activeLevel for easier access
+//           activeLevel = item
+//         }
+//       }
+
 }

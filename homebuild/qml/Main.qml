@@ -10,8 +10,8 @@ GameWindow {
   screenWidth: 960
   screenHeight: 640
 
-  property alias levelEditor: levelEditor
-  property alias itemEditor: gameScene.itemEditor
+//  property alias levelEditor: levelEditor
+//  property alias itemEditor: gameScene.itemEditor
 
   // update background music when scene changes
   onActiveSceneChanged: {
@@ -24,9 +24,11 @@ GameWindow {
 
   EntityManager {             //通过容器管理实体
     id: entityManager
-    entityContainer: gameScene.container
+//    entityContainer: gameScene.container
+    entityContainer: gameScene
     poolingEnabled: true
   }
+
 
    FelgoGameNetwork { //用于在游戏中使用排行榜、成就和挑战的根 Felgo 游戏网络组件。
     id: gameNetwork
@@ -45,6 +47,28 @@ GameWindow {
   }
 
   // Scenes -----------------------------------------
+  GameScene{
+      id:gameScene
+      visible: false
+      Row{
+          id:buildEntityButton
+          visible: false
+          HomeBuildEntityButton{
+          anchors.fill: image1
+          Image {
+              id: image1
+  //            source: "file"
+          }
+          }
+          HomeBuildEntityButton{
+          anchors.fill: image2
+          Image {
+              id: image2
+  //            source: "file"
+          }}
+
+      }
+  }
   MenuScene {
     id: menuScene
    /* onKindsScenePressed: {
@@ -89,7 +113,7 @@ GameWindow {
 
 
   // states
-  state: "kinds"
+  state: "menu"
 
   // this state machine handles the transition between scenes
   states: [
