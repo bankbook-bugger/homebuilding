@@ -72,6 +72,7 @@ DISTFILES += \
     qml/HomeBuildEntityButton.qml \
     qml/HomeEntityBaseDraggable.qml \
     qml/MenuScene.qml \
+    qml/ResetSensor.qml \
     qml/SceneBase.qml \
     qml/code-admob.png \
     qml/common/HomeImageButton.qml \
