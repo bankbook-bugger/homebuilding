@@ -60,12 +60,10 @@ macx {
 }
 
 DISTFILES += \
-<<<<<<< HEAD
     qml/DialogBase.qml \
     qml/EditorGrid.qml \
     qml/EditorOverlay.qml \
     qml/EditorUnderlay.qml \
-=======
     qml/Coin.qml \
     qml/EditorGrid.qml \
     qml/EditorOverlay.qml \
@@ -73,7 +71,6 @@ DISTFILES += \
     qml/Ground.qml \
     qml/GroundDirt.qml \
     qml/GroundGrass.qml \
->>>>>>> 20b4227980cf895e1a21556f4e97a21473cf9bd7
     qml/ItemGroupButton.qml \
     qml/LeftSidebar.qml \
     qml/HomeBuildEntityButton.qml \

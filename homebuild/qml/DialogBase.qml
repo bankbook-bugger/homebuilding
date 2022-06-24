@@ -15,7 +15,7 @@ Item {
 
   TapHandler {
 
-    tapped: {
+    onTapped: {
       if(closeableByClickOnBackground)
         dialogBase.opacity = 0
     }
