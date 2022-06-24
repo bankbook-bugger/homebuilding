@@ -60,8 +60,14 @@ macx {
 }
 
 DISTFILES += \
+    qml/Bottle.qml \
+    qml/Box.qml \
+    qml/Can.qml \
+    qml/Ground.qml \
+    qml/GroundMud.qml \
     qml/HomeBuildEntityButton.qml \
     qml/HomeEntityBaseDraggable.qml \
+    qml/Material.qml \
     qml/MenuScene.qml \
     qml/SceneBase.qml \
     qml/code-admob.png \
