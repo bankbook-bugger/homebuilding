@@ -63,7 +63,7 @@ Scene {
       }
 
       onClicked: {
-        kindsScene.state = "demoKinds"
+        kindsScene.state = "demoKinds"          //切换到开始游戏界面
         kindsScenePressed()
       }
     }
@@ -87,10 +87,10 @@ Scene {
               color: "transparent"
             }
       }
-      onClicked: {
-      kindScene.state = "myKinds"
-      kindScene.subState = "createdLevels"
-      kindScenePressed()
+      onClicked: {                             //切换到设置游戏界面
+      kindsScene.state = "myKinds"
+      kindsScene.subState = "createdKinds"
+      kindsScenePressed()
       }
     }
 

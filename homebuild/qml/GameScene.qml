@@ -24,8 +24,12 @@ SceneBase {
        }
 
        // back button to leave scene
-       Buttons {
-           //回到菜单的按钮
+//<<<<<<< HEAD
+//       Buttons {
+//           //回到菜单的按钮
+//=======
+       /*Button {
+>>>>>>> e60bc034e30bfd2cf690757501159f0664b3b98c
          text: "Back to menu"
          // anchor the button to the gameWindowAnchorItem to be on the edge of the screen on any device
          anchors.right: gameScene.gameWindowAnchorItem.right
@@ -37,7 +41,7 @@ SceneBase {
            activeLevel = undefined
            activeLevelFileName = ""
          }
-       }
+       }*/
        Text {
           anchors.left: gameScene.gameWindowAnchorItem.left
           anchors.leftMargin: 10

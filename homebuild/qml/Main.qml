@@ -10,19 +10,22 @@ GameWindow {
   screenWidth: 960
   screenHeight: 640
 
-//  property alias levelEditor: levelEditor
-//  property alias itemEditor: gameScene.itemEditor
 
-  // update background music when scene changes
-  onActiveSceneChanged: {
-    audioManager.handleMusic()
+ // property alias levelEditor: levelEditor
+  //property alias itemEditor: gameScene.itemEditor
+
+  onActiveSceneChanged: {     //活动场景改变更改背景音乐
+    musicManager.handleMusic()
   }
 
-  MusicManager {             //背景音乐
+  MusicManager {
     id: musicManager
   }
 
-  EntityManager {             //通过容器管理实体
+
+
+
+  EntityManager {             //通过容器管理实体 所创建的实体在里面
     id: entityManager
 //    entityContainer: gameScene.container
     entityContainer: gameScene
@@ -36,12 +39,11 @@ GameWindow {
     gameId: 220
     secret: "platformerEditorDevPasswordForVPlayGameNetwork"
 
-    // set gameNetworkView
-    gameNetworkView: myGameNetworkView
+    gameNetworkView: myGameNetworkView  //使用预定义的UI
   }
 
-  // custom mario style font
-  FontLoader {
+
+  FontLoader {    //定义字体样式
     id: marioFont
     source: "../assets/fonts/SuperMario256.ttf"
   }
@@ -69,17 +71,18 @@ GameWindow {
 
       }
   }
-  MenuScene {
+
+  MenuScene {                             //菜单场景
     id: menuScene
-   /* onKindsScenePressed: {
-      gameWindow.state = "level"
-    }*/
+    onKindsScenePressed: {      //kinds的槽函数
+      gameWindow.state = "kinds"
+    }
   }
 
-  KindsScene{
+  KindsScene{                             //类型场景
       id:kindsScene
-      onNewLevelPressed: {
-        // create a new level
+
+      onNewLevelPressed: {    //创建种类
         var creationProperties = {
           levelMetaData: {
             levelName: "newLevel"
@@ -87,11 +90,9 @@ GameWindow {
         }
         levelEditor.createNewLevel(creationProperties)
 
-        // switch to gameScene, edit mode
         gameWindow.state = "game"
         gameScene.state = "edit"
 
-        // initialize level
         gameScene.initLevel()
       }
 
@@ -112,10 +113,10 @@ GameWindow {
   }
 
 
-  // states
+  // 当前状态
   state: "menu"
 
-  // this state machine handles the transition between scenes
+  // 场景状态切换
   states: [
     State {
       name: "menu"
