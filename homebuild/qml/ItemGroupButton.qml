@@ -12,7 +12,7 @@ HomeImageButton {
   width: parent.buttonWidth
   height: parent.height
 
-  // make the color grey when selected, white otherwise
+ //使得颜色转换为白色 否则为灰色
   color: selected ? "#c0c0c0" : "#ffffff"
 
   property bool selected: false
