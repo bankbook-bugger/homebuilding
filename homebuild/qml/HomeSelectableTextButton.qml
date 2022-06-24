@@ -11,8 +11,6 @@ HomeTextButton {
   property bool isSelected: false  //选择按钮的属性 同时发出信号
   signal selected
 
-
-
   style: ButtonStyle{                 //覆盖Text里默认的样式
       background: Rectangle{
           radius: 3

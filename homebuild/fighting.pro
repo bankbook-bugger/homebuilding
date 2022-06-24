@@ -61,6 +61,10 @@ macx {
 
 DISTFILES += \
     qml/HomeBuildEntityButton.qml \
+<<<<<<< HEAD
+=======
+    qml/HomeEntityBaseDraggable.qml \
+>>>>>>> 4c99f612f8b1c1cf8ffecbf739986150f6ceeaf0
     qml/MenuScene.qml \
     qml/SceneBase.qml \
     qml/GameScene.qml \
