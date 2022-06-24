@@ -60,15 +60,21 @@ macx {
 }
 
 DISTFILES += \
+    qml/DialogBase.qml \
     qml/EditorGrid.qml \
+    qml/EditorOverlay.qml \
+    qml/EditorUnderlay.qml \
     qml/ItemGroupButton.qml \
     qml/LeftSidebar.qml \
     qml/HomeBuildEntityButton.qml \
     qml/HomeEntityBaseDraggable.qml \
     qml/MenuScene.qml \
+    qml/PublishDialog.qml \
+    qml/SaveLevelDialog.qml \
     qml/SceneBase.qml \
     qml/GameScene.qml \
     qml/TestScene.qml \
+    qml/UndoHandler.qml \
     qml/code-admob.png \
     qml/common/HomeImageButton.qml \
     qml/common/HomeSelectableTextButton.qml \

@@ -54,7 +54,7 @@ MultiResolutionImage {
       property int buttonWidth: width / 2 - spacing / 2
 
       // undo button
-      PlatformerImageButton {
+      HomeImageButton {
         width: parent.buttonWidth
 
         // set image to colored if undo is possible, otherwise
@@ -96,7 +96,7 @@ MultiResolutionImage {
 
       property int buttonWidth: width / 2 - spacing / 2
 
-      PlatformerSelectableImageButton {
+      HomeSelectableImageButton {
         id: drawEraseButton
 
         // this property holds if draw is active
@@ -386,7 +386,7 @@ MultiResolutionImage {
           }
 
           // button to switch between gridSizes 16 and 32
-          PlatformerTextButton {
+          HomeTextButton {
             id: gridSizeButton
 
             screenText: "32"
