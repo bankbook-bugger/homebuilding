@@ -51,7 +51,7 @@ GameWindow {
   // Scenes -----------------------------------------
   GameScene{                        //游戏场景
       id:gameScene
-      onBackButtonPressed: gameWindow.state = "kinds"
+//      onBackButtonPressed: gameWindow.state = "kinds"
 //      Buttons{
 //        text: "Back to menu"
 //        anchors.right: gameScene.gameWindowAnchorItem.left
@@ -61,6 +61,11 @@ GameWindow {
 //        onClicked: {
 //          gameWindow.state = "kinds"
 //        }
+//      }
+      Text{
+          text: "hahah"
+
+      }
   }
 
   MenuScene {                             //菜单场景
@@ -102,8 +107,6 @@ GameWindow {
         gameWindow.state = "menu"
       }
   }
-
-
   // 当前状态
 //  state: "menu"
   state:"game"
@@ -128,5 +131,4 @@ GameWindow {
   ]
 
 }
-
 

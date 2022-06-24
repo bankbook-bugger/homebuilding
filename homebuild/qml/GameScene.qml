@@ -6,19 +6,23 @@ import QtQuick 2.0
   */
 SceneBase {
     id:gameScene
-
        property string activeLevelFileName
        property variant activeLevel
 
        function setLevel(fileName) {
          activeLevelFileName = fileName
        }
+       Rectangle {
+         id: background
+         //gameWindowAnchorItem可用于将 Scene 的直接子项锚定到父 GameWindow ，而不是逻辑 Scene 大小
+         anchors.fill: parent.gameWindowAnchorItem
+         color: "#FFE4A5"
+       }
        // 游戏场景的背景
        BackgroundImage {
          id: bgImage
 
          anchors.centerIn: parent.gameWindowAnchorItem
-         property int bg: 0
          property string bg0: "../../assets/backgroundImage/bg.png"
          source: bg0
        }

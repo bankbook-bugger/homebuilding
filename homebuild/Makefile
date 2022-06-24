@@ -56,9 +56,11 @@ SOURCES       = main.cpp qrc_resources_user.cpp
 OBJECTS       = main.o \
 		qrc_resources_user.o
 DIST          = qml/HomeBuildEntityButton.qml \
+		qml/HomeEntityBaseDraggable.qml \
 		qml/MenuScene.qml \
 		qml/SceneBase.qml \
 		qml/GameScene.qml \
+		qml/TestScene.qml \
 		qml/code-admob.png \
 		qml/common/HomeImageButton.qml \
 		qml/common/HomeSelectableTextButton.qml \
