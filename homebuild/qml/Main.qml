@@ -9,9 +9,9 @@ GameWindow {
   id: gameWindow
 
   activeScene: menuScene  //活动窗口
-
   screenWidth: 960
   screenHeight: 640
+
 
  // property alias levelEditor: levelEditor
   //property alias itemEditor: gameScene.itemEditor
@@ -25,8 +25,6 @@ GameWindow {
   }
 
 
-
-
   EntityManager {             //通过容器管理实体 所创建的实体在里面
     id: entityManager
     entityContainer: gameScene.container
@@ -36,7 +34,6 @@ GameWindow {
 
    FelgoGameNetwork { //用于在游戏中使用排行榜、成就和挑战的根 Felgo 游戏网络组件。
     id: gameNetwork
-
     gameId: 220
     secret: "platformerEditorDevPasswordForVPlayGameNetwork"
 
@@ -47,6 +44,11 @@ GameWindow {
   FontLoader {    //定义字体样式
     id: marioFont
     source: "../assets/fonts/SuperMario256.ttf"
+  }
+
+  GameScene{                        //游戏场景
+      id:gameScene
+      onBackButtonPressed: gameWindow.state = "kinds"
   }
 
   MenuScene {                             //菜单场景
@@ -74,24 +76,18 @@ GameWindow {
       }
 
       onPlayLevelPressed: {
-        // load level
-        levelEditor.loadSingleLevel(levelData)
 
-        // switch to gameScene, play mode
+        levelEditor.loadSingleLevel(levelData)
         gameWindow.state = "game"
         gameScene.state = "play"
-
-        // initialize level
         gameScene.initLevel()
       }
       onBackPressed: {
         gameWindow.state = "menu"
       }
   }
-
-
   // 当前状态
-  state: "menu"
+  state:"menu"
 
   // 场景状态切换
   states: [

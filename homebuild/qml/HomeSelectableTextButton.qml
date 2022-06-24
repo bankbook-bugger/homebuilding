@@ -19,5 +19,4 @@ HomeTextButton {
   }
   textColor: isSelected ? "#000000" : "#f0f0f0"
 
-
 }

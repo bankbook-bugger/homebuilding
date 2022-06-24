@@ -1,39 +1,47 @@
 import Felgo 3.0
 import QtQuick 2.0
-
+/*
+  2020051615113wangmin
+  function:gameScene
+  */
 SceneBase {
     id:gameScene
-       // the filename of the current level gets stored here, it is used for loading the
+    z:3
+    gridSize: 32
        property string activeLevelFileName
-       // the currently loaded level gets stored here
        property variant activeLevel
 
-       // set the name of the current level, this will cause the Loader to load the corresponding level
+     sceneAlignmentX: "left"
+     sceneAlignmentY: "top"
+
        function setLevel(fileName) {
          activeLevelFileName = fileName
        }
-
-       // background
        Rectangle {
+         id: background
+         //gameWindowAnchorItem可用于将 Scene 的直接子项锚定到父 GameWindow ，而不是逻辑 Scene 大小
          anchors.fill: parent.gameWindowAnchorItem
-         color: "#dd94da"
-//         color:"#FFE4B5"
+         color: "pink"
        }
-
-       // back button to leave scene
-       /*Button {
-         text: "Back to menu"
-         // anchor the button to the gameWindowAnchorItem to be on the edge of the screen on any device
+       Buttons{
+         text: "Back"
          anchors.right: gameScene.gameWindowAnchorItem.right
          anchors.rightMargin: 10
          anchors.top: gameScene.gameWindowAnchorItem.top
          anchors.topMargin: 10
          onClicked: {
-           backButtonPressed()
-           activeLevel = undefined
-           activeLevelFileName = ""
+           gameWindow.state = "kinds"
          }
-       }*/
+       }
+      //  游戏场景的背景
+       BackgroundImage {
+         id: bgImage
+            z:40
+         anchors.fill: parent.gameWindowAnchorItem
+         anchors.centerIn: parent.gameWindowAnchorItem
+         property string bg0: "../../assets/backgroundImage/bg.png"
+         source: bg0
+       }
        Text {
           anchors.left: gameScene.gameWindowAnchorItem.left
           anchors.leftMargin: 10
@@ -42,28 +50,53 @@ SceneBase {
           color: "white"
           font.pixelSize: 20
           text: activeLevel !== undefined ? activeLevel.levelName : ""
-//          text:"hahaha"
         }
-       // load levels at runtime
-       Loader {
-         id: loader
-         source: activeLevelFileName !== "" ? "../qml/" + activeLevelFileName : ""
-//         source: activeLevelFileName !== "" ? activeLevelFileName : ""
-//         source:"../qml/Level1.qml"
-         onLoaded: {
-           // since we did not define a width and height in the level item itself, we are doing it here
-           item.width = gameScene.width
-           item.height = gameScene.height
-           // store the loaded level as activeLevel for easier access
-           activeLevel = item
-         }
+
+
+       MoveButton {
+         id: moveTouchButton
+         controller: controller
        }
-       Connections {
-           // only connect if a level is loaded, to prevent errors
-           target: activeLevel !== undefined ? activeLevel : null
-           // increase the score when the rectangle is clicked
-           onRectanglePressed: {
-             score++
-           }
-         }
+       JumpButton {
+         id: jumpTouchButton
+         onPressed: player.startJump(true)
+         onReleased: player.endJump()
+       }
+       //以下是人对屏幕的操作
+       EditorUnderlay {
+         id: editorUnderlay
+       }
+       Camera {
+         id: camera
+
+         // set the gameWindowSize and entityContainer with which the camera works with
+         gameWindowSize: Qt.point(gameScene.gameWindowAnchorItem.width, gameScene.gameWindowAnchorItem.height)
+         entityContainer: container
+
+         // disable the camera's mouseArea, since we handle the controls of the free
+         // moving camera ourself, in EditorUnderlay
+         mouseAreaEnabled: false
+
+         // the camera follows the player when not in edit mode
+         focusedObject: gameScene.state != "edit" ? player : null
+
+         // set focused offset
+         focusOffset: Qt.point(0.5, 0.3)
+
+         // set limits
+         limitLeft: 0
+         limitBottom: 0
+
+         // set free camera offset, if sidebar is visible
+         freeOffset: gameScene.state != "edit" ? Qt.point(0, 0) : Qt.point(100, 0)
+       }
+       EditorOverlay {
+         id: editorOverlay
+
+         visible: false
+
+         scene: gameScene
+       }
+
 }
+
