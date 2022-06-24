@@ -79,7 +79,6 @@ info:    vertexAttributeInstanceRateZeroDivisor : 1
 info:  Queue families:
 info:    Graphics : 0
 info:    Transfer : 1
-warn:  DXVK: No state cache file found
-warn:  DXVK: Creating new state cache file
+info:  DXVK: Read 0 valid state cache entries
 info:  DXVK: Using 10 compiler threads
 warn:  DXGI: VK_FORMAT_D24_UNORM_S8_UINT -> VK_FORMAT_D32_SFLOAT_S8_UINT

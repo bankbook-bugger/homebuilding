@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = fighting1.0.0
-DISTDIR = /root/MyGit/homebuilding/homebuild/.tmp/fighting1.0.0
+DISTDIR = /run/media/root/linux/homebuilding/homebuild/.tmp/fighting1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,'$$ORIGIN/lib' -Wl,-rpath,'$$ORIGIN/system' -Wl,-rpath,/opt/felgo/Felgo/gcc_64/lib -Wl,-rpath-link,/opt/felgo/Felgo/gcc_64/lib
 LIBS          = $(SUBLIBS) -L/opt/felgo/Felgo/gcc_64/lib -lFelgo -lz /opt/felgo/Felgo/gcc_64/lib/libQt5Quick.so /opt/felgo/Felgo/gcc_64/lib/libQt5Widgets.so /opt/felgo/Felgo/gcc_64/lib/libQt5Multimedia.so /opt/felgo/Felgo/gcc_64/lib/libQt5Gui.so /opt/felgo/Felgo/gcc_64/lib/libQt5QmlModels.so /opt/felgo/Felgo/gcc_64/lib/libQt5Qml.so /opt/felgo/Felgo/gcc_64/lib/libQt5WebSockets.so /opt/felgo/Felgo/gcc_64/lib/libQt5Network.so /opt/felgo/Felgo/gcc_64/lib/libQt5Sql.so /opt/felgo/Felgo/gcc_64/lib/libQt5Bluetooth.so /opt/felgo/Felgo/gcc_64/lib/libQt5Core.so -lGL -lpthread   
@@ -55,7 +55,18 @@ OBJECTS_DIR   = ./
 SOURCES       = main.cpp qrc_resources_user.cpp
 OBJECTS       = main.o \
 		qrc_resources_user.o
-DIST          = qml/MenuScene.qml \
+DIST          = qml/Bottle.qml \
+		qml/Box.qml \
+		qml/Can.qml \
+		qml/Ground.qml \
+		qml/GroundMud.qml \
+		qml/EditorGrid.qml \
+		qml/ItemGroupButton.qml \
+		qml/LeftSidebar.qml \
+		qml/HomeBuildEntityButton.qml \
+		qml/HomeEntityBaseDraggable.qml \
+		qml/Material.qml \
+		qml/MenuScene.qml \
 		qml/SceneBase.qml \
 		qml/code-admob.png \
 		qml/common/HomeImageButton.qml \
@@ -883,21 +894,21 @@ qrc_resources_user.o: qrc_resources_user.cpp
 ####### Install
 
 install_itemqmlFolder: first FORCE
-	@test -d $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild || mkdir -p $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild
-	$(QINSTALL) /root/MyGit/homebuilding/homebuild/qml $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/qml
+	@test -d $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild || mkdir -p $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild
+	$(QINSTALL) /run/media/root/linux/homebuilding/homebuild/qml $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild/qml
 
 uninstall_itemqmlFolder: FORCE
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/qml
-	-$(DEL_DIR) $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/ 
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild/qml
+	-$(DEL_DIR) $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild/ 
 
 
 install_itemassetsFolder: first FORCE
-	@test -d $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild || mkdir -p $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild
-	$(QINSTALL) /root/MyGit/homebuilding/homebuild/assets $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/assets
+	@test -d $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild || mkdir -p $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild
+	$(QINSTALL) /run/media/root/linux/homebuilding/homebuild/assets $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild/assets
 
 uninstall_itemassetsFolder: FORCE
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/assets
-	-$(DEL_DIR) $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/ 
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild/assets
+	-$(DEL_DIR) $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild/ 
 
 
 install: install_itemqmlFolder install_itemassetsFolder  FORCE

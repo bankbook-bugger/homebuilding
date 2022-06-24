@@ -63,13 +63,25 @@ DISTFILES += \
     qml/Bottle.qml \
     qml/Box.qml \
     qml/Can.qml \
+    qml/Finish.qml \
     qml/Ground.qml \
+    qml/GroundBottom.qml \
+    qml/GroundLeft.qml \
     qml/GroundMud.qml \
+    qml/EditorGrid.qml \
+    qml/GroundRight.qml \
+    qml/Heart.qml \
+    qml/ItemGroupButton.qml \
+    qml/LeftSidebar.qml \
     qml/HomeBuildEntityButton.qml \
     qml/HomeEntityBaseDraggable.qml \
     qml/Material.qml \
     qml/MenuScene.qml \
+    qml/Monster.qml \
+    qml/MonsterWalker.qml \
+    qml/Player.qml \
     qml/SceneBase.qml \
+    qml/Spikes.qml \
     qml/code-admob.png \
     qml/common/HomeImageButton.qml \
     qml/common/HomeSelectableTextButton.qml \
