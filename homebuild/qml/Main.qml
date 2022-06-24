@@ -10,15 +10,13 @@ GameWindow {
   screenWidth: 960
   screenHeight: 640
 
- // property alias levelEditor: levelEditor
-  //property alias itemEditor: gameScene.itemEditor
+  property alias levelEditor: levelEditor
+  property alias itemEditor: gameScene.itemEditor
 
   // update background music when scene changes
   onActiveSceneChanged: {
     audioManager.handleMusic()
   }
-
-  //level editor
 
   MusicManager {             //背景音乐
     id: audioManager

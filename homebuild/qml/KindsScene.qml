@@ -35,8 +35,8 @@ SceneBase{
                  id: myKinds
                  screenText: "My Levels"
                  width: 80
-                 isSelected: levelScene.state === "myLevels"
-                 onClicked: levelScene.state = "myLevels"
+                 isSelected: kindsScene.state === "myKinds"
+                 onClicked: kindsScene.state = "myKinds"
              }
         }
         //返回首页
@@ -88,17 +88,17 @@ SceneBase{
     }
     //display all create kinds
     KindsGrid{}
-    state: "demokinds"
+    state: "demoKinds"
     states: [
         State{
-            name:"demokinds"
+            name:"demoKinds"
             PropertyChanges {
                 target: subBar
 
             }
         },
         State{
-            name: "mykinds"
+            name: "myKinds"
             PropertyChanges {
                 target: subBar
 
