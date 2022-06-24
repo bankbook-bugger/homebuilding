@@ -71,6 +71,10 @@ DISTFILES += \
     qml/EditorGrid.qml \
     qml/GroundRight.qml \
     qml/Heart.qml \
+    qml/Coin.qml \
+    qml/EditorGrid.qml \
+    qml/EditorOverlay.qml \
+    qml/EditorUnderlay.qml \
     qml/ItemGroupButton.qml \
     qml/LeftSidebar.qml \
     qml/HomeBuildEntityButton.qml \

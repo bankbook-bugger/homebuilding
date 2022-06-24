@@ -162,6 +162,7 @@ HomeEntityBaseDraggable {
  }
 
   //脚
+  //因为玩家可以踩死怪物所以脚上有单独的碰撞检测
   BoxCollider {
     id: feetSensor
     width: 32
@@ -174,61 +175,43 @@ HomeEntityBaseDraggable {
 
     active: gameScene.state === "edit" ? false : true
 
-    // Category2: player feet sensor
-    categories: Box.Category2
-    // Category3: opponent body, Category5: solids
-    collidesWith: Box.Category3 | Box.Category5
-
-    // this is only a sensor, so it should not physically collide
-    // with any other object
+    // Category6: 玩家脚的感应
+    categories: Box.Category6
+    // Category2: 怪物, Category4: 地
+    collidesWith: Box.Category2 | Box.Category4
     collisionTestingOnlyMode: true
 
     // this is called whenever the contact with another entity begins
     fixture.onBeginContact: {
       var otherEntity = other.getBody().target
 
-      // if colliding with opponent...
-      if(otherEntity.entityType === "opponent") {
-        // ...calculate the lowest point of the player and
-        // the opponent...
+      if(otherEntity.entityType === "monster") {
+        // 判断玩家脚的位置
         var playerLowestY = player.y + player.height
+        //怪物脚的位置
         var oppLowestY = otherEntity.y + otherEntity.height
 
-        // ...and if the player's y position is at least
-        // 5px above the opponent's...
+        //如果玩家比怪物高出至少5px就算踩到
         if(playerLowestY < oppLowestY - 5) {
-          // ...kill opponent...
-          console.debug("kill opponent")
+            //怪物死
           otherEntity.die()
-
-          // ...and jump in the air
+            //玩家可以踩在这里往更高出跳
           startJump(false)
         }
       }
-      // else if colliding with another solid object...
-      else if(otherEntity.entityType === "platform" || otherEntity.entityType === "ground") {
-        // ...increase the player's contacts
+      //contacts等于0就掉下去
+      else if(otherEntity.entityType === "mud" || otherEntity.entityType === "ground") {
         contacts++
-
-        // if the player stands on this object...
-        if(verticalVelocity >= 0)
-          // ...set doubleJumpEnabled to true again
-          doubleJumpEnabled = true
       }
     }
-
-    // when contact ends
     fixture.onEndContact: {
       var otherEntity = other.getBody().target
-
-      // when collision with another object ends, decrease the player's contacts
-      if(otherEntity.entityType === "platform" || otherEntity.entityType === "ground")
+      if(otherEntity.entityType === "mud" || otherEntity.entityType === "ground")
         contacts--
     }
   }
 
-  // this sensor makes sure, that the user can't draw/create any
-  // entities close to the player
+  //用户不能在玩家周围创建实体
   BoxCollider {
     id: editorCollider
 
@@ -238,63 +221,37 @@ HomeEntityBaseDraggable {
 
     // Category16: misc
     categories: Box.Category16
+    //不设置with默认和所有的都能碰
   }
 
   /**
    * Update timer --------------------------------------------------------
    */
 
-  // This timer is used to slow down the players horizontal movement,
-  // when the controllers xAxis is in neutral position (0).
-  // The collider's linearDamping property works similar, but also
-  // slows down the vertical velocity - which we don't want.
+  //如果x方向没有命令就让他停
   Timer {
     id: updateTimer
 
-    // Set this interval as high as possible to improve performance,
-    // but as low as needed so it still looks good.
+    //触发间隔是60ms
     interval: 60
 
     running: true
     repeat: true
 
     onTriggered: {
+        //controller是那里的？？
       var xAxis = controller.xAxis;
 
       // if xAxis is 0 (no movement command) we slow the player down
       // until he stops
-      if(xAxis == 0) {
-        if(Math.abs(player.horizontalVelocity) > 10)
-          player.horizontalVelocity *= decelerationFactor
-        else
+        //如果x方向，没有命令，速度就减慢
+        //那为什么不能直接停？？
+      if(xAxis === 0) {
+//        if(Math.abs(player.horizontalVelocity) > 10)
+//          player.horizontalVelocity *= decelerationFactor
+//        else
           player.horizontalVelocity = 0
       }
-    }
-  }
-
-  /**
-   * Invincibility ------------------------------------------------------
-   */
-
-  // this is the overlay image, that signals, that the player is invincible
-  MultiResolutionImage {
-    id: invincibilityOverlayImage
-
-    source: "../../assets/player/player_rainbow.png"
-
-    opacity: 0
-
-    // this animation fades out the incibility overlay, to signal, that
-    // the invincibility will end soon
-    NumberAnimation on opacity {
-      id: invincibilityOverlayImageFadeOut
-
-      // slowly reduce opacity from 1 to 0
-      from: 1
-      to: 0
-
-      // duration of the animation, in ms
-      duration: 500
     }
   }
 

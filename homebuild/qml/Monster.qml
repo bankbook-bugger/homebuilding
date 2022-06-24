@@ -44,9 +44,6 @@ HomeEntityBaseDraggable{
     function die(){
         alive=flase
         hideTimer.start()
-        if(variationType == "walker")
-          musicManager.playSound("opponentWalkerDie")
-        else if(variationType == "jumper")
-          musicManager.playSound("opponentJumperDie")
+        musicManager.playSound("opponentWalkerDie")
     }
 }

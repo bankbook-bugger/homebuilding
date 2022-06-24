@@ -1,88 +1,79 @@
+/*2022.6.24
+  wanglingzhi*/
 
 import QtQuick 2.0
 import Felgo 3.0
 
+//qml  侧边栏的总qml 整个qml为一个多分辨的图像类型
 
 MultiResolutionImage {
   id: sidebar
 
-  // holds the currently active tool
-  // can be draw", "erase", "hand"
-  // by default this is "hand"
+  //默认情况下 为手(鼠标)  手为拖动画布  侧边栏里手的图标
   property string activeTool: "hand"
 
-  // properties to access gameScene elements
+  // 访问游戏场景
   property var bgImage
   property var grid
-  property var undoHandler
+  property var undoHandler    //撤销按钮
 
-  // this property holds all BuildEntityButtons
-  // we use this in the unselectAllButtonsButOne() function
+  //左边所有种类的button
   property var buttons: [groundButton, ground2Button, platformButton, spikeballButton, spikesButton, opponentJumperButton, opponentWalkerButton, coinButton, mushroomButton, starButton, finishButton]
 
-  // aliases to allow access from outside
+  // 外部访问网格的button大小
   property alias gridSizeButton: gridSizeButton
 
-  z: 100 // make sure the sidebar is above all other elements on the screen
-
-  // set size
+  z: 100 // 确保网格在所有之上
   width: 100
   height: editorOverlay.height
-
   anchors.top: editorOverlay.top
   anchors.left: editorOverlay.left
 
-  // set image source
-  source: "../../assets/ui/sidebar.png"
+  //侧边栏的背景
+  source: "../assets/ui/sidebar.png"
 
-  // sidebar column for layout
+  //整体纵向布局 侧边栏
   Item {
     anchors.fill: parent
     anchors.margins: 4
 
-    Row {
+    Row {                      //撤销按钮横排布局
       id: undoRedo
-
       width: parent.width
       height: 30
 
       anchors.top: parent.top
       anchors.left: parent.left
-
       spacing: 2
 
       property int buttonWidth: width / 2 - spacing / 2
 
-      // undo button
-      PlatformerImageButton {
+      HomeImageButton {             //撤销按钮
         width: parent.buttonWidth
 
-        // set image to colored if undo is possible, otherwise
-        // to grey
-        image.source: undoHandler.pointer >= 0 ? "../../assets/ui/undo.png" : "../../assets/ui/undo_grey.png"
+        //检测是否能撤销 如果可以为蓝色 如果不能撤销(没有可以撤销的)为灰色
+        image.source: undoHandler.pointer >= 0 ? "../assets/ui/undo.png" : "../assets/ui/undo_grey.png"
 
-        // hide hoverRectangle, when undo isn't possible
+        //保持按钮看见
         hoverRectangle.visible: undoHandler.pointer >= 0 ? true : false
+        onClicked: undoHandler.undo()  //undohandler类型的撤回函数
 
-        onClicked: undoHandler.undo()
       }
 
-      // redo button
-      PlatformerImageButton {
+      HomeImageButton {             //重做按钮
         width: parent.buttonWidth
 
-        // set image to colored if redo is possible, otherwise
-        // to grey
-        image.source: undoHandler.pointer < undoHandler.undoArray.length - 1 ? "../../assets/ui/redo.png" : "../../assets/ui/redo_grey.png"
+        //检测是否能撤销 如果可以为蓝色 如果不能撤销(没有可以撤销的)为灰色
+        image.source: undoHandler.pointer < undoHandler.undoArray.length - 1 ? "../assets/ui/redo.png" : "../assets/ui/redo_grey.png"
 
-        // hide hoverRectangle, when redo isn't possible
+        // 无法重做时 要隐形此按钮
         hoverRectangle.visible: undoHandler.pointer < undoHandler.undoArray.length - 1 ? true : false
 
-        onClicked: undoHandler.redo()
+        onClicked: undoHandler.redo() //undohandler类型的重做函数
       }
     }
 
-    Row {
+    Row {                      //编辑和手(拖动画布)时的按钮布局
       id: tools
 
       width: parent.width
@@ -91,40 +82,33 @@ MultiResolutionImage {
       anchors.top: undoRedo.bottom
       anchors.left: parent.left
       anchors.topMargin: 4
-
       spacing: 2
-
       property int buttonWidth: width / 2 - spacing / 2
 
-      PlatformerSelectableImageButton {
+      HomeSelectableImageButton {         //编辑界面 擦出按钮或则填写按钮
         id: drawEraseButton
 
-        // this property holds if draw is active
-        // if draw is not active this means, that erase is active
-        property bool drawActive: true
+        property bool drawActive: true  //此时为编辑状态 有时为擦除状态
 
         width: parent.buttonWidth
         height: parent.height
 
-        // display image, depending on if draw is active or not
-        image.source: drawActive ? "../../assets/ui/drawActive.png" : "../../assets/ui/eraseActive.png"
+        //查看活动状态 显示图像
+        image.source: drawActive ? "../assets/ui/drawActive.png" : "../assets/ui/eraseActive.png"
 
-        onClicked: {
-          // if this button is selected, switch between draw and erase mode
+        onClicked: {  //绘制和擦除模式之间切换
           if(isSelected) {
             drawActive = !drawActive
           }
-          // otherwise unselect the handButton and select this button
-          else {
+          else {              //否则为手按钮(非编辑模式 最开始的手
+                              //拖动画布状态)被选择
             handButton.isSelected = false
             isSelected = true
           }
 
-          // update the activeTool
-          updateActiveTool()
+          updateActiveTool()         //更新活动状态
 
-          // if the draw mode is activated and there is no BuildEntityButton
-          // selected yet...
+          //没有实例创建情况
           if(drawActive && editorOverlay.selectedButton == null) {
             // ...switch to the first entity group...
             changeActiveEntityGroup(1)
@@ -135,79 +119,66 @@ MultiResolutionImage {
         }
       }
 
-      PlatformerSelectableImageButton {
+      HomeSelectableImageButton {         //手界面 拖动画布按钮
         id: handButton
-
         width: parent.buttonWidth
         height: parent.height
 
-        image.source: "../../assets/ui/hand.png"
+        image.source: "../assets/ui/hand.png"
 
         isSelected: true
 
         onClicked: {
-          // if this button is not selected unselect the drawEraseButton and select this button
-          if(!isSelected) {
+          if(!isSelected) {  //如果没有在编辑状态 则在手的状态
             drawEraseButton.isSelected = false
             isSelected = true
           }
-
-          // update the activeTool
-          updateActiveTool()
+          updateActiveTool()    //更新活动状态
         }
+
       }
+
     }
 
-    // entity groups
-    // with these buttons the user can change the currently shown group
-    // of entities
-    Row {
+    Row {                      //具体地图的设置布局 三组的首按钮
       id: entityGroups
-
       width: parent.width
       height: 30
 
       anchors.top: tools.bottom
       anchors.left: parent.left
       anchors.topMargin: 4
-
       spacing: 2
 
-      // the active entity group
-      property int activeGroup: 1
+      property int activeGroup: 1      //活动的编辑组只能有一个
 
-      // set button width
-      // Divide sidebar width by three. Then subtract a third of the total spacing.
-      // Since there are 3 buttons, the total spacing is 2 * spacing.
+      //设置按钮宽度  一共有三组
       property int buttonWidth: width / 3 - spacing * 2 / 3
 
-      ItemGroupButton {
-        image.source: "../../assets/ui/entityGroups/group1.png"
+      ItemGroupButton {        //第一组
+        image.source: "../assets/ui/entityGroups/group1.png"
 
         selected: entityGroups.activeGroup == 1
-
         onClicked: changeActiveEntityGroup(1)
       }
 
-      ItemGroupButton {
-        image.source: "../../assets/ui/entityGroups/group2.png"
+      ItemGroupButton {       //第二组
+        image.source: "../assets/ui/entityGroups/group2.png"
 
         selected: entityGroups.activeGroup == 2
-
         onClicked: changeActiveEntityGroup(2)
       }
 
-      ItemGroupButton {
-        image.source: "../../assets/ui/entityGroups/group3.png"
+      ItemGroupButton {        //第三组
+        image.source: "../assets/ui/entityGroups/group3.png"
 
         selected: entityGroups.activeGroup == 3
-
         onClicked: changeActiveEntityGroup(3)
       }
     }
 
-    // this is the flickable component, where all buildEntityButtons are
-    Flickable {
+
+    Flickable {           // 滚动组件类型 包含了整个场景的建设和版本的设置
       id: buildFlickable
 
       width: parent.width
@@ -218,49 +189,30 @@ MultiResolutionImage {
       anchors.topMargin: 4
       anchors.bottomMargin: 4
 
-      // size of the flickable content
-      contentWidth: width
+      contentWidth: width         //整体内容的大小
       contentHeight: buildColumn.height
 
-      // set margins
       topMargin: 5
       bottomMargin: 5
 
-      // clip the content on the boundaries
       clip: true
 
-      // we only want to allow vertical flicking
-      flickableDirection: Flickable.VerticalFlick
+      flickableDirection: Flickable.VerticalFlick  //垂直翻转
+      pressDelay: 100                  //按钮延迟
 
-      // pressDelay delays the delivery of the press event to the buildEntityButtons.
-      // This allows the user to flick this Flickable, even when pressing on a buildEntityButton.
-      pressDelay: 100
-
-      // build entity buttons
-      Column {
+      Column {                       //整个内容垂直布局
         id: buildColumn
-
-        // set size
         width: parent.width
-
         spacing: 5
 
-        /**
-         * Editor options --------------------------------
-         */
-
-        // this item holds the level name as text and a button to change it
-        Item {
+        Item {                    //编辑版本的模式 修改当前版本的名字
           id: levelNameItem
-
           width: parent.width
           height: 30
-
           visible: entityGroups.activeGroup == 0
 
-          // this text displays the current level name
-          Text {
-            // set text to level name, if it exists
+          Text {                 //当前级别的名字
+
             text: levelEditor.currentLevelName ? levelEditor.currentLevelName : ""
 
             anchors.left: parent.left
@@ -269,49 +221,38 @@ MultiResolutionImage {
             anchors.right: nameLevelButton.left
             anchors.rightMargin: 4
 
-            // align text in the vertical center
-            verticalAlignment: Text.AlignVCenter
-
-            // make font size dynamic
+            verticalAlignment: Text.AlignVCenter  //垂直居中
             fontSizeMode: Text.Fit
             font.pixelSize: 13
             minimumPixelSize: 7
           }
 
-          // change level name button
-          PlatformerImageButton {
+          HomeImageButton {   //改名字的按钮
             id: nameLevelButton
 
-            image.source: "../../assets/ui/edit_black.png"
-
+            image.source: "../assets/ui/edit_black.png"
             width: 30
             height: parent.height
-
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
 
-            onClicked: {
-              // when we click this button, we show a native text input dialog
+            onClicked: {            //单击开始改动按钮
               nativeUtils.displayTextInput("Enter levelName", "Enter a level name. (max 15 characters)", "", levelEditor.currentLevelName)
             }
 
-            // this listens for the end of the native text input dialog
-            Connections {
+            Connections {           //查看对话框是否结束
               target: nativeUtils
 
               onTextInputFinished: {
-                // if the text input dialog is closed
-                // and the user clicked "ok"
                 if(accepted) {
-
-                  // the text can't be longer than 9 characters
+                    //限制输入长度
                   if(enteredText.length > 15) {
                     nativeUtils.displayMessageBox("Invalid level name", "A maximum of 15 characters is allowed!")
                     return
                   }
 
-                  // change level name
+                  // 使得修改的名字为当前名字
                   levelEditor.currentLevelName = enteredText
                 }
               }
@@ -319,86 +260,33 @@ MultiResolutionImage {
           }
         }
 
-        // change-background-image buttons
-        Row {
-          id: backgroundButtons
-
-          width: parent.width
-          height: 30
-
-          visible: entityGroups.activeGroup == 0
-
-          spacing: 2
-
-          // set button width; subtract half of spacing, to make buttons fit
-          property int buttonWidth: width / 3 - spacing * 2 / 3
-
-          // with these three buttons the user can change the background image
-          PlatformerImageButton {
-            width: parent.buttonWidth
-
-            image.source: bgImage.bg0
-            image.fillMode: Image.PreserveAspectCrop
-
-            onClicked: bgImage.bg = 0
-          }
-
-          PlatformerImageButton {
-            width: parent.buttonWidth
-
-            image.source: bgImage.bg1
-            image.fillMode: Image.PreserveAspectCrop
-
-            onClicked: bgImage.bg = 1
-          }
-
-          PlatformerImageButton {
-            width: parent.buttonWidth
-
-            image.source: bgImage.bg2
-            image.fillMode: Image.PreserveAspectCrop
-
-            onClicked: bgImage.bg = 2
-          }
-        }
-
-        // grid options
-        Item {
+        Item {            //网格选项
           id: gridOptions
-
           width: parent.width
           height: 30
-
           visible: entityGroups.activeGroup == 0
 
-          // label
-          Text {
+          Text {                  //网格大小文本
             height: parent.height
 
             anchors.top: parent.top
             anchors.left: parent.left
 
-            text: "GridSize:"
+            text: "网格大小:"
             font.pixelSize: 12
 
-            // align text in the vertical center
             verticalAlignment: Text.AlignVCenter
           }
 
-          // button to switch between gridSizes 16 and 32
-          PlatformerTextButton {
+          HomeTextButton {          //网格button
             id: gridSizeButton
-
-            screenText: "32"
-
+            screenText: "32"       //默认为32
             width: 30
             height: parent.height
-
             anchors.top: parent.top
             anchors.right: parent.right
 
-            // alternate gridSizes 16 and 32 when clicking this button
-            onClicked: {
+            onClicked: {           //单击切换网格大小16与32切换
               if(screenText == "32") {
                 screenText = "16"
                 editorOverlay.scene.gridSize = 16
@@ -409,232 +297,219 @@ MultiResolutionImage {
               }
             }
           }
+
         }
 
-        // publish button
-        PlatformerTextButton {
+        HomeTextButton {            // 发布按钮
           id: publishButton
-
-          screenText: "Publish"
-
+          screenText: "发布"
           width: parent.width
           height: 30
-
           visible: entityGroups.activeGroup == 0
 
-          onClicked: {
-            // open publish dialog
+          onClicked: {       //单击使得发布按钮可见性
             publishDialog.opacity = 1
           }
         }
 
-        /**
-         * BuiltEntityButtons --------------------------------
-         */
 
-        PlatformerBuildEntityButton {
+
+        /*三组里面的内容  编辑地图模式*/
+        HomeBuildEntityButton {           //草地button 第一个
           id: groundButton
 
-          // each button is only visible, if the corresponding
-          // entity group is active
+          //每个按钮仅在相应的实体组  才处于活动状态
           visible: entityGroups.activeGroup == 1
+          toCreateEntityTypeUrl: "/GroundGrass.qml"
 
-          // path to the entity type of the entity, which should be created
-          toCreateEntityTypeUrl: "../entities/GroundGrass.qml"
-
-          // handle selection and unselection of this button
+          // 处理按钮是否被选择
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        PlatformerBuildEntityButton {
+        HomeBuildEntityButton {           //草地里面button 第二个
           id: ground2Button
 
+          //每个按钮仅在相应的实体组  才处于活动状态
           visible: entityGroups.activeGroup == 1
+          toCreateEntityTypeUrl: "GroundDirt.qml"
 
-          toCreateEntityTypeUrl: "../entities/GroundDirt.qml"
-
+          // 处理按钮是否被选择
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        PlatformerBuildEntityButton {
+        HomeBuildEntityButton {           //平地button 顶上
           id: platformButton
 
+          //每个按钮仅在相应的实体组  才处于活动状态
           visible: entityGroups.activeGroup == 1
+          toCreateEntityTypeUrl: "Platform.qml"
 
-          toCreateEntityTypeUrl: "../entities/Platform.qml"
-
+          // 处理按钮是否被选择
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        PlatformerBuildEntityButton {
+        HomeBuildEntityButton {           //主攻球的button
           id: spikeballButton
 
           visible: entityGroups.activeGroup == 1
-
-          toCreateEntityTypeUrl: "../entities/Spikeball.qml"
+          toCreateEntityTypeUrl: "Spikeball.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        PlatformerBuildEntityButton {
+        HomeBuildEntityButton {          //地上攻球的button
           id: spikesButton
 
           visible: entityGroups.activeGroup == 1
 
-          toCreateEntityTypeUrl: "../entities/Spikes.qml"
+          toCreateEntityTypeUrl: "/Spikes.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        PlatformerBuildEntityButton {
+        //场景2
+
+        HomeBuildEntityButton {          //跳起来攻击的button
           id: opponentJumperButton
 
           visible: entityGroups.activeGroup == 2
-
-          toCreateEntityTypeUrl: "../entities/OpponentJumper.qml"
+          toCreateEntityTypeUrl: "OpponentJumper.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        PlatformerBuildEntityButton {
+        HomeBuildEntityButton {          //走路攻击的button
           id: opponentWalkerButton
 
           visible: entityGroups.activeGroup == 2
-
-          toCreateEntityTypeUrl: "../entities/OpponentWalker.qml"
+          toCreateEntityTypeUrl: "OpponentWalker.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        PlatformerBuildEntityButton {
+        //场景3
+
+        HomeBuildEntityButton {           //金币button
           id: coinButton
 
           visible: entityGroups.activeGroup == 3
-
-          toCreateEntityTypeUrl: "../entities/Coin.qml"
+          toCreateEntityTypeUrl: "Coin.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        PlatformerBuildEntityButton {
+        HomeBuildEntityButton {           //蘑菇button
           id: mushroomButton
 
           visible: entityGroups.activeGroup == 3
-
-          toCreateEntityTypeUrl: "../entities/Mushroom.qml"
+          toCreateEntityTypeUrl: "Mushroom.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        PlatformerBuildEntityButton {
+        HomeBuildEntityButton {             //星星button
           id: starButton
 
           visible: entityGroups.activeGroup == 3
-
           toCreateEntityTypeUrl: "../entities/Star.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        PlatformerBuildEntityButton {
+        HomeBuildEntityButton {             //完成button
           id: finishButton
 
           visible: entityGroups.activeGroup == 3
-
-          toCreateEntityTypeUrl: "../entities/Finish.qml"
+          toCreateEntityTypeUrl: "/Finish.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
+
+
       }
+
     }
 
-    // options button
+      // 选项按钮 设置当前编辑界面 网格的大小和当前版本的名字
     ItemGroupButton {
+
       id: optionsButton
 
       width: 30
       height: 25
-
       anchors.bottom: parent.bottom
       anchors.right: parent.right
+      image.source: "../assets/ui/options.png"
 
-      image.source: "../../assets/ui/options.png"
+      selected: entityGroups.activeGroup == 0 //此时所有组的button不活动
 
-      selected: entityGroups.activeGroup == 0
-
-      onClicked: changeActiveEntityGroup(0)
+      onClicked: changeActiveEntityGroup(0)   //切换编辑界面的情况和设置整个版本的情况
     }
   }
 
-  /**
-   * JS FUNCTIONS
-   */
-  // handle the selection of a BuildEntityButton
+
+
+
+  //javascript 的功能函数
+
+
+  // 处理构建场景为擦出还是 画图
   function selectBuildEntityButton(button) {
-    // if active tool is erase, change to draw
     if(activeTool == "erase") {
       setActiveTool("draw")
     }
-
-    // unselect all other buttons, select this button
     unselectAllButtonsButOne(button)
   }
 
-  // handle the unselection of a BuildEntityButton
   function unselectBuildEntityButton() {
     // if active tool is draw or erase, change to hand
     if(activeTool == "draw" || activeTool == "erase") {
       setActiveTool("hand")
     }
 
-    // reset selectedButton to null
-    editorOverlay.selectedButton = null
+    editorOverlay.selectedButton = null    //重置选择按钮
   }
 
-  // unselects all PlatformerBuildEntityButtons
+  // 取消选择所有构建按钮
   function unselectAllButtons() {
     for(var i=0; i<buttons.length; i++) {
       buttons[i].isSelected = false
     }
 
-    // reset selectedButton to null
-    editorOverlay.selectedButton = null
+    editorOverlay.selectedButton = null    //重置选择按钮
   }
 
-  // unselects all buttons but one
-  function unselectAllButtonsButOne(button) {
-    // unselect all buttons
-    unselectAllButtons()
 
+  //非选择所有按钮时  至少选择一个
+  function unselectAllButtonsButOne(button) {
+    unselectAllButtons()
     if(button) {
-      // select given button
       button.isSelected = true
 
-      // set selectedButton to this button
       editorOverlay.selectedButton = button
     }
   }
 
+
+  //改变活动场景
   function changeActiveEntityGroup(newGroup) {
-    // if group isn't already selected...
     if(entityGroups.activeGroup !== newGroup) {
-      // ...change active entity group
       entityGroups.activeGroup = newGroup
     }
   }
 
-  // this function updates the activeTool property depending on which button is active
+  //更新此活动场景的工具和按钮
   function updateActiveTool() {
     if(drawEraseButton.isSelected) {
       if(drawEraseButton.drawActive) {
@@ -652,8 +527,7 @@ MultiResolutionImage {
     }
   }
 
-  // this function sets the activeTool to the given tool parameter
-  // also it selects the respective button/button mode
+  // 根据活动场景选择的不同
   function setActiveTool(tool) {
     if(tool === "draw") {
       handButton.isSelected = false
@@ -673,15 +547,13 @@ MultiResolutionImage {
     updateActiveTool()
   }
 
-  // reset the sidebar
+  //重置设置场景
   function reset() {
-    // unselect all buttons
     unselectAllButtons()
 
-    // set active entity group to 1
+      //首页活动场景
     changeActiveEntityGroup(1)
 
-    // reset drawEraseButton's drawActive property to true
     drawEraseButton.drawActive = true
   }
 }
