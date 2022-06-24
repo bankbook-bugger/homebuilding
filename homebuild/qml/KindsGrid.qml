@@ -4,7 +4,7 @@ import Felgo 3.0
 Item {
     id: kindsGrid
 
-    anchors.top: kindsScene.state==="demokinds"?mainBar.bottom:subBar.bottom
+    anchors.top: kindsScene.state==="demoKinds"?mainBar.bottom:subBar.bottom
     anchors.bottom: kindsScene.gameWindowAnchorItem.bottom
     anchors.left: kindsScene.left
     anchors.right: kindsScene.right
@@ -13,14 +13,14 @@ Item {
     anchors.topMargin: 0
     anchors.bottomMargin: 0
     //显示的关卡
-    property var kindsMetaDataArray
+    property var levelMetaDataArray
     //是否正在加载
     property bool isLoading:false
 
-    onKindsMetaDataArrayChanged: {
+    onLevelMetaDataArrayChanged: {
         //如果加载完了，就把显示的model设置成关卡原部件
         if(!isLoading)
-            kindsListRepeater.model=kindsMetaDataArray
+            kindsListRepeater.model=levelMetaDataArray
     }
 
     Flickable{
@@ -55,7 +55,7 @@ Item {
     }
     function finishLoading(){
         isLoading=false
-        kindsListRepeater.model=kindsMetaDataArray
+        kindsListRepeater.model=levelMetaDataArray
     }
 
 
