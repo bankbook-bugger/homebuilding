@@ -1,4 +1,5 @@
-//wanglingzhi 2022.6.22
+/*2022.6.22
+wanglingzhi*/
 import Felgo 3.0
 import QtQuick 2.0
 import QtMultimedia 5.0
@@ -98,8 +99,9 @@ Item {
   }
 
 
-function handleMusic() {           //根据状态设置音乐
-    if(activeScene === gameScene) {
+function handleMusic() {            //查看场景状态设置音乐
+    if(activeScene === gameScene)
+    {
       if(gameScene.state == "play" || gameScene.state == "test")
         audioManager.startMusic(playMusic)
       else if(gameScene.state == "edit")
@@ -110,23 +112,19 @@ function handleMusic() {           //根据状态设置音乐
     }
   }
 
-  // starts the given music
-  function startMusic(music) {
-    // if music is already playing, we don't have to do anything
-    if(music.playing)
+function startMusic(music) {        //播放音乐
+    if(music.playing)  //检测音乐
       return
 
-    // otherwise stop all music tracks
     menuMusic.stop()
     playMusic.stop()
     editMusic.stop()
 
-    // play the music
     music.play()
   }
 
-  // play the sound effect with the given name
-  function playSound(sound) {
+
+function playSound(sound) {         //播放音效
     if(sound === "playerJump")
       playerJump.play()
       else if(sound === "playerHit")
@@ -159,8 +157,7 @@ function handleMusic() {           //根据状态设置音乐
       console.debug("unknown sound name:", sound)
   }
 
-  // stop the sound effect with the given name
-  function stopSound(sound) {
+function stopSound(sound) {         //停止音效
     if(sound === "playerInvincible")
       playerInvincible.stop()
     else

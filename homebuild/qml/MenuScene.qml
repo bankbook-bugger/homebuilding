@@ -27,7 +27,7 @@ Scene {
         anchors.margins: 5
 
 
-        color: "#cce6ff"    // 背景颜色 圆角
+        color: "#badcfd"    // 背景颜色 圆角
         radius: height / 4
 
         MultiResolutionImage {   //多分辨率图像类  logo设置
@@ -87,12 +87,11 @@ Scene {
               color: "transparent"
             }
       }
-      /*onClicked: {
-      levelScene.state = "myLevels"
-      levelScene.subState = "createdLevels"
-      levelScenePressed()  //KindsScenePressed
-    }
-      }*/
+      onClicked: {
+      kindScene.state = "myKinds"
+      kindScene.subState = "createdLevels"
+      kindScenePressed()
+      }
     }
 
     MultiResolutionImage {         //通过多分辨率图像类 写出音乐按钮
