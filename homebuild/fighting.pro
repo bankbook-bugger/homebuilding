@@ -63,6 +63,7 @@ DISTFILES += \
     qml/HomeBuildEntityButton.qml \
     qml/MenuScene.qml \
     qml/SceneBase.qml \
+    qml/GameScene.qml \
     qml/code-admob.png \
     qml/common/HomeImageButton.qml \
     qml/common/HomeSelectableTextButton.qml \

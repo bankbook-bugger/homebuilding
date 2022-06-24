@@ -6,7 +6,7 @@ GameWindow {
   id: gameWindow
 
   activeScene: menuScene  //活动窗口
-
+//  activeScene: gameScene
   screenWidth: 960
   screenHeight: 640
 
@@ -49,27 +49,18 @@ GameWindow {
   }
 
   // Scenes -----------------------------------------
-  GameScene{
+  GameScene{                        //游戏场景
       id:gameScene
-      visible: false
-      Row{
-          id:buildEntityButton
-          visible: false
-          HomeBuildEntityButton{
-          anchors.fill: image1
-          Image {
-              id: image1
-  //            source: "file"
-          }
-          }
-          HomeBuildEntityButton{
-          anchors.fill: image2
-          Image {
-              id: image2
-  //            source: "file"
-          }}
-
-      }
+      onBackButtonPressed: gameWindow.state = "kinds"
+//      Buttons{
+//        text: "Back to menu"
+//        anchors.right: gameScene.gameWindowAnchorItem.left
+//        anchors.rightMargin: 10
+//        anchors.top: gameScene.gameWindowAnchorItem.top
+//        anchors.topMargin: 10
+//        onClicked: {
+//          gameWindow.state = "kinds"
+//        }
   }
 
   MenuScene {                             //菜单场景
@@ -114,7 +105,8 @@ GameWindow {
 
 
   // 当前状态
-  state: "menu"
+//  state: "menu"
+  state:"game"
 
   // 场景状态切换
   states: [
@@ -136,4 +128,5 @@ GameWindow {
   ]
 
 }
+
 
