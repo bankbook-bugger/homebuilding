@@ -2,6 +2,8 @@
 import QtQuick 2.15
 import Felgo 3.0
 
+//侧边栏按钮
+
 BuildEntityButton{
     //实体显示的大小默认是32*32(要收集的材料定义为64*64)
     property int buttonSize:32
@@ -62,7 +64,6 @@ BuildEntityButton{
           //撤销的键可以使用了
           var undoObjectProperties = {"target": builtEntity, "action": "create",
             "currentPosition": Qt.point(builtEntity.x, builtEntity.y)}
-          //什么意思？？
           var undoObject = editorOverlay.undoHandler.createUndoObject(undoObjectProperties)
           editorOverlay.undoHandler.push([undoObject])
         }

@@ -60,6 +60,9 @@ macx {
 }
 
 DISTFILES += \
+    qml/EditorGrid.qml \
+    qml/ItemGroupButton.qml \
+    qml/LeftSidebar.qml \
     qml/HomeBuildEntityButton.qml \
     qml/HomeEntityBaseDraggable.qml \
     qml/MenuScene.qml \
