@@ -25,6 +25,7 @@ HomeEntityBaseDraggable {
   // This property holds how many more iterations the player's
   // jump height can increase. We use this to control the jump height.
   // See the ascentControl Timer for more details.
+  //只能往左跳不能往右跳吗？？
   property int jumpForceLeft: 20
 
   // the player's accelerationForce
@@ -228,7 +229,7 @@ HomeEntityBaseDraggable {
    * Update timer --------------------------------------------------------
    */
 
-  //如果x方向没有命令就让他停
+  //如果x方向没有命令就让他
   Timer {
     id: updateTimer
 
@@ -255,39 +256,15 @@ HomeEntityBaseDraggable {
     }
   }
 
-  // this timer is triggered shortly before invincibility ends, to signal,
-  // that it will end soon
-  Timer {
-    id: invincibilityWarningTimer
-
-    onTriggered: warnInvincibility()
-  }
-
-  // as long as this timer is running, the player is invincible
-  // when it is triggered, invincibility ends
-  Timer {
-    id: invincibilityTimer
-
-    onTriggered: endInvincibility()
-  }
-
-  /**
-   * ascentControl ------------------------------------------------------
-   */
-
-  // The ascentControl allows the player to jump higher, when pressing the
-  // jump button longer, and lower, when pressing the jump button shorter.
-  // It is running while the player presses the jump button.
+  //跳的控制
   Timer {
     id: ascentControl
 
-    // every 15 ms this is triggered
     interval: 15
     repeat: true
 
     onTriggered: {
-      // If jumpForceLeft is > 0, we set the players verticalVelocity to make
-      // him jump.
+      // 如果jumpForceLeft > 0就让他跳
       if(jumpForceLeft > 0) {
 
         var verticalImpulse = 0

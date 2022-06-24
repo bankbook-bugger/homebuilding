@@ -71,6 +71,10 @@ DISTFILES += \
     qml/EditorGrid.qml \
     qml/GroundRight.qml \
     qml/Heart.qml \
+    qml/DialogBase.qml \
+    qml/EditorGrid.qml \
+    qml/EditorOverlay.qml \
+    qml/EditorUnderlay.qml \
     qml/Coin.qml \
     qml/EditorGrid.qml \
     qml/EditorOverlay.qml \
@@ -86,10 +90,17 @@ DISTFILES += \
     qml/Player.qml \
     qml/SceneBase.qml \
     qml/Spikes.qml \
+    qml/PublishDialog.qml \
+    qml/SaveLevelDialog.qml \
+    qml/SceneBase.qml \
+    qml/GameScene.qml \
+    qml/TestScene.qml \
+    qml/UndoHandler.qml \
     qml/code-admob.png \
     qml/common/HomeImageButton.qml \
     qml/common/HomeSelectableTextButton.qml \
     qml/common/HomeTextButton.qml \
     qml/common/HomeSelectableImageButton.qml \
     qml/helper/EditorGrid.qml \
-    qml/logo-admob.png
+    qml/logo-admob.png \
+    qml/moveButton.qml

@@ -6,9 +6,10 @@ GameWindow {
   id: gameWindow
 
   activeScene: menuScene  //活动窗口
-
+//  activeScene: gameScene
   screenWidth: 960
   screenHeight: 640
+
 
  // property alias levelEditor: levelEditor
   //property alias itemEditor: gameScene.itemEditor
@@ -26,7 +27,8 @@ GameWindow {
 
   EntityManager {             //通过容器管理实体 所创建的实体在里面
     id: entityManager
-    entityContainer: gameScene.container
+//    entityContainer: gameScene.container
+    entityContainer: gameScene
     poolingEnabled: true
   }
 
@@ -44,6 +46,12 @@ GameWindow {
   FontLoader {    //定义字体样式
     id: marioFont
     source: "../assets/fonts/SuperMario256.ttf"
+  }
+
+  // Scenes -----------------------------------------
+  GameScene{                        //游戏场景
+      id:gameScene
+      onBackButtonPressed: gameWindow.state = "kinds"
   }
 
   MenuScene {                             //菜单场景
@@ -85,10 +93,9 @@ GameWindow {
         gameWindow.state = "menu"
       }
   }
-
-
   // 当前状态
-  state: "menu"
+//  state: "menu"
+  state:"game"
 
   // 场景状态切换
   states: [
@@ -96,7 +103,7 @@ GameWindow {
       name: "menu"
       PropertyChanges {target: menuScene; opacity: 1}
       PropertyChanges {target: gameWindow; activeScene: menuScene}
-    },
+    },      // if the player collides with the reset sensor, he dies
     State {
       name: "kinds"
       PropertyChanges {target: kindsScene; opacity: 1}

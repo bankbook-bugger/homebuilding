@@ -58,16 +58,39 @@ OBJECTS       = main.o \
 DIST          = qml/Bottle.qml \
 		qml/Box.qml \
 		qml/Can.qml \
+		qml/Finish.qml \
 		qml/Ground.qml \
+		qml/GroundBottom.qml \
+		qml/GroundLeft.qml \
 		qml/GroundMud.qml \
 		qml/EditorGrid.qml \
+		qml/GroundRight.qml \
+		qml/Heart.qml \
+		qml/DialogBase.qml \
+		qml/EditorGrid.qml \
+		qml/EditorOverlay.qml \
+		qml/EditorUnderlay.qml \
+		qml/Coin.qml \
+		qml/EditorGrid.qml \
+		qml/EditorOverlay.qml \
+		qml/EditorUnderlay.qml \
 		qml/ItemGroupButton.qml \
 		qml/LeftSidebar.qml \
 		qml/HomeBuildEntityButton.qml \
 		qml/HomeEntityBaseDraggable.qml \
 		qml/Material.qml \
 		qml/MenuScene.qml \
+		qml/Monster.qml \
+		qml/MonsterWalker.qml \
+		qml/Player.qml \
 		qml/SceneBase.qml \
+		qml/Spikes.qml \
+		qml/PublishDialog.qml \
+		qml/SaveLevelDialog.qml \
+		qml/SceneBase.qml \
+		qml/GameScene.qml \
+		qml/TestScene.qml \
+		qml/UndoHandler.qml \
 		qml/code-admob.png \
 		qml/common/HomeImageButton.qml \
 		qml/common/HomeSelectableTextButton.qml \
@@ -75,6 +98,7 @@ DIST          = qml/Bottle.qml \
 		qml/common/HomeSelectableImageButton.qml \
 		qml/helper/EditorGrid.qml \
 		qml/logo-admob.png \
+		qml/moveButton.qml \
 		/opt/felgo/Felgo/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/felgo/Felgo/gcc_64/mkspecs/common/unix.conf \
 		/opt/felgo/Felgo/gcc_64/mkspecs/common/linux.conf \

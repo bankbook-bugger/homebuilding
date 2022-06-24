@@ -48,6 +48,7 @@ MultiResolutionImage {
 
       property int buttonWidth: width / 2 - spacing / 2
 
+
       HomeImageButton {             //撤销按钮
         width: parent.buttonWidth
 
@@ -84,6 +85,7 @@ MultiResolutionImage {
       anchors.topMargin: 4
       spacing: 2
       property int buttonWidth: width / 2 - spacing / 2
+
 
       HomeSelectableImageButton {         //编辑界面 擦出按钮或则填写按钮
         id: drawEraseButton
@@ -277,6 +279,7 @@ MultiResolutionImage {
 
             verticalAlignment: Text.AlignVCenter
           }
+
 
           HomeTextButton {          //网格button
             id: gridSizeButton
