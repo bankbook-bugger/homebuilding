@@ -1,3 +1,6 @@
+/*2022.6.23
+wanglingzhi*/
+
 import QtQuick 2.0
 import QtQuick.Controls.Styles 1.0
 import Felgo 3.0
@@ -5,10 +8,7 @@ import Felgo 3.0
 HomeTextButton {
   id: selectableTextButton
 
-  // this property is true, when the button is selected
-  property bool isSelected: false
-
-  // this signal is emitted when the button gets selected
+  property bool isSelected: false  //选择按钮的属性 同时发出信号
   signal selected
 
   // set background and text color depending on if the button is selected or not
@@ -19,5 +19,6 @@ HomeTextButton {
       }
   }
   textColor: isSelected ? "#000000" : "#f0f0f0"
+
 
 }
