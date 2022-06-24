@@ -1,6 +1,9 @@
 import Felgo 3.0
 import QtQuick 2.0
-
+/*
+  2020051615113wangmin
+  function:gameScene
+  */
 SceneBase {
     id:gameScene
        // the filename of the current level gets stored here, it is used for loading the
@@ -21,7 +24,7 @@ SceneBase {
        }
 
        // back button to leave scene
-       MenuButton {
+       Buttons {
          text: "Back to menu"
          // anchor the button to the gameWindowAnchorItem to be on the edge of the screen on any device
          anchors.right: gameScene.gameWindowAnchorItem.right

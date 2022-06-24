@@ -21,7 +21,7 @@ GameWindow {
   //level editor
 
   MusicManager {             //背景音乐
-    id: audioManager
+    id: musicManager
   }
 
   EntityManager {             //通过容器管理实体
@@ -55,11 +55,42 @@ GameWindow {
   }
   KindsScene{
       id:kindsScene
+      onNewLevelPressed: {
+        // create a new level
+        var creationProperties = {
+          levelMetaData: {
+            levelName: "newLevel"
+          }
+        }
+        levelEditor.createNewLevel(creationProperties)
+
+        // switch to gameScene, edit mode
+        gameWindow.state = "game"
+        gameScene.state = "edit"
+
+        // initialize level
+        gameScene.initLevel()
+      }
+
+      onPlayLevelPressed: {
+        // load level
+        levelEditor.loadSingleLevel(levelData)
+
+        // switch to gameScene, play mode
+        gameWindow.state = "game"
+        gameScene.state = "play"
+
+        // initialize level
+        gameScene.initLevel()
+      }
+      onBackPressed: {
+        gameWindow.state = "menu"
+      }
   }
 
 
   // states
-  state: "menu"
+  state: "kinds"
 
   // this state machine handles the transition between scenes
   states: [
