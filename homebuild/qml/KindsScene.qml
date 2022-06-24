@@ -2,6 +2,7 @@ import QtQuick 2.0
 import Felgo 3.0
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Styles 1.0
+
 SceneBase{
     id:kindsScene
     //signals

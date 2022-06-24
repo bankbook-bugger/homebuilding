@@ -21,7 +21,7 @@ SceneBase {
        }
 
        // back button to leave scene
-       MenuButton {
+       /*Button {
          text: "Back to menu"
          // anchor the button to the gameWindowAnchorItem to be on the edge of the screen on any device
          anchors.right: gameScene.gameWindowAnchorItem.right
@@ -33,7 +33,7 @@ SceneBase {
            activeLevel = undefined
            activeLevelFileName = ""
          }
-       }
+       }*/
        Text {
           anchors.left: gameScene.gameWindowAnchorItem.left
           anchors.leftMargin: 10

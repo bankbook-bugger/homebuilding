@@ -11,8 +11,7 @@ HomeTextButton {
   property bool isSelected: false  //选择按钮的属性 同时发出信号
   signal selected
 
-  // set background and text color depending on if the button is selected or not
-  style: ButtonStyle{
+  style: ButtonStyle{                 //覆盖Text里默认的样式
       background: Rectangle{
           radius: 3
           color: isSelected ? "#c0c0c0" : "#413d3c"
