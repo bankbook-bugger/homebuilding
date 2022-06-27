@@ -7,7 +7,7 @@ import QtQuick.Controls.Styles 1.0
   */
 SceneBase {
     id:gameScene
-    //z:3
+    z:3
     gridSize: 32
     property int time: 0
     property string activeLevelFileName
@@ -32,7 +32,7 @@ SceneBase {
          anchors.fill: parent.gameWindowAnchorItem
          color: "pink"
        }
-       state: "edit"
+       state: "play"
 
        states: [
          State {
@@ -315,7 +315,7 @@ SceneBase {
 
        // 初始化关卡加载级别后调用此函数
        function initLevel() {
-
+         console.log("hhhhhhhh")
          editorOverlay.initEditor()
 
 
