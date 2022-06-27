@@ -170,32 +170,42 @@ Item {
     EditorLogic.clickEntity(entity);
   }
 
+  // if entity is removable: remove entity and return the undoObject of this action
   function removeEntity(entity) {
     return EditorLogic.removeEntity(entity);
   }
 
+  // returns the top-left coordinate of the grid the mouse is in
   function getMouseGridPos(mouseX, mouseY) {
     return EditorLogic.getMouseGridPos(mouseX, mouseY);
   }
-
 
   function isBodyIn32Grid(position) {
     return EditorLogic.isBodyIn32Grid(position);
   }
 
-
   function placeEntityAtPosition(mouseX, mouseY) {
     return EditorLogic.placeEntityAtPosition(mouseX, mouseY);
   }
-
 
   function mouseToLevelCoordinates(mouseX, mouseY) {
     return EditorLogic.mouseToLevelCoordinates(mouseX, mouseY);
   }
 
-
   function snapToGrid(levelX, levelY) {
     return EditorLogic.snapToGrid(levelX, levelY);
+  }
+
+  function saveLevel() {
+    EditorLogic.saveLevel();
+  }
+
+  function initEditor() {
+    EditorLogic.initEditor();
+  }
+
+  function resetEditor() {
+    EditorLogic.resetEditor();
   }
 
 }

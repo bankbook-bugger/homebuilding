@@ -105,6 +105,7 @@ DISTFILES += \
     qml/SceneBase.qml \
     qml/GameScene.qml \
     qml/TestScene.qml \
+    qml/TestScene.qml \
     qml/UndoHandler.qml \
     qml/UndoObject.qml \
     qml/code-admob.png \

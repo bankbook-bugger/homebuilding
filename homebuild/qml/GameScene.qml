@@ -1,5 +1,5 @@
 import Felgo 3.0
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls.Styles 1.0
 /*
   2020051615113wangmin
@@ -26,12 +26,12 @@ SceneBase {
        function setLevel(fileName) {
          activeLevelFileName = fileName
        }
-       Rectangle {
-         id: background
-         //gameWindowAnchorItem可用于将 Scene 的直接子项锚定到父 GameWindow ，而不是逻辑 Scene 大小
-         anchors.fill: parent.gameWindowAnchorItem
-         color: "pink"
-       }
+//       Rectangle {
+//         id: background
+//         //gameWindowAnchorItem可用于将 Scene 的直接子项锚定到父 GameWindow ，而不是逻辑 Scene 大小
+//         anchors.fill: parent.gameWindowAnchorItem
+//         color: "pink"
+//       }
        state: "play"
 
        states: [
@@ -65,23 +65,7 @@ SceneBase {
        ]
 
        //返回
-//       HomeSelectableImageButton{
-//           image.source:"../assets/ui/home.png"
-//           width: 40
-//           height: 30
-//           style: ButtonStyle {
-//             background: Rectangle {
-//               radius: imageButton.radius
-//               color: "transparent"
-//             }
-//           }
-//           anchors.verticalCenter: parent.verticalCenter
-//           anchors.right: parent.right
-//           anchors.top: parent.top
-//           anchors.rightMargin: 5
-//           //发送信号
-//           onClicked: backPressed()
-//       }
+
        Buttons{
          text: "Back"
          anchors.right: gameScene.gameWindowAnchorItem.right
@@ -99,9 +83,12 @@ SceneBase {
          anchors.fill: parent.gameWindowAnchorItem
          anchors.centerIn: parent.gameWindowAnchorItem
          property string bg0: "../../assets/backgroundImage/bg.png"
-          property int loadedBackground:{source: bg0
-      } }
+        property int loadedBackground:{
 
+         parseInt(gameWindow.levelEditor.currentLevelData["customData"]["background"])
+          }
+         source: bg0
+      }
        Text {
           anchors.left: gameScene.gameWindowAnchorItem.left
           anchors.leftMargin: 10
@@ -190,15 +177,17 @@ SceneBase {
          }
        }
 
-       MoveButton {
+       MoveTouchButton {
          id: moveTouchButton
          controller: controller
        }
-       JumpButton {
+       JumpTouchButton {
          id: jumpTouchButton
-         onPressed: player.startJump(true)
-         onReleased: player.endJump()
-       }
+         TapHandler{
+         onTapped: player.startJump(true)
+         onCanceled: player.endJump()
+}
+    }
        //将键盘键转发到控制器
        Keys.forwardTo: controller
        //以下是人对屏幕的操作

@@ -146,7 +146,7 @@ SceneBase{
         width: 50
         height: 50
         onClicked: {
-           gameWindow.state = "game"
+           gameWindow.state = "test"
         }
       }
     }
