@@ -28,7 +28,7 @@ SceneBase {
     function setLevel(fileName) {
         activeLevelFileName = fileName
     }
-    state: "play"
+    state: "edit"
 
     states: [
         State {
@@ -59,32 +59,12 @@ SceneBase {
             PropertyChanges {target: physicsWorld; running: false} // disable physics
         }
     ]
-    HomeSelectableImageButton{
-        image.source:"../assets/ui/home.png"
-        width: 40
-        height: 30
-        style: ButtonStyle {
-            background: Rectangle {
-                radius: imageButton.radius
-                color: "transparent"
-            }
-        }
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right
-        anchors.rightMargin: 5
-        //发送信号
-        onClicked: backPressed()
-    }
     //  游戏场景的背景
     BackgroundImage {
         id: bgImage
-        // z:40
         anchors.fill: parent.gameWindowAnchorItem
         anchors.centerIn: parent.gameWindowAnchorItem
-        property string bg0: "../../assets/backgroundImage/bg.png"
-        property int loadedBackground:{
-            source: bg0
-        }
+        source: "../assets/backgroundImage/bg.jpg"
     }
 
     Text {
@@ -175,14 +155,14 @@ SceneBase {
         }
     }
 
-    MoveButton {
+    MoveTouchButton {
         id: moveTouchButton
         controller: controller
     }
-    JumpButton {
+    JumpTouchButton {
         id: jumpTouchButton
-        onPressed: player.startJump(true)
-        onReleased: player.endJump()
+//        onPressed: player.startJump(true)
+//        onReleased: player.endJump()
     }
     //将键盘键转发到控制器
     Keys.forwardTo: controller

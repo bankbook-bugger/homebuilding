@@ -80,9 +80,6 @@ GameWindow {
   GameScene{                        //游戏场景
       id:gameScene
       onBackPressed: {
-           console.debug("1")
-        gameScene.resetLevel()
-        console.debug("1")
         gameWindow.state = "kinds"
       }
   }
@@ -92,6 +89,7 @@ GameWindow {
     onKindsScenePressed: {      //kinds的槽函数
       gameWindow.state = "kinds"
     }
+
   }
 
   KindsScene{                             //类型场景

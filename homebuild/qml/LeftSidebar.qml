@@ -1,7 +1,8 @@
-/*2022.6.24
+﻿/*2022.6.24
   wanglingzhi*/
 
 import QtQuick 2.0
+import QtQuick.Controls.Styles 1.0
 import Felgo 3.0
 
 //qml  侧边栏的总qml 整个qml为一个多分辨的图像类型
@@ -18,7 +19,7 @@ MultiResolutionImage {
   property var undoHandler    //撤销按钮
 
   //左边所有种类的button
-  property var buttons: [groundButton, ground2Button, platformButton, spikeballButton, spikesButton, opponentJumperButton, opponentWalkerButton, coinButton, mushroomButton, starButton, finishButton]
+  property var buttons: [groundButton, mudButton, leftButton, rightButton, spikesButton,  opponentWalkerButton, canButton, bottleButton, boxButton, finishButton]
 
   // 外部访问网格的button大小
   property alias gridSizeButton: gridSizeButton
@@ -51,11 +52,16 @@ MultiResolutionImage {
 
       HomeImageButton {             //撤销按钮
         width: parent.buttonWidth
-
+        style: ButtonStyle {
+            background: Rectangle {
+                radius: imageButton.radius
+                color: "transparent"
+            }
+        }
         //检测是否能撤销 如果可以为蓝色 如果不能撤销(没有可以撤销的)为灰色
         image.source: undoHandler.pointer >= 0 ? "../assets/ui/undo.png" : "../assets/ui/undo_grey.png"
 
-        //保持按钮看见
+        //如果没有可以撤销的hover无效
         hoverRectangle.visible: undoHandler.pointer >= 0 ? true : false
         onClicked: undoHandler.undo()  //undohandler类型的撤回函数
 
@@ -63,11 +69,16 @@ MultiResolutionImage {
 
       HomeImageButton {             //重做按钮
         width: parent.buttonWidth
-
+        style: ButtonStyle {
+            background: Rectangle {
+                radius: imageButton.radius
+                color: "transparent"
+            }
+        }
         //检测是否能撤销 如果可以为蓝色 如果不能撤销(没有可以撤销的)为灰色
         image.source: undoHandler.pointer < undoHandler.undoArray.length - 1 ? "../assets/ui/redo.png" : "../assets/ui/redo_grey.png"
 
-        // 无法重做时 要隐形此按钮
+        // 无法重做时hover无效
         hoverRectangle.visible: undoHandler.pointer < undoHandler.undoArray.length - 1 ? true : false
 
         onClicked: undoHandler.redo() //undohandler类型的重做函数
@@ -94,7 +105,12 @@ MultiResolutionImage {
 
         width: parent.buttonWidth
         height: parent.height
-
+        style: ButtonStyle {
+            background: Rectangle {
+                radius: imageButton.radius
+                color: "transparent"
+            }
+        }
         //查看活动状态 显示图像
         image.source: drawActive ? "../assets/ui/drawActive.png" : "../assets/ui/eraseActive.png"
 
@@ -102,8 +118,8 @@ MultiResolutionImage {
           if(isSelected) {
             drawActive = !drawActive
           }
-          else {              //否则为手按钮(非编辑模式 最开始的手
-                              //拖动画布状态)被选择
+          else {              //否则手按钮(非编辑模式 最开始的手
+                              //拖动画布状态)取消选择状态
             handButton.isSelected = false
             isSelected = true
           }
@@ -111,11 +127,11 @@ MultiResolutionImage {
           updateActiveTool()         //更新活动状态
 
           //没有实例创建情况
-          if(drawActive && editorOverlay.selectedButton == null) {
-            // ...switch to the first entity group...
+          if(drawActive && editorOverlay.selectedButton === null) {
+            //默认选择实例组为1
             changeActiveEntityGroup(1)
 
-            // ...and select the groundButton
+            //默认选择创建ground
             selectBuildEntityButton(groundButton)
           }
         }
@@ -127,7 +143,12 @@ MultiResolutionImage {
         height: parent.height
 
         image.source: "../assets/ui/hand.png"
-
+        style: ButtonStyle {
+            background: Rectangle {
+                radius: imageButton.radius
+                color: "transparent"
+            }
+        }
         isSelected: true
 
         onClicked: {
@@ -158,21 +179,21 @@ MultiResolutionImage {
       property int buttonWidth: width / 3 - spacing * 2 / 3
 
       ItemGroupButton {        //第一组
-        image.source: "../assets/ui/entityGroups/group1.png"
+        image.source: "../assets/ground/ground1.png"
 
         selected: entityGroups.activeGroup == 1
         onClicked: changeActiveEntityGroup(1)
       }
 
       ItemGroupButton {       //第二组
-        image.source: "../assets/ui/entityGroups/group2.png"
+        image.source: "../assets/opponent/opponent_walker.png"
 
         selected: entityGroups.activeGroup == 2
         onClicked: changeActiveEntityGroup(2)
       }
 
       ItemGroupButton {        //第三组
-        image.source: "../assets/ui/entityGroups/group3.png"
+        image.source: "../assets/ui/room3.png"
 
         selected: entityGroups.activeGroup == 3
         onClicked: changeActiveEntityGroup(3)
@@ -231,7 +252,12 @@ MultiResolutionImage {
 
           HomeImageButton {   //改名字的按钮
             id: nameLevelButton
-
+            style: ButtonStyle {
+                background: Rectangle {
+                    radius: imageButton.radius
+                    color: "transparent"
+                }
+            }
             image.source: "../assets/ui/edit_black.png"
             width: 30
             height: parent.height
@@ -284,11 +310,17 @@ MultiResolutionImage {
           HomeTextButton {          //网格button
             id: gridSizeButton
             screenText: "32"       //默认为32
+            textColor:"black"
             width: 30
             height: parent.height
             anchors.top: parent.top
             anchors.right: parent.right
-
+            style: ButtonStyle {
+                background: Rectangle {
+                    radius: imageButton.radius
+                    color: "transparent"
+                }
+            }
             onClicked: {           //单击切换网格大小16与32切换
               if(screenText == "32") {
                 screenText = "16"
@@ -302,63 +334,59 @@ MultiResolutionImage {
           }
 
         }
+//        HomeTextButton {            // 发布按钮
+//          id: publishButton
+//          screenText: "发布"
+//          width: parent.width
+//          height: 30
+//          visible: entityGroups.activeGroup == 0
 
-        HomeTextButton {            // 发布按钮
-          id: publishButton
-          screenText: "发布"
-          width: parent.width
-          height: 30
-          visible: entityGroups.activeGroup == 0
-
-          onClicked: {       //单击使得发布按钮可见性
-            publishDialog.opacity = 1
-          }
-        }
-
-
-
+//          onClicked: {       //单击使得发布按钮可见性
+//            publishDialog.opacity = 1
+//          }
+//        }
         /*三组里面的内容  编辑地图模式*/
-        HomeBuildEntityButton {           //草地button 第一个
+        HomeBuildEntityButton {           //地面button 第一个
           id: groundButton
 
           //每个按钮仅在相应的实体组  才处于活动状态
           visible: entityGroups.activeGroup == 1
-          toCreateEntityTypeUrl: "/GroundGrass.qml"
+          toCreateEntityTypeUrl: "GroundBottom.qml"
 
           // 处理按钮是否被选择
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        HomeBuildEntityButton {           //草地里面button 第二个
-          id: ground2Button
+        HomeBuildEntityButton {           //泥浆button 第二个
+          id: mudButton
 
           //每个按钮仅在相应的实体组  才处于活动状态
           visible: entityGroups.activeGroup == 1
-          toCreateEntityTypeUrl: "GroundDirt.qml"
+          toCreateEntityTypeUrl: "GroundMud.qml"
 
           // 处理按钮是否被选择
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        HomeBuildEntityButton {           //平地button 顶上
-          id: platformButton
+        HomeBuildEntityButton {           //上坡button
+          id: leftButton
 
           //每个按钮仅在相应的实体组  才处于活动状态
           visible: entityGroups.activeGroup == 1
-          toCreateEntityTypeUrl: "Platform.qml"
+          toCreateEntityTypeUrl: "GroundLeft.qml"
 
           // 处理按钮是否被选择
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        HomeBuildEntityButton {           //主攻球的button
-          id: spikeballButton
+        HomeBuildEntityButton {           //下坡button
+          id: rightButton
 
           visible: entityGroups.activeGroup == 1
-          toCreateEntityTypeUrl: "Spikeball.qml"
+          toCreateEntityTypeUrl: "GroundRight.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
@@ -369,7 +397,7 @@ MultiResolutionImage {
 
           visible: entityGroups.activeGroup == 1
 
-          toCreateEntityTypeUrl: "/Spikes.qml"
+          toCreateEntityTypeUrl: "Spikes.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
@@ -377,21 +405,11 @@ MultiResolutionImage {
 
         //场景2
 
-        HomeBuildEntityButton {          //跳起来攻击的button
-          id: opponentJumperButton
-
-          visible: entityGroups.activeGroup == 2
-          toCreateEntityTypeUrl: "OpponentJumper.qml"
-
-          onSelected: selectBuildEntityButton(this)
-          onUnselected: unselectBuildEntityButton()
-        }
-
         HomeBuildEntityButton {          //走路攻击的button
           id: opponentWalkerButton
 
           visible: entityGroups.activeGroup == 2
-          toCreateEntityTypeUrl: "OpponentWalker.qml"
+          toCreateEntityTypeUrl: "MonsterWalker.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
@@ -399,31 +417,31 @@ MultiResolutionImage {
 
         //场景3
 
-        HomeBuildEntityButton {           //金币button
-          id: coinButton
+        HomeBuildEntityButton {           //易拉罐button
+          id: canButton
 
           visible: entityGroups.activeGroup == 3
-          toCreateEntityTypeUrl: "Coin.qml"
+          toCreateEntityTypeUrl: "Can.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        HomeBuildEntityButton {           //蘑菇button
-          id: mushroomButton
+        HomeBuildEntityButton {           //瓶子button
+          id: bottleButton
 
           visible: entityGroups.activeGroup == 3
-          toCreateEntityTypeUrl: "Mushroom.qml"
+          toCreateEntityTypeUrl: "Bottle.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
 
-        HomeBuildEntityButton {             //星星button
-          id: starButton
+        HomeBuildEntityButton {             //纸箱button
+          id: boxButton
 
           visible: entityGroups.activeGroup == 3
-          toCreateEntityTypeUrl: "../entities/Star.qml"
+          toCreateEntityTypeUrl: "Box.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
@@ -433,7 +451,7 @@ MultiResolutionImage {
           id: finishButton
 
           visible: entityGroups.activeGroup == 3
-          toCreateEntityTypeUrl: "/Finish.qml"
+          toCreateEntityTypeUrl: "Finish.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
@@ -460,14 +478,10 @@ MultiResolutionImage {
       onClicked: changeActiveEntityGroup(0)   //切换编辑界面的情况和设置整个版本的情况
     }
   }
-
-
-
-
   //javascript 的功能函数
 
 
-  // 处理构建场景为擦出还是 画图
+  //先将状态设置为画图，再取消选择所有的按钮除了传递进去的button
   function selectBuildEntityButton(button) {
     if(activeTool == "erase") {
       setActiveTool("draw")
@@ -492,7 +506,6 @@ MultiResolutionImage {
 
     editorOverlay.selectedButton = null    //重置选择按钮
   }
-
 
   //非选择所有按钮时  至少选择一个
   function unselectAllButtonsButOne(button) {
@@ -524,9 +537,6 @@ MultiResolutionImage {
     }
     else if(handButton.isSelected) {
       activeTool = "hand"
-    }
-    else {
-      activeTool = ""
     }
   }
 

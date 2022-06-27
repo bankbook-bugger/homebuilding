@@ -55,7 +55,7 @@ SceneBase{
              }
         }
         //返回首页
-         HomeSelectableImageButton{
+         HomeImageButton{
              image.source:"../assets/ui/home.png"
              width: 40
              height: 30

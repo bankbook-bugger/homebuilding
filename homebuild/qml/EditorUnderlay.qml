@@ -1,4 +1,4 @@
-import Felgo 3.0
+﻿import Felgo 3.0
 import QtQuick 2.15
 
 PinchArea {
@@ -8,23 +8,21 @@ PinchArea {
 
   property var editorOverlay: scene.editorOverlay
 
-  enabled: false
+  //enabled: false
 
   anchors.fill: parent.gameWindowAnchorItem
-
+  //pinch(捏和)开始的反应
   onPinchStarted: console.debug("pinch started")
-
+  //更新过程
   onPinchUpdated: {
     var zoomFactor = pinch.scale / pinch.previousScale
-
     scene.camera.applyZoom(zoomFactor, pinch.startCenter)
   }
 
   onPinchFinished: console.debug("pinch finished")
 
   TapHandler {
-    id: baseEditMouseArea
-
+    id: baseEditMouse
     enabled: pinchArea.enabled
 
     property var lastCreateTime: 0
@@ -41,7 +39,7 @@ PinchArea {
         //单击左侧的实体，鼠标的坐标就是实体创建的位置
 
       if(editorOverlay.sidebar.activeTool === "draw" || (editorOverlay.sidebar.activeTool === "hand" && dragDistance < 4)) {
-        var entity = editorOverlay.placeEntityAtPosition(mouseX, mouseY)
+        var entity = editorOverlay.placeEntityAtPosition(point.x, point.y)
 
         if(entity) {
           var undoObjectProperties = {"target": entity, "action": "create",
@@ -63,19 +61,21 @@ PinchArea {
       }
 
       if(editorOverlay.sidebar.activeTool === "hand") {
-        prevMouseLocation.x = mouseX
-        prevMouseLocation.y = mouseY
+          // 保存最近鼠标点击的位置
+          prevMouseLocation.x = point.x
+          prevMouseLocation.y = point.y
 
-        dragStartPosition = Qt.point(mouseX, mouseY)
+          // 保存拖拽的位置
+          dragStartPosition = Qt.point(point.x, point.y)
       }
     }
 
-    onPointChanged: {
+    onPressedChanged: {
       if(editorOverlay.sidebar.activeTool === "draw") {
         var currentTime = new Date().getTime()
 
         if(currentTime - lastCreateTime > 5) {
-          var entity = editorOverlay.placeEntityAtPosition(mouseX, mouseY)
+          var entity = editorOverlay.placeEntityAtPosition(point.x, point.y)
 
           if(entity) {
             var undoObjectProperties = {"target": entity, "action": "create",
@@ -89,7 +89,7 @@ PinchArea {
         }
       }
       else if(editorOverlay.sidebar.activeTool === "erase") {
-        var mousePosInLevel = editorOverlay.mouseToLevelCoordinates(mouseX, mouseY)
+        var mousePosInLevel = editorOverlay.mouseToLevelCoordinates(point.x, point.y)
         var body = physicsWorld.bodyAt(mousePosInLevel)
 
         if(body) {
@@ -101,14 +101,17 @@ PinchArea {
         }
       }
       else if(editorOverlay.sidebar.activeTool === "hand"){
+        // move camera
+        // calculate mouse movement since last frame
+        var deltaX = prevMouseLocation.x - point.x
+        var deltaY = prevMouseLocation.y - point.y
 
-        var deltaX = prevMouseLocation.x - mouseX
-        var deltaY = prevMouseLocation.y - mouseY
-
+        // update camera position
         scene.camera.moveFreeCamera(deltaX, deltaY)
 
-        prevMouseLocation.x = mouseX
-        prevMouseLocation.y = mouseY
+        // save current mouse location as previous mouse location
+        prevMouseLocation.x = point.x
+        prevMouseLocation.y = point.y
       }
     }
 
@@ -121,8 +124,8 @@ PinchArea {
         }
       }
       else if(editorOverlay.sidebar.activeTool === "hand") {
-        var deltaX = dragStartPosition.x - mouseX
-        var deltaY = dragStartPosition.y - mouseY
+        var deltaX = dragStartPosition.x - point.x
+        var deltaY = dragStartPosition.y - point.y
 
         dragDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
@@ -132,13 +135,12 @@ PinchArea {
 
 
   }
-  MouseArea{
+  WheelHandler{
       //获取滑轮事件，随之将游戏场景进行放大缩小
-      anchors.fill: parent
       onWheel: {
-        var mousePos = Qt.point(wheel.x, wheel.y)
+        var mousePos = Qt.point(point.x, point.y)
 
-        if(wheel.angleDelta.y > 0)
+        if(point.angleDelta.y > 0)
           scene.camera.applyZoom(1.05, mousePos)
         else
           scene.camera.applyZoom(1 / 1.05, mousePos)

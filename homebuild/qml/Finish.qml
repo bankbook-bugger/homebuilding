@@ -1,4 +1,4 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import Felgo 3.0
 
 HomeEntityBaseDraggable {
@@ -7,7 +7,7 @@ HomeEntityBaseDraggable {
 
   colliderComponent: collider
 
-  image.source: "../assets/finish/finish.png"
+  image.source: "../assets/ui/room1.png"
 
   BoxCollider {
     id: collider
