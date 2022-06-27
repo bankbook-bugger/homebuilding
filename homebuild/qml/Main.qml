@@ -95,7 +95,7 @@ GameWindow {
       name: "menu"
       PropertyChanges {target: menuScene; opacity: 1}
       PropertyChanges {target: gameWindow; activeScene: menuScene}
-    },
+    },      // if the player collides with the reset sensor, he dies
     State {
       name: "kinds"
       PropertyChanges {target: kindsScene; opacity: 1}
