@@ -11,7 +11,6 @@ Scene {
     id: menuScene
 
     signal kindsScenePressed
-    Scene.title:"Home Building"
 
 
     Rectangle {            //整体背景

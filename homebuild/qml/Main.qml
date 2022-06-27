@@ -33,8 +33,6 @@ GameWindow {
 
 
     //gameNetworkItem: gameNetwork
-
-
     //applicationJSONLevelsDirectory: "levels/"
 
     onLevelPublished: {
@@ -77,15 +75,14 @@ GameWindow {
     source: "../assets/fonts/SuperMario256.ttf"
   }
 
+
   GameScene{                        //游戏场景
       id:gameScene
       onBackPressed: {
-           console.debug("1")
-        gameScene.resetLevel()
-        console.debug("1")
         gameWindow.state = "kinds"
       }
   }
+
 
   MenuScene {                             //菜单场景
     id: menuScene
@@ -93,6 +90,7 @@ GameWindow {
       gameWindow.state = "kinds"
     }
   }
+
 
   KindsScene{                             //类型场景
       id:kindsScene

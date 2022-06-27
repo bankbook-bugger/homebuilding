@@ -76,13 +76,10 @@ DISTFILES += \
     qml/EditorGrid.qml \
     qml/EditorOverlay.qml \
     qml/EditorUnderlay.qml \
-    qml/Coin.qml \
     qml/EditorGrid.qml \
     qml/EditorOverlay.qml \
     qml/EditorUnderlay.qml \
     qml/Ground.qml \
-    qml/GroundDirt.qml \
-    qml/GroundGrass.qml \
     qml/HUDIconAndText.qml \
     qml/ItemGroupButton.qml \
     qml/JumpTouchButton.qml \

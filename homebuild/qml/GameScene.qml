@@ -10,7 +10,6 @@ import QtQuick.Controls.Styles 1.0
 
 SceneBase {
 
-    Scene.title:"Home Building"
     id:gameScene
     z:3
     gridSize: 32
@@ -33,7 +32,7 @@ SceneBase {
     function setLevel(fileName) {
         activeLevelFileName = fileName
     }
-    state: "play"
+    state: "edit"
 
     states: [
         State {
@@ -64,32 +63,14 @@ SceneBase {
             PropertyChanges {target: physicsWorld; running: false} // disable physics
         }
     ]
-    HomeSelectableImageButton{
-        image.source:"../assets/ui/home.png"
-        width: 40
-        height: 30
-        style: ButtonStyle {
-            background: Rectangle {
-                radius: imageButton.radius
-                color: "transparent"
-            }
-        }
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right
-        anchors.rightMargin: 5
-        //发送信号
-        onClicked: backPressed()
-    }
-
     //  游戏场景的背景
     BackgroundImage {
         id: bgImage
-        // z:40
         anchors.fill: parent.gameWindowAnchorItem
         anchors.centerIn: parent.gameWindowAnchorItem
         source: "../assets/backgroundImage/bg.jpg"
-
     }
+
 
     Text {
         anchors.left: gameScene.gameWindowAnchorItem.left
@@ -100,6 +81,7 @@ SceneBase {
         font.pixelSize: 20
         text: activeLevel !== undefined ? activeLevel.levelName : ""
     }
+
     //游戏元素
     Item {
         id: container
@@ -126,7 +108,6 @@ SceneBase {
 
                     contact.enabled = false
                 }
-
 
                 if(entityA.entityType === "player" && entityB.entityType === "opponent"
                         || entityB.entityType === "player" && entityA.entityType === "opponent") {
@@ -175,11 +156,8 @@ SceneBase {
     }
     JumpTouchButton {
         id: jumpTouchButton
-        TapHandler{
-            onTapped: player.startJump(true)
-            onCanceled: player.endJump()
-        }
-
+//        onPressed: player.startJump(true)
+//        onReleased: player.endJump()
 
     }
     //将键盘键转发到控制器

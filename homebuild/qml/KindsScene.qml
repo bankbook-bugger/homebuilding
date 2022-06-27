@@ -5,7 +5,6 @@ import QtQuick.Controls.Styles 1.0
 
 SceneBase{
 
-    Scene.title:"Home Building"
     id:kindsScene
     //signals
     signal newLevelPressed
@@ -57,7 +56,7 @@ SceneBase{
              }
         }
         //返回首页
-         HomeSelectableImageButton{
+         HomeImageButton{
              image.source:"../assets/ui/home.png"
              width: 40
              height: 30
