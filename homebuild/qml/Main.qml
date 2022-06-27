@@ -31,17 +31,17 @@ GameWindow {
     toRemoveEntityTypes: [ "ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish" ]
     toStoreEntityTypes: [ "ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish" ]
 
-    // set the gameNetwork
+
     //gameNetworkItem: gameNetwork
 
-    // directory where the predefined json levels are
+
     //applicationJSONLevelsDirectory: "levels/"
 
     onLevelPublished: {
-      // save level
+
       gameScene.editorOverlay.saveLevel()
 
-      //report a dummy score, to initialize the leaderboard
+
       var leaderboard = levelId
       if(leaderboard) {
         gameNetwork.reportScore(100000, leaderboard, null, "lowest_is_best")
@@ -84,7 +84,7 @@ GameWindow {
 
   MenuScene {                             //菜单场景
     id: menuScene
-    onKindsScenePressed: {      //kinds的槽函数
+    onKindsScenePressed: {       //kinds的槽函数
       gameWindow.state = "kinds"
     }
   }
@@ -118,6 +118,8 @@ GameWindow {
         gameWindow.state = "menu"
       }
   }
+
+
   // 当前状态
   state:"menu"
 

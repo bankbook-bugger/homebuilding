@@ -59,6 +59,7 @@ DIST          = qml/Bottle.qml \
 		qml/Box.qml \
 		qml/Can.qml \
 		qml/Finish.qml \
+		qml/FinishDialog.qml \
 		qml/Ground.qml \
 		qml/GroundBottom.qml \
 		qml/GroundLeft.qml \
@@ -86,18 +87,21 @@ DIST          = qml/Bottle.qml \
 		qml/Material.qml \
 		qml/MenuScene.qml \
 		qml/MoveTouchButton.qml \
+		qml/RemoveLeveDialog.qml \
 		qml/ResetSensor.qml \
 		qml/Monster.qml \
 		qml/MonsterWalker.qml \
 		qml/Player.qml \
 		qml/SceneBase.qml \
 		qml/Spikes.qml \
+		qml/ResetSensor.qml \
 		qml/PublishDialog.qml \
 		qml/SaveLevelDialog.qml \
 		qml/SceneBase.qml \
 		qml/GameScene.qml \
 		qml/TestScene.qml \
 		qml/UndoHandler.qml \
+		qml/UndoObject.qml \
 		qml/code-admob.png \
 		qml/common/HomeImageButton.qml \
 		qml/common/HomeSelectableTextButton.qml \

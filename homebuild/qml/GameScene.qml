@@ -1,9 +1,11 @@
 import Felgo 3.0
 import QtQuick 2.0
+
 /*
   2020051615113wangmin
   function:gameScene
   */
+
 SceneBase {
     id:gameScene
     z:3
