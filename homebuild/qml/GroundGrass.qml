@@ -7,5 +7,5 @@ import Felgo 3.0
 Ground {
   variationType: "grass"
 
-  image.source: "../../assets/ground/ground_grass.png"
+  image.source: "../assets/ground/ground_grass.png"
 }

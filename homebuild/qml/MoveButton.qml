@@ -1,35 +1,32 @@
+/*2022.6.27
+  wanglingzhi*/
+
 import Felgo 3.0
 import QtQuick 2.0
 
 Item {
-  // should only be visible and enabled on touch devices, when
-  // not in edit mode
   visible: !system.desktopPlatform && gameScene.state != "edit"
   enabled: visible
 
-  // set size
   height: 60
   width: 160
 
-  // anchor to the bottom left of the gameWindowAnchorItem
+
   anchors.left: gameScene.gameWindowAnchorItem.left
   anchors.bottom: gameScene.gameWindowAnchorItem.bottom
 
-  // the TwoAxisController, which controls the player's left/right movement
+
   property var controller
 
-  // this is a background of the left button image
-  // it is only visible while the button is pressed, as visual feedback for the user
   Rectangle {
     id: backgroundLeft
 
-    // make this fill the left half of this item
     width: parent.width / 2
     height: parent.height
 
     anchors.left: parent.left
 
-    // the radius of the edges; setting the radius to height gives this a circle shape
+
     radius: height
 
     // set color and opacity
