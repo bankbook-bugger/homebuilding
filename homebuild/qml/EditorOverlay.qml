@@ -6,7 +6,6 @@ import "../qml/scenes/editorElements/EditorLogic.js" as EditorLogic
 Item {
   id: editorOverlay
 
-  // make components accessible from the outside
   property alias grid: grid
   property alias sidebar: sidebar
   property alias itemEditor: itemEditor
@@ -17,6 +16,11 @@ Item {
   property var scene: parent
 
   property var containerComponent: scene.container
+  property bool inEditMode: false
+   property bool itemEditorVisible: false
+  visible: false
+
+  anchors.fill: scene.gameWindowAnchorItem
 
   EditorGrid {
     id: grid
@@ -26,23 +30,20 @@ Item {
     container: containerComponent
   }
 
-
+//左侧工具栏
   LeftSidebar {
     id: sidebar
 
     visible: inEditMode
 
-    // set all components, that can be accessed in the sidebar
     bgImage: scene.bgImage
     grid: grid
     undoHandler: undoHandler
   }
-
+//右侧扩展栏
   ItemEditor {
     id: itemEditor
 
-    // invisible by default
-    visible: false
 
     anchors.right: parent.right
     anchors.top: topbar.bottom
@@ -53,16 +54,12 @@ Item {
 
   HomeTextButton {
       //右边的扩展属性栏
-  // button to show/hide itemEditor
-
     id: itemEditorButton
 
     screenText: itemEditorVisible ? ">" : "<"
 
     width: 12
 
-    // if the item editor is visible, anchor this button to the left of the editor;
-    // otherwise anchor it to the game window
     anchors.right: itemEditor.visible ? itemEditor.left : parent.right
     anchors.verticalCenter: parent.verticalCenter
 
@@ -74,14 +71,7 @@ Item {
 
   HomeImageButton{
       //上部功能按钮
-  /**
-   * TOP BAR --------------------------------------
-   */
-
-  // this button enables switching between edit and test mode
-
     id: testButton
-
     width: 50
     height: 30
 
@@ -92,10 +82,6 @@ Item {
 
     opacity: inEditMode ? 1 : 0.5
 
-    // place on top, centered
-
-
-    // set game state depending on current game state
     onClicked: {
       if(inEditMode) {
         scene.state = "test"
@@ -105,7 +91,6 @@ Item {
     }
   }
 
-  // this row holds the buttons in the top right corner
   Row {
     id: topbar
 
@@ -163,7 +148,6 @@ Item {
 
       image.source: "../../assets/ui/home.png"
 
-      // open save dialog when in edit mode
       onClicked: saveLevelDialog.opacity = 1
     }
   }
@@ -181,8 +165,6 @@ Item {
   }
 
   //一下功能在js中实现的
-
-
 
   function clickEntity(entity) {
     EditorLogic.clickEntity(entity);

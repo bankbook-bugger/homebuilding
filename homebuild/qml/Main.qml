@@ -79,7 +79,12 @@ GameWindow {
 
   GameScene{                        //游戏场景
       id:gameScene
-      onBackButtonPressed: gameWindow.state = "kinds"
+      onBackPressed: {
+           console.debug("1")
+        gameScene.resetLevel()
+        console.debug("1")
+        gameWindow.state = "kinds"
+      }
   }
 
   MenuScene {                             //菜单场景
@@ -109,7 +114,7 @@ GameWindow {
 
       onPlayLevelPressed: {
 
-        levelEditor.loadSingleLevel(levelData)
+        //levelEditor.loadSingleLevel(levelData)
         gameWindow.state = "game"
         gameScene.state = "play"
         gameScene.initLevel()
@@ -121,6 +126,7 @@ GameWindow {
 
 
   // 当前状态
+
   state:"menu"
 
   // 场景状态切换
@@ -137,10 +143,13 @@ GameWindow {
     },
     State {
       name: "game"
-      PropertyChanges {target: gameScene; opacity: 1}
+      PropertyChanges {target: gameScene; opacity: 0}
       PropertyChanges {target: gameWindow; activeScene: gameScene}
     }
   ]
+  MusicManager {
+    id: audioManager
+  }
 
 }
 
