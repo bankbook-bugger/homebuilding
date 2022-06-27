@@ -1,4 +1,4 @@
-/*2022.6.24
+﻿/*2022.6.24
   wanglingzhi*/
 
 import Felgo 3.0
@@ -141,7 +141,8 @@ GameWindow {
     },
     State {
       name: "game"
-      PropertyChanges {target: gameScene; opacity: 0}
+      PropertyChanges {target: gameScene; opacity: 1}
+      PropertyChanges {target: menuScene; opacity: 0}
       PropertyChanges {target: gameWindow; activeScene: gameScene}
     }
   ]
