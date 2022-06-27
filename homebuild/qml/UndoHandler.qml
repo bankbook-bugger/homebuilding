@@ -21,7 +21,7 @@ Item {
     return undoObject
   }
 
-  // add new undoObject to array
+
   function push(undoObjectList) {
       console.log("\n")
       console.log(undoObjectList)

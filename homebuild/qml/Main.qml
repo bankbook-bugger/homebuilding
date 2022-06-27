@@ -30,17 +30,15 @@ GameWindow {
     toRemoveEntityTypes: [ "ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish" ]
     toStoreEntityTypes: [ "ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish" ]
 
-    // set the gameNetwork
-    //gameNetworkItem: gameNetwork
 
-    // directory where the predefined json levels are
+    //gameNetworkItem: gameNetwork
     //applicationJSONLevelsDirectory: "levels/"
 
     onLevelPublished: {
-      // save level
+
       gameScene.editorOverlay.saveLevel()
 
-      //report a dummy score, to initialize the leaderboard
+
       var leaderboard = levelId
       if(leaderboard) {
         gameNetwork.reportScore(100000, leaderboard, null, "lowest_is_best")
@@ -76,6 +74,7 @@ GameWindow {
     source: "../assets/fonts/SuperMario256.ttf"
   }
 
+
   GameScene{                        //游戏场景
       id:gameScene
       onBackPressed: {
@@ -83,13 +82,14 @@ GameWindow {
       }
   }
 
+
   MenuScene {                             //菜单场景
     id: menuScene
-    onKindsScenePressed: {      //kinds的槽函数
+    onKindsScenePressed: {       //kinds的槽函数
       gameWindow.state = "kinds"
     }
-
   }
+
 
   KindsScene{                             //类型场景
       id:kindsScene
@@ -120,6 +120,8 @@ GameWindow {
         gameWindow.state = "menu"
       }
   }
+
+
   // 当前状态
 
   state:"menu"

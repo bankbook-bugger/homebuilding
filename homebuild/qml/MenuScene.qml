@@ -12,6 +12,7 @@ Scene {
 
     signal kindsScenePressed
 
+
     Rectangle {            //整体背景
         id:background
         anchors.fill: parent.gameWindowAnchorItem

@@ -4,6 +4,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Controls.Styles 1.0
 
 SceneBase{
+
     id:kindsScene
     //signals
     signal newLevelPressed

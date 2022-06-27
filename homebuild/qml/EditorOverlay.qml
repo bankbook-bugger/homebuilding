@@ -27,6 +27,7 @@ Item {
         id: grid
         visible: inEditMode
         container: containerComponent
+
     }
 
     //左侧工具栏
@@ -39,6 +40,7 @@ Item {
         grid: grid
         undoHandler: undoHandler
     }
+
     //右侧扩展栏
     ItemEditor {
         id: itemEditor
@@ -80,6 +82,7 @@ Item {
             else
                 scene.state = "edit"
         }
+
     }
 
     Row {
@@ -116,14 +119,21 @@ Item {
                     id: savedTextAnimation
                     from: 1
                     to: 0
+
+                    duration: 2000
                 }
             }
         }
+
+
         HomeImageButton{
+
+            id:menuButton
             image.source:"../assets/ui/home.png"
             width: 40
-            height: 30
-            style: ButtonStyle {
+            height:30
+
+            style:ButtonStyle {
                 background: Rectangle {
                     radius: imageButton.radius
                     color: "transparent"
@@ -136,47 +146,60 @@ Item {
         }
     }
 
+
+
     UndoHandler {
         id: undoHandler
     }
+
 
     SaveLevelDialog {//保存关卡对话框
         id: saveLevelDialog
     }
 
 
-    //一下功能在js中实现的
+
+    //以下功能在js中实现的
 
     function clickEntity(entity) {
-        EditorLogic.clickEntity(entity);
+      EditorLogic.clickEntity(entity);
     }
 
     function removeEntity(entity) {
-        return EditorLogic.removeEntity(entity);
+      return EditorLogic.removeEntity(entity);
     }
+
 
     function getMouseGridPos(mouseX, mouseY) {
-        return EditorLogic.getMouseGridPos(mouseX, mouseY);
+      return EditorLogic.getMouseGridPos(mouseX, mouseY);
     }
-
 
     function isBodyIn32Grid(position) {
-        return EditorLogic.isBodyIn32Grid(position);
+      return EditorLogic.isBodyIn32Grid(position);
     }
-
 
     function placeEntityAtPosition(mouseX, mouseY) {
-        return EditorLogic.placeEntityAtPosition(mouseX, mouseY);
+      return EditorLogic.placeEntityAtPosition(mouseX, mouseY);
     }
-
 
     function mouseToLevelCoordinates(mouseX, mouseY) {
-        return EditorLogic.mouseToLevelCoordinates(mouseX, mouseY);
+      return EditorLogic.mouseToLevelCoordinates(mouseX, mouseY);
     }
 
-
     function snapToGrid(levelX, levelY) {
-        return EditorLogic.snapToGrid(levelX, levelY);
+      return EditorLogic.snapToGrid(levelX, levelY);
+    }
+
+    function saveLevel() {
+      EditorLogic.saveLevel();
+    }
+
+    function initEditor() {
+      EditorLogic.initEditor();
+    }
+
+    function resetEditor() {
+      EditorLogic.resetEditor();
     }
 
 }

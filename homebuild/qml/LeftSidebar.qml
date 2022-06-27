@@ -52,15 +52,14 @@ MultiResolutionImage {
 
       HomeImageButton {             //撤销按钮
         width: parent.buttonWidth
-        style: ButtonStyle {
-            background: Rectangle {
-                radius: imageButton.radius
-                color: "transparent"
-            }
-        }
         //检测是否能撤销 如果可以为蓝色 如果不能撤销(没有可以撤销的)为灰色
         image.source: undoHandler.pointer >= 0 ? "../assets/ui/undo.png" : "../assets/ui/undo_grey.png"
-
+        style: ButtonStyle {         //覆盖默认felgo的样式
+          background: Rectangle {
+            radius: imageButton.radius
+            color: "#c0c0c0"
+          }
+        }
         //如果没有可以撤销的hover无效
         hoverRectangle.visible: undoHandler.pointer >= 0 ? true : false
         onClicked: undoHandler.undo()  //undohandler类型的撤回函数
@@ -69,11 +68,11 @@ MultiResolutionImage {
 
       HomeImageButton {             //重做按钮
         width: parent.buttonWidth
-        style: ButtonStyle {
-            background: Rectangle {
-                radius: imageButton.radius
-                color: "transparent"
-            }
+        style: ButtonStyle {         //覆盖默认felgo的样式
+          background: Rectangle {
+            radius: imageButton.radius
+            color: "#c0c0c0"
+          }
         }
         //检测是否能撤销 如果可以为蓝色 如果不能撤销(没有可以撤销的)为灰色
         image.source: undoHandler.pointer < undoHandler.undoArray.length - 1 ? "../assets/ui/redo.png" : "../assets/ui/redo_grey.png"
@@ -105,12 +104,6 @@ MultiResolutionImage {
 
         width: parent.buttonWidth
         height: parent.height
-        style: ButtonStyle {
-            background: Rectangle {
-                radius: imageButton.radius
-                color: "transparent"
-            }
-        }
         //查看活动状态 显示图像
         image.source: drawActive ? "../assets/ui/drawActive.png" : "../assets/ui/eraseActive.png"
 
@@ -143,15 +136,10 @@ MultiResolutionImage {
         height: parent.height
 
         image.source: "../assets/ui/hand.png"
-        style: ButtonStyle {
-            background: Rectangle {
-                radius: imageButton.radius
-                color: "transparent"
-            }
-        }
         isSelected: true
 
         onClicked: {
+          unselectAllButtons()
           if(!isSelected) {  //如果没有在编辑状态 则在手的状态
             drawEraseButton.isSelected = false
             isSelected = true

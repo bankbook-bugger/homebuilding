@@ -1,4 +1,4 @@
-/*2022.6.23
+﻿/*2022.6.23
 wanglingzhi*/
 
 import QtQuick 2.0
