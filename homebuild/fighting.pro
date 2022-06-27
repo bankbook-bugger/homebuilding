@@ -71,11 +71,14 @@ DISTFILES += \
     qml/Ground.qml \
     qml/GroundDirt.qml \
     qml/GroundGrass.qml \
+    qml/HUDIconAndText.qml \
     qml/ItemGroupButton.qml \
+    qml/JumpTouchButton.qml \
     qml/LeftSidebar.qml \
     qml/HomeBuildEntityButton.qml \
     qml/HomeEntityBaseDraggable.qml \
     qml/MenuScene.qml \
+    qml/MoveTouchButton.qml \
     qml/ResetSensor.qml \
     qml/PublishDialog.qml \
     qml/SaveLevelDialog.qml \
