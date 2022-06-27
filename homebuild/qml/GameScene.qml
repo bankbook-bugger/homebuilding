@@ -34,18 +34,10 @@ SceneBase {
 
 
       //  游戏场景的背景
-//       BackgroundImage {
-//         id: bgImage
-//        // z:40
-//         anchors.fill: parent.gameWindowAnchorItem
-//         anchors.centerIn: parent.gameWindowAnchorItem
-//         property string bg0: "../../assets/backgroundImage/bg.png"
-//        property int loadedBackground:{
-
-//         parseInt(gameWindow.levelEditor.currentLevelData["customData"]["background"])
-//          }
-//         source: bg0
-//      }
+        EditorOverlay{
+        }
+        EditorUnderlay{
+        }
        Text {
           anchors.left: gameScene.gameWindowAnchorItem.left
           anchors.leftMargin: 10
