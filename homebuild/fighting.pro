@@ -79,12 +79,19 @@ DISTFILES += \
     qml/EditorGrid.qml \
     qml/EditorOverlay.qml \
     qml/EditorUnderlay.qml \
+    qml/Ground.qml \
+    qml/GroundDirt.qml \
+    qml/GroundGrass.qml \
+    qml/HUDIconAndText.qml \
     qml/ItemGroupButton.qml \
+    qml/JumpTouchButton.qml \
     qml/LeftSidebar.qml \
     qml/HomeBuildEntityButton.qml \
     qml/HomeEntityBaseDraggable.qml \
     qml/Material.qml \
     qml/MenuScene.qml \
+    qml/MoveTouchButton.qml \
+    qml/ResetSensor.qml \
     qml/Monster.qml \
     qml/MonsterWalker.qml \
     qml/Player.qml \
@@ -97,6 +104,7 @@ DISTFILES += \
     qml/GameScene.qml \
     qml/TestScene.qml \
     qml/UndoHandler.qml \
+    qml/UndoObject.qml \
     qml/code-admob.png \
     qml/common/HomeImageButton.qml \
     qml/common/HomeSelectableTextButton.qml \
