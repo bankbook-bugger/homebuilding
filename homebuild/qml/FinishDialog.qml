@@ -3,7 +3,6 @@ import Felgo 3.0
 
 DialogBase {
   id: finishDialog
-
   //点击背景关闭对话框
   closeableByClickOnBackground: false
 
@@ -30,9 +29,7 @@ DialogBase {
 
   HomeTextButton {
     id: okButton
-
     screenText: "重玩"
-
     width: 100
 
     anchors.bottom: parent.bottom
