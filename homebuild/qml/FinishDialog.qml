@@ -7,7 +7,6 @@ DialogBase {
   //点击背景关闭对话框
   closeableByClickOnBackground: false
 
-  // this holds the score, the player achieved
   property real score
 
   Text {

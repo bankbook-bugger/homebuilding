@@ -1,4 +1,4 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import Felgo 3.0
 
 Item {
@@ -13,7 +13,7 @@ Item {
   onPointerChanged: console.debug("undo pointer: "+pointer)
 
   function createUndoObject(properties) {
-    var component = Qt.createComponent("../undo/UndoObject.qml")
+    var component = Qt.createComponent("UndoObject.qml")
 
     //使用properties在游戏场景中创建对象
     var undoObject = component.createObject(gameScene, properties)
@@ -21,8 +21,11 @@ Item {
     return undoObject
   }
 
-  // add new undoObject to array
+
   function push(undoObjectList) {
+      console.log("\n")
+      console.log(undoObjectList)
+      console.log("\n")
       //在添加新undoObject之前，所有之前撤销的操作都已经删除
     if(undoArray.length > pointer + 1)
       undoArray.splice(pointer+1, undoArray.length)
