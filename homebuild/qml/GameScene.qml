@@ -1,5 +1,6 @@
 import Felgo 3.0
 import QtQuick 2.0
+import QtQuick.Controls.Styles 1.0
 /*
   2020051615113wangmin
   function:gameScene
@@ -18,7 +19,7 @@ SceneBase {
     property alias bgImage: bgImage
     property alias camera: camera
     property alias itemEditor: editorOverlay.itemEditor
-
+    signal backPressed
      sceneAlignmentX: "left"
      sceneAlignmentY: "top"
         //得到选择关卡名字
@@ -31,6 +32,56 @@ SceneBase {
          anchors.fill: parent.gameWindowAnchorItem
          color: "pink"
        }
+       state: "play"
+
+       states: [
+         State {
+           name: "play"
+           StateChangeScript {script: audioManager.handleMusic()}
+         },
+         State {
+           name: "edit"
+           PropertyChanges {target: physicsWorld; gravity: Qt.point(0,0)} // disable gravity
+           PropertyChanges {target: editorUnderlay; enabled: true} // enable the editorUnderlay for placing entities and moving the camera
+           PropertyChanges {target: editorOverlay; visible: true} // show the editorOverlay
+           PropertyChanges {target: editorOverlay; inEditMode: true}
+           StateChangeScript {script: resetLevel()} // reset all entity positions
+           StateChangeScript {script: editorOverlay.grid.requestPaint()}
+           StateChangeScript {script: audioManager.handleMusic()}
+         },
+         State {
+           name: "test"
+           PropertyChanges {target: editorOverlay; visible: true} // show the editorOverlay
+           StateChangeScript {script: audioManager.playSound("start")}
+           StateChangeScript {script: audioManager.handleMusic()}
+           PropertyChanges {target: gameScene; time: 0}
+           StateChangeScript {script: levelTimer.restart()}
+           PropertyChanges {target: camera; zoom: 1}
+         },
+         State {
+           name: "finish"
+           PropertyChanges {target: physicsWorld; running: false} // disable physics
+         }
+       ]
+
+       //返回
+//       HomeSelectableImageButton{
+//           image.source:"../assets/ui/home.png"
+//           width: 40
+//           height: 30
+//           style: ButtonStyle {
+//             background: Rectangle {
+//               radius: imageButton.radius
+//               color: "transparent"
+//             }
+//           }
+//           anchors.verticalCenter: parent.verticalCenter
+//           anchors.right: parent.right
+//           anchors.top: parent.top
+//           anchors.rightMargin: 5
+//           //发送信号
+//           onClicked: backPressed()
+//       }
        Buttons{
          text: "Back"
          anchors.right: gameScene.gameWindowAnchorItem.right
@@ -38,14 +89,14 @@ SceneBase {
          anchors.top: gameScene.gameWindowAnchorItem.top
          anchors.topMargin: 10
          onClicked: {
-           gameWindow.state = "kinds"
+            backPressed()
          }
        }
       //  游戏场景的背景
        BackgroundImage {
          id: bgImage
         // z:40
-//         anchors.fill: parent.gameWindowAnchorItem
+         anchors.fill: parent.gameWindowAnchorItem
          anchors.centerIn: parent.gameWindowAnchorItem
          property string bg0: "../../assets/backgroundImage/bg.png"
           property int loadedBackground:{source: bg0
@@ -63,9 +114,6 @@ SceneBase {
        Item {
          id: container
 
-         // When the container is scaled we want the transformation to
-         // be applied from the top left corner, since this is also the
-         // coordinates origin.
          transformOrigin: Item.TopLeft
 
          PhysicsWorld {
@@ -86,13 +134,6 @@ SceneBase {
              var entityA = contact.fixtureA.getBody().target
              var entityB = contact.fixtureB.getBody().target
 
-             // We want our platforms to be cloud platforms.
-             // A cloud platform is a platform through which you can jump
-             // from below.
-
-             // If one of the colliding entities is a platform,
-             // and the other a moving entity (player or opponent),
-             // and the moving entity is below the platform...
              if(entityA.entityType === "platform" && (entityB.entityType === "player" || entityB.entityType === "opponent") && entityB.y + entityB.height > entityA.y + 1 // add +1 to avoid wrong border-line decisions
                  || (entityA.entityType === "player" || entityA.entityType === "opponent") && entityB.entityType === "platform" && entityA.y + entityA.height > entityB.y + 1) {
 
@@ -100,16 +141,13 @@ SceneBase {
                contact.enabled = false
              }
 
-             // Disable physical collision handling between player
-             // and opponents. This way, we can still handle them,
-             // but their physics are not affected.
+
              if(entityA.entityType === "player" && entityB.entityType === "opponent"
                  || entityB.entityType === "player" && entityA.entityType === "opponent") {
                contact.enabled = false
              }
            }
 
-           // add gravity property to item editor
            EditableComponent {
              editableType: "Balance"
              defaultGroup: "Physics"
@@ -124,9 +162,7 @@ SceneBase {
 
            z: 1 // let the player appear in front of the platforms
 
-           // when colliding with the finish:
-           // in test mode: reset the level
-           // in play mode: go back to the menu
+
            onFinish: {
              if(gameScene.state == "test")
                resetLevel()
@@ -137,21 +173,16 @@ SceneBase {
                // handle score
                handleScore()
 
-               // show finish dialog
                finishDialog.score = time
                finishDialog.opacity = 1
              }
            }
          }
          ResetSensor {
-           // This sensor is always at the bottom of the level, directly
-           // below the player. So the player touches it just before he
-           // would fall out of bounds at the bottom of the level.
-           // When he touches it, he dies.
+
 
            player: player
 
-           // if the player collides with the reset sensor, he dies
            onContact: {
              player.die(true)
            }

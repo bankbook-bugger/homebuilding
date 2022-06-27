@@ -79,7 +79,12 @@ GameWindow {
 
   GameScene{                        //游戏场景
       id:gameScene
-      onBackButtonPressed: gameWindow.state = "kinds"
+      onBackPressed: {
+           console.debug("1")
+        gameScene.resetLevel()
+        console.debug("1")
+        gameWindow.state = "kinds"
+      }
   }
 
   MenuScene {                             //菜单场景
@@ -136,10 +141,13 @@ GameWindow {
     },
     State {
       name: "game"
-      PropertyChanges {target: gameScene; opacity: 1}
+      PropertyChanges {target: gameScene; opacity: 0}
       PropertyChanges {target: gameWindow; activeScene: gameScene}
     }
   ]
+  MusicManager {
+    id: audioManager
+  }
 
 }
 

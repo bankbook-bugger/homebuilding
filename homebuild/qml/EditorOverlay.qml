@@ -16,6 +16,11 @@ Item {
   property var scene: parent
 
   property var containerComponent: scene.container
+  property bool inEditMode: false
+   property bool itemEditorVisible: false
+  visible: false
+
+  anchors.fill: scene.gameWindowAnchorItem
 
   EditorGrid {
     id: grid

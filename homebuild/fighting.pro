@@ -91,20 +91,14 @@ DISTFILES += \
     qml/HomeEntityBaseDraggable.qml \
     qml/Material.qml \
     qml/MenuScene.qml \
-<<<<<<< HEAD
     qml/MoveTouchButton.qml \
     qml/ResetSensor.qml \
-=======
->>>>>>> 4e87733c06b5a1f8177bd1e039d5d446c373aa62
     qml/Monster.qml \
     qml/MonsterWalker.qml \
     qml/Player.qml \
     qml/SceneBase.qml \
     qml/Spikes.qml \
-<<<<<<< HEAD
-=======
     qml/ResetSensor.qml \
->>>>>>> 4e87733c06b5a1f8177bd1e039d5d446c373aa62
     qml/PublishDialog.qml \
     qml/SaveLevelDialog.qml \
     qml/SceneBase.qml \
