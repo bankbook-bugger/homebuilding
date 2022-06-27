@@ -92,6 +92,7 @@ DISTFILES += \
     qml/Material.qml \
     qml/MenuScene.qml \
     qml/MoveTouchButton.qml \
+    qml/RemoveLeveDialog.qml \
     qml/ResetSensor.qml \
     qml/Monster.qml \
     qml/MonsterWalker.qml \
