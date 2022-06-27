@@ -1,47 +1,66 @@
-﻿import Felgo 3.0
-import QtQuick 2.15
+﻿/*2022.6.27
+  wanglingzhi*/
 
+import Felgo 3.0
+import QtQuick 2.15
+import QtQuick.Controls 2.1
+
+//qml使用PinchArea启动  触摸屏时双手指触摸
 PinchArea {
   id: pinchArea
 
-  property var scene: parent
+  property var scene: parent  //此界面在游戏场景里
 
-  property var editorOverlay: scene.editorOverlay
+  property var editorOverlay: scene.editorOverlay  //访问Overlay里的属性
 
-  //enabled: false
-
+  enabled: false  //默认不可见
   anchors.fill: parent.gameWindowAnchorItem
-  //pinch(捏和)开始的反应
-  onPinchStarted: console.debug("pinch started")
-  //更新过程
+
+  onPinchStarted: console.debug("开始缩放")
+
   onPinchUpdated: {
-    var zoomFactor = pinch.scale / pinch.previousScale
+
+    var zoomFactor = pinch.scale / pinch.previousScale //缩放大小
     scene.camera.applyZoom(zoomFactor, pinch.startCenter)
   }
 
-  onPinchFinished: console.debug("pinch finished")
+  onPinchFinished: console.debug("缩放结束")
 
-  TapHandler {
-    id: baseEditMouse
+
+  TapHandler {               //用于放在地图里的方块区域
+    id: baseEditTap
     enabled: pinchArea.enabled
 
-    property var lastCreateTime: 0
+    property var lastCreateTime: 0  //添加时间 在每个所创建的实体之间
 
+    // store previous mouse location to calculate drag movement for camera
     property point prevMouseLocation: Qt.point(0, 0)
 
+    // to check how much the camera was moved in a whole drag
     property point dragStartPosition
 
+    // here we store the distance of the last mouse drag
     property real dragDistance: 0
 
+    // When draw-creating, or -removing entities, we want to be able to undo/redo
+    // the whole draw stroke at once. This list temporarily holds all created/removed
+    // entities, while the drawing is in progress. onRelease this list is pushed to
+    // the undoHandler and reset.
     property var undoObjectsSubList: []
 
-    onTapped: {
-        //单击左侧的实体，鼠标的坐标就是实体创建的位置
-
+    onClicked: {
+      // if in draw mode,
+      // OR if in hand mode AND the mouse moved just a little bit...
+      // (We add this dragDistance check, because we also want to place an entity
+      // if the user clicks to place, but the mouse/finger moves a little bit
+      // during the click)
       if(editorOverlay.sidebar.activeTool === "draw" || (editorOverlay.sidebar.activeTool === "hand" && dragDistance < 4)) {
-        var entity = editorOverlay.placeEntityAtPosition(point.x, point.y)
+        // ...place entity
+        var entity = editorOverlay.placeEntityAtPosition(mouseX, mouseY)
 
+        // if entity was successfully created
         if(entity) {
+          // add undoObject to undoHandler
           var undoObjectProperties = {"target": entity, "action": "create",
             "currentPosition": Qt.point(entity.x, entity.y)}
           var undoObject = editorOverlay.undoHandler.createUndoObject(undoObjectProperties)
@@ -50,8 +69,9 @@ PinchArea {
       }
     }
 
-    onLongPressed: {
-
+    onPressed: {
+      // if draw editorOverlay.sidebar.activeTool is active, set editorOverlay.selectedButton property to currently
+      // selected BuildEntityButton
       if(editorOverlay.sidebar.activeTool === "draw") {
         for(var i=0; i<editorOverlay.sidebar.buttons.length; i++) {
           if(editorOverlay.sidebar.buttons[i].isSelected) {
@@ -61,90 +81,110 @@ PinchArea {
       }
 
       if(editorOverlay.sidebar.activeTool === "hand") {
-          // 保存最近鼠标点击的位置
-          prevMouseLocation.x = point.x
-          prevMouseLocation.y = point.y
+        // save current mouse location
+        prevMouseLocation.x = mouseX
+        prevMouseLocation.y = mouseY
 
-          // 保存拖拽的位置
-          dragStartPosition = Qt.point(point.x, point.y)
+        // save drag start position
+        dragStartPosition = Qt.point(mouseX, mouseY)
       }
     }
 
-    onPressedChanged: {
+    // this is called every time the mouse is moved while it's pressed
+    onPositionChanged: {
       if(editorOverlay.sidebar.activeTool === "draw") {
-        var currentTime = new Date().getTime()
+        var currentTime = new Date().getTime() // get current time
 
+        // Calculate time since last try to create an entity.
+        // If it's over a threshold, try to place another entity.
+        // This improves the performance, as we don't have to
+        // check for collisions on every position change.
         if(currentTime - lastCreateTime > 5) {
-          var entity = editorOverlay.placeEntityAtPosition(point.x, point.y)
+          // place entity
+          var entity = editorOverlay.placeEntityAtPosition(mouseX, mouseY)
 
+          // if entity was successfully created
           if(entity) {
+            // add undoObject of entity to temporary undoObjectsSubList
             var undoObjectProperties = {"target": entity, "action": "create",
               "currentPosition": Qt.point(entity.x, entity.y)}
             var undoObject = editorOverlay.undoHandler.createUndoObject(undoObjectProperties)
 
             undoObjectsSubList.push(undoObject)
 
+            // save new lastCreateTime
             lastCreateTime = new Date().getTime()
           }
         }
       }
       else if(editorOverlay.sidebar.activeTool === "erase") {
-        var mousePosInLevel = editorOverlay.mouseToLevelCoordinates(point.x, point.y)
+        // convert mouse to level coordinates
+        var mousePosInLevel = editorOverlay.mouseToLevelCoordinates(mouseX, mouseY)
+        // get body at mouse position
         var body = physicsWorld.bodyAt(mousePosInLevel)
 
+        // if body exists, remove entity
         if(body) {
+          // get target object
           var target = body.target
 
+          // remove entitiy
           var undoObject = editorOverlay.removeEntity(target)
 
+          // add undoObject to temporary undoObjectsSubList
           undoObjectsSubList.push(undoObject)
         }
       }
       else if(editorOverlay.sidebar.activeTool === "hand"){
         // move camera
         // calculate mouse movement since last frame
-        var deltaX = prevMouseLocation.x - point.x
-        var deltaY = prevMouseLocation.y - point.y
+        var deltaX = prevMouseLocation.x - mouseX
+        var deltaY = prevMouseLocation.y - mouseY
 
         // update camera position
         scene.camera.moveFreeCamera(deltaX, deltaY)
 
         // save current mouse location as previous mouse location
-        prevMouseLocation.x = point.x
-        prevMouseLocation.y = point.y
+        prevMouseLocation.x = mouseX
+        prevMouseLocation.y = mouseY
       }
     }
 
-    onCanceled: {
+    onReleased: {
       if(editorOverlay.sidebar.activeTool === "draw" || editorOverlay.sidebar.activeTool === "erase") {
         if(undoObjectsSubList.length > 0) {
+          // push undoObjectsSubList to undoHandler
           editorOverlay.undoHandler.push(undoObjectsSubList)
 
+          // reset undoObjectsSubList
           undoObjectsSubList = []
         }
       }
       else if(editorOverlay.sidebar.activeTool === "hand") {
-        var deltaX = dragStartPosition.x - point.x
-        var deltaY = dragStartPosition.y - point.y
+        // calculate moving distance since pressed event
+        var deltaX = dragStartPosition.x - mouseX
+        var deltaY = dragStartPosition.y - mouseY
 
+        // calculate the total distance of the drag
         dragDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
+        // apply the current movement velocity to the camera
         scene.camera.applyVelocity()
       }
+    } // onReleased end
+
+    onWheel: {
+      // get mouse position
+      var mousePos = Qt.point(wheel.x, wheel.y)
+
+      // determine if the mouse wheel is rotated upwards or downwards
+      // zoom in or out, depending on the rotation direction
+      if(wheel.angleDelta.y > 0)
+        scene.camera.applyZoom(1.05, mousePos)
+      else
+        scene.camera.applyZoom(1 / 1.05, mousePos)
+
+      console.debug("zoom via mouseWheel")
     }
-
-
-  }
-  WheelHandler{
-      //获取滑轮事件，随之将游戏场景进行放大缩小
-      onWheel: {
-        var mousePos = Qt.point(point.x, point.y)
-
-        if(point.angleDelta.y > 0)
-          scene.camera.applyZoom(1.05, mousePos)
-        else
-          scene.camera.applyZoom(1 / 1.05, mousePos)
-
-        console.debug("zoom via mouseWheel")
-      }}
+  } // MouseArea end
 }
