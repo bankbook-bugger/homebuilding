@@ -1,4 +1,4 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import Felgo 3.0
 
 Monster{
@@ -6,7 +6,7 @@ Monster{
     variationType: "walker"
     //-1=左边 1=右边
     property int direction:-1
-    property int speed:100
+    property int speed:70
 
     // 判断生命的状态加载不同的图片，可以用不同的精灵？
     image.source: alive ? "../assets/opponent/opponent_walker.png"
