@@ -84,10 +84,8 @@ SceneBase {
         // z:40
         anchors.fill: parent.gameWindowAnchorItem
         anchors.centerIn: parent.gameWindowAnchorItem
-        property string bg0: "../assets/background/.png"
-        property int loadedBackground:{
-            source: bg0
-        }
+        source: "../assets/backgroundImage/bg.jpg"
+
     }
 
     Text {

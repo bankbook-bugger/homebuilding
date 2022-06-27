@@ -21,7 +21,7 @@ Item {
     return undoObject
   }
 
-  // add new undoObject to array
+
   function push(undoObjectList) {
       //在添加新undoObject之前，所有之前撤销的操作都已经删除
     if(undoArray.length > pointer + 1)
