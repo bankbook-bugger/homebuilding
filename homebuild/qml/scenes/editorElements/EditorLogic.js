@@ -1,4 +1,4 @@
- // handles the clicking of an entity
+﻿ // handles the clicking of an entity
 function clickEntity(entity) {
   // remove entity if activeTool is erase
   if(sidebar.activeTool == "erase") {
@@ -22,7 +22,7 @@ function removeEntity(entity) {
     // then remove it
     entityManager.removeEntityById(entity.entityId);
 
-    audioManager.playSound("removeEntity");
+    musicManager.playSound("removeEntity");
 
     // return the created undoObject
     return undoObject;
@@ -69,7 +69,7 @@ function placeEntityAtPosition(mouseX, mouseY) {
   if(mouseX < 100 || mouseY > editorOverlay.scene.gameWindowAnchorItem.height)
     return;
 
-  // if there is no button selected, return
+  //selectedButton是当前选择的buildEntityButton
   if(selectedButton === null)
     return;
 
@@ -84,7 +84,7 @@ function placeEntityAtPosition(mouseX, mouseY) {
   var properties = {};
 
   console.debug("selectedButton.createdEntity", selectedButton.createdEntity);
-  // variation type
+  //存放创建的createdEntity的variationType属性
   properties.variationType = selectedButton.createdEntity.variationType;
   // position properties
   // get level coordinates from mouse position
@@ -104,7 +104,7 @@ function placeEntityAtPosition(mouseX, mouseY) {
   // debug output with placed entity and position
   console.debug("Placed entity "+entity+" at "+entity.x+", "+entity.y);
 
-  audioManager.playSound("createOrDropEntity");
+  musicManager.playSound("createOrDropEntity");
 
   // return created entitiy
   return entity;

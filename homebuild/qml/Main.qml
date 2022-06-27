@@ -2,12 +2,11 @@
   wanglingzhi*/
 
 import Felgo 3.0
-import QtQuick 2.0
-
+import QtQuick 2.15
+import QtQuick.Window 2.0
 
 GameWindow {
   id: gameWindow
-
   activeScene: menuScene  //活动窗口
   screenWidth: 960
   screenHeight: 640
