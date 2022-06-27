@@ -13,16 +13,16 @@ SceneBase {
 
      sceneAlignmentX: "left"
      sceneAlignmentY: "top"
-
+        //得到选择关卡名字
        function setLevel(fileName) {
          activeLevelFileName = fileName
        }
-       Rectangle {
-         id: background
-         //gameWindowAnchorItem可用于将 Scene 的直接子项锚定到父 GameWindow ，而不是逻辑 Scene 大小
-         anchors.fill: parent.gameWindowAnchorItem
-         color: "pink"
-       }
+//       Rectangle {
+//         id: background
+//         //gameWindowAnchorItem可用于将 Scene 的直接子项锚定到父 GameWindow ，而不是逻辑 Scene 大小
+//         anchors.fill: parent.gameWindowAnchorItem
+//         color: "pink"
+//       }
        Buttons{
          text: "Back"
          anchors.right: gameScene.gameWindowAnchorItem.right
@@ -36,7 +36,7 @@ SceneBase {
       //  游戏场景的背景
        BackgroundImage {
          id: bgImage
-            z:40
+         z:40
          anchors.fill: parent.gameWindowAnchorItem
          anchors.centerIn: parent.gameWindowAnchorItem
          property string bg0: "../../assets/backgroundImage/bg.png"

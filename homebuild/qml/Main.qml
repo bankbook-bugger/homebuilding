@@ -1,3 +1,6 @@
+/*2022.6.24
+  wanglingzhi*/
+
 import Felgo 3.0
 import QtQuick 2.0
 
@@ -6,7 +9,6 @@ GameWindow {
   id: gameWindow
 
   activeScene: menuScene  //活动窗口
-//  activeScene: gameScene
   screenWidth: 960
   screenHeight: 640
 
@@ -23,19 +25,15 @@ GameWindow {
   }
 
 
-
-
   EntityManager {             //通过容器管理实体 所创建的实体在里面
     id: entityManager
-//    entityContainer: gameScene.container
-    entityContainer: gameScene
+    entityContainer: gameScene.container
     poolingEnabled: true
   }
 
 
    FelgoGameNetwork { //用于在游戏中使用排行榜、成就和挑战的根 Felgo 游戏网络组件。
     id: gameNetwork
-
     gameId: 220
     secret: "platformerEditorDevPasswordForVPlayGameNetwork"
 
@@ -48,7 +46,6 @@ GameWindow {
     source: "../assets/fonts/SuperMario256.ttf"
   }
 
-  // Scenes -----------------------------------------
   GameScene{                        //游戏场景
       id:gameScene
       onBackButtonPressed: gameWindow.state = "kinds"
@@ -79,14 +76,10 @@ GameWindow {
       }
 
       onPlayLevelPressed: {
-        // load level
-        levelEditor.loadSingleLevel(levelData)
 
-        // switch to gameScene, play mode
+        levelEditor.loadSingleLevel(levelData)
         gameWindow.state = "game"
         gameScene.state = "play"
-
-        // initialize level
         gameScene.initLevel()
       }
       onBackPressed: {
@@ -94,8 +87,8 @@ GameWindow {
       }
   }
   // 当前状态
-  state: "menu"
-//  state:"game"
+
+  state:"menu"
 
   // 场景状态切换
   states: [
@@ -103,7 +96,7 @@ GameWindow {
       name: "menu"
       PropertyChanges {target: menuScene; opacity: 1}
       PropertyChanges {target: gameWindow; activeScene: menuScene}
-    },
+    },      // if the player collides with the reset sensor, he dies
     State {
       name: "kinds"
       PropertyChanges {target: kindsScene; opacity: 1}

@@ -55,15 +55,43 @@ OBJECTS_DIR   = ./
 SOURCES       = main.cpp qrc_resources_user.cpp
 OBJECTS       = main.o \
 		qrc_resources_user.o
-DIST          = qml/DialogBase.qml \
+DIST          = qml/Bottle.qml \
+		qml/Box.qml \
+		qml/Can.qml \
+		qml/Finish.qml \
+		qml/Ground.qml \
+		qml/GroundBottom.qml \
+		qml/GroundLeft.qml \
+		qml/GroundMud.qml \
+		qml/EditorGrid.qml \
+		qml/GroundRight.qml \
+		qml/Heart.qml \
+		qml/DialogBase.qml \
 		qml/EditorGrid.qml \
 		qml/EditorOverlay.qml \
 		qml/EditorUnderlay.qml \
+		qml/Coin.qml \
+		qml/EditorGrid.qml \
+		qml/EditorOverlay.qml \
+		qml/EditorUnderlay.qml \
+		qml/Ground.qml \
+		qml/GroundDirt.qml \
+		qml/GroundGrass.qml \
+		qml/HUDIconAndText.qml \
 		qml/ItemGroupButton.qml \
+		qml/JumpTouchButton.qml \
 		qml/LeftSidebar.qml \
 		qml/HomeBuildEntityButton.qml \
 		qml/HomeEntityBaseDraggable.qml \
+		qml/Material.qml \
 		qml/MenuScene.qml \
+		qml/MoveTouchButton.qml \
+		qml/ResetSensor.qml \
+		qml/Monster.qml \
+		qml/MonsterWalker.qml \
+		qml/Player.qml \
+		qml/SceneBase.qml \
+		qml/Spikes.qml \
 		qml/PublishDialog.qml \
 		qml/SaveLevelDialog.qml \
 		qml/SceneBase.qml \
