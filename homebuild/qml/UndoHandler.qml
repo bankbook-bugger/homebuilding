@@ -4,21 +4,18 @@ import Felgo 3.0
 Item {
   id: undoHandler
 
-  // the array, which holds all undoObjects
+  //存储所有撤销的组件
   property var undoArray: []
 
-  // the pointer, which points at the current position in the
-  // undoArray
+  //存储在undoArray中的位置
   property int pointer: -1
 
   onPointerChanged: console.debug("undo pointer: "+pointer)
 
-  // create a new undoObject with a set of properties
   function createUndoObject(properties) {
-    // create UndoObject component
     var component = Qt.createComponent("../undo/UndoObject.qml")
 
-    // create object in gameScene with properties
+    //使用properties在游戏场景中创建对象
     var undoObject = component.createObject(gameScene, properties)
 
     return undoObject
@@ -26,29 +23,23 @@ Item {
 
   // add new undoObject to array
   function push(undoObjectList) {
-    // before adding a new undoObject, all actions higher than the
-    // pointer are removed
+      //在添加新undoObject之前，所有之前撤销的操作都已经删除
     if(undoArray.length > pointer + 1)
       undoArray.splice(pointer+1, undoArray.length)
 
-    // add undoObjectList as element to undoArray
     undoArray.push(undoObjectList)
 
-    // update pointer
+    //更新 pointer
     pointer++
   }
 
-  // undo action where pointer points at
   function undo() {
-    // if the pointed at undoObject exists...
     if(undoArray[pointer]) {
 
-      // ...undo all actions in this entry
       for(var i=0; i<undoArray[pointer].length; i++) {
         undoArray[pointer][i].undo()
       }
 
-      // update pointer
       pointer--
     }
     else {
@@ -56,17 +47,12 @@ Item {
     }
   }
 
-  // redo action next to where pointer points at
   function redo() {
-    // if the undoObject next to the pointed at undoObject exists...
     if(undoArray[pointer+1]) {
 
-      // ...redo all actions in this entry
       for(var i=0; i<undoArray[pointer+1].length; i++) {
         undoArray[pointer+1][i].redo()
       }
-
-      // update pointer
       pointer++
     }
     else {
@@ -74,7 +60,7 @@ Item {
     }
   }
 
-  // print all array elements
+  //打印撤销队列中的所有组件
   function printArray() {
     console.debug("print undoArray")
     for(var i=0; i< undoArray.length; i++) {
@@ -84,7 +70,7 @@ Item {
     }
   }
 
-  // reset undoHandler
+  //重置
   function reset() {
     undoArray = []
     pointer = -1

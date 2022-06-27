@@ -39,7 +39,7 @@ SceneBase {
             z:40
          anchors.fill: parent.gameWindowAnchorItem
          anchors.centerIn: parent.gameWindowAnchorItem
-         property string bg0: "../../assets/backgroundImage/bg.png"
+         property string bg0: "../assets/backgroundImage/bg.png"
          source: bg0
        }
        Text {
@@ -69,25 +69,23 @@ SceneBase {
        Camera {
          id: camera
 
-         // set the gameWindowSize and entityContainer with which the camera works with
+         // 设置场景的大小
          gameWindowSize: Qt.point(gameScene.gameWindowAnchorItem.width, gameScene.gameWindowAnchorItem.height)
          entityContainer: container
 
-         // disable the camera's mouseArea, since we handle the controls of the free
-         // moving camera ourself, in EditorUnderlay
+         // 禁用相机的鼠标earea，在编辑时中自动移动相机(手的移动)
          mouseAreaEnabled: false
 
-         // the camera follows the player when not in edit mode
+
          focusedObject: gameScene.state != "edit" ? player : null
 
-         // set focused offset
+
          focusOffset: Qt.point(0.5, 0.3)
 
-         // set limits
+
          limitLeft: 0
          limitBottom: 0
 
-         // set free camera offset, if sidebar is visible
          freeOffset: gameScene.state != "edit" ? Qt.point(0, 0) : Qt.point(100, 0)
        }
        EditorOverlay {
