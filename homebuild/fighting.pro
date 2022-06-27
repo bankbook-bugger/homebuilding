@@ -105,6 +105,7 @@ DISTFILES += \
     qml/GameScene.qml \
     qml/TestScene.qml \
     qml/UndoHandler.qml \
+    qml/UndoObject.qml \
     qml/code-admob.png \
     qml/common/HomeImageButton.qml \
     qml/common/HomeSelectableTextButton.qml \

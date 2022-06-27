@@ -37,7 +37,11 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = fighting1.0.0
+<<<<<<< HEAD
 DISTDIR = /run/media/root/study/homebuilding/homebuilding/homebuild/.tmp/fighting1.0.0
+=======
+DISTDIR = /root/MyGit/homebuilding/homebuild/.tmp/fighting1.0.0
+>>>>>>> 91ff5d5e01bae34f8c7fd3753b59c01ce99523bf
 LINK          = g++
 LFLAGS        = -Wl,-rpath,'$$ORIGIN/lib' -Wl,-rpath,'$$ORIGIN/system' -Wl,-rpath,/opt/felgo/Felgo/gcc_64/lib -Wl,-rpath-link,/opt/felgo/Felgo/gcc_64/lib
 LIBS          = $(SUBLIBS) -L/opt/felgo/Felgo/gcc_64/lib -lFelgo -lz /opt/felgo/Felgo/gcc_64/lib/libQt5Quick.so /opt/felgo/Felgo/gcc_64/lib/libQt5Widgets.so /opt/felgo/Felgo/gcc_64/lib/libQt5Multimedia.so /opt/felgo/Felgo/gcc_64/lib/libQt5Gui.so /opt/felgo/Felgo/gcc_64/lib/libQt5QmlModels.so /opt/felgo/Felgo/gcc_64/lib/libQt5Qml.so /opt/felgo/Felgo/gcc_64/lib/libQt5WebSockets.so /opt/felgo/Felgo/gcc_64/lib/libQt5Network.so /opt/felgo/Felgo/gcc_64/lib/libQt5Sql.so /opt/felgo/Felgo/gcc_64/lib/libQt5Bluetooth.so /opt/felgo/Felgo/gcc_64/lib/libQt5Core.so -lGL -lpthread   
@@ -927,6 +931,7 @@ qrc_resources_user.o: qrc_resources_user.cpp
 ####### Install
 
 install_itemqmlFolder: first FORCE
+<<<<<<< HEAD
 	@test -d $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild || mkdir -p $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild
 	$(QINSTALL) /run/media/root/study/homebuilding/homebuilding/homebuild/qml $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild/qml
 
@@ -942,6 +947,23 @@ install_itemassetsFolder: first FORCE
 uninstall_itemassetsFolder: FORCE
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild/assets
 	-$(DEL_DIR) $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild/ 
+=======
+	@test -d $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild || mkdir -p $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild
+	$(QINSTALL) /root/MyGit/homebuilding/homebuild/qml $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/qml
+
+uninstall_itemqmlFolder: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/qml
+	-$(DEL_DIR) $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/ 
+
+
+install_itemassetsFolder: first FORCE
+	@test -d $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild || mkdir -p $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild
+	$(QINSTALL) /root/MyGit/homebuilding/homebuild/assets $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/assets
+
+uninstall_itemassetsFolder: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/assets
+	-$(DEL_DIR) $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/ 
+>>>>>>> 91ff5d5e01bae34f8c7fd3753b59c01ce99523bf
 
 
 install: install_itemqmlFolder install_itemassetsFolder  FORCE

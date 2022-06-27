@@ -101,6 +101,7 @@ SceneBase {
          property string bg0: "../../assets/backgroundImage/bg.png"
           property int loadedBackground:{source: bg0
       } }
+
        Text {
           anchors.left: gameScene.gameWindowAnchorItem.left
           anchors.leftMargin: 10
@@ -207,14 +208,20 @@ SceneBase {
        Camera {
          id: camera
 
+
+         // 设置场景的大小
          gameWindowSize: Qt.point(gameScene.gameWindowAnchorItem.width, gameScene.gameWindowAnchorItem.height)
          entityContainer: container
 
+         // 禁用相机的鼠标earea，在编辑时中自动移动相机(手的移动)
          mouseAreaEnabled: false
+
 
          focusedObject: gameScene.state != "edit" ? player : null
 
+
          focusOffset: Qt.point(0.5, 0.3)
+
 
          limitLeft: 0
          limitBottom: 0
