@@ -1,4 +1,4 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import Felgo 3.0
 
 Ground{
@@ -7,11 +7,12 @@ Ground{
     colliderComponent: rightcollider
     PolygonCollider {
       id: rightcollider
+      anchors.fill: parent
       vertices:
       [
-        Qt.point(32, 0),
-        Qt.point(0, 32),
-        Qt.point(32, 32),
+        Qt.point(30, 0),
+        Qt.point(0, 30),
+        Qt.point(30, 30),
       ]
       bodyType: Body.Static
       // Category4: 地

@@ -1,4 +1,4 @@
-/*2022.6.24
+﻿/*2022.6.24
   wanglingzhi*/
 
 import Felgo 3.0
@@ -80,9 +80,6 @@ GameWindow {
   GameScene{                        //游戏场景
       id:gameScene
       onBackPressed: {
-           console.debug("1")
-        gameScene.resetLevel()
-        console.debug("1")
         gameWindow.state = "kinds"
       }
   }
@@ -92,6 +89,7 @@ GameWindow {
     onKindsScenePressed: {      //kinds的槽函数
       gameWindow.state = "kinds"
     }
+
   }
 
   KindsScene{                             //类型场景
@@ -114,7 +112,7 @@ GameWindow {
 
       onPlayLevelPressed: {
 
-        levelEditor.loadSingleLevel(levelData)
+        //levelEditor.loadSingleLevel(levelData)
         gameWindow.state = "game"
         gameScene.state = "play"
         gameScene.initLevel()
@@ -145,6 +143,10 @@ GameWindow {
     State {
       name: "game"
       PropertyChanges {target: gameScene; opacity: 1}
+<<<<<<< HEAD
+=======
+      PropertyChanges {target: menuScene; opacity: 0}
+>>>>>>> 50d4287f518f34511069d8b196beb7ad8e167d7b
       PropertyChanges {target: gameWindow; activeScene: gameScene}
     },
       State {

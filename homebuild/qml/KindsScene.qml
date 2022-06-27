@@ -1,4 +1,4 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import Felgo 3.0
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Styles 1.0
@@ -55,7 +55,7 @@ SceneBase{
              }
         }
         //返回首页
-         HomeSelectableImageButton{
+         HomeImageButton{
              image.source:"../assets/ui/home.png"
              width: 40
              height: 30
@@ -136,6 +136,7 @@ SceneBase{
         }
       }
     }
+<<<<<<< HEAD
     //关卡选择
     Grid {
       anchors.centerIn: parent
@@ -150,4 +151,6 @@ SceneBase{
         }
       }
     }
+=======
+>>>>>>> 50d4287f518f34511069d8b196beb7ad8e167d7b
 }

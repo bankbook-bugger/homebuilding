@@ -1,4 +1,4 @@
-/*2022.6.24
+﻿/*2022.6.24
   wanglingzhi*/
 
 import QtQuick 2.0
@@ -8,7 +8,7 @@ Canvas {
   id: grid
                          //网格 每一个网格的大小 32 *容器的大小
   property real gridSize: editorOverlay.scene.gridSize * container.scale
-  property string gridColor: "white" //网格线的颜色
+  property string gridColor: "grey" //网格线的颜色
 
   property var container         //容器
 

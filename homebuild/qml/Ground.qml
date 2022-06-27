@@ -14,11 +14,5 @@ HomeEntityBaseDraggable{
         //Category1:玩家  Category2:怪物
         //Category6:玩家的sensor  Category7:怪物的sensor
         collidesWith: Box.Category1|Box.Category2|Box.Category6|Box.Category7
-<<<<<<< HEAD
-    }
-// this is the base class for all Ground objects
-
-=======
  }
->>>>>>> 4e87733c06b5a1f8177bd1e039d5d446c373aa62
 }
