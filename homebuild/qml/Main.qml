@@ -94,8 +94,8 @@ GameWindow {
       }
   }
   // 当前状态
-//  state: "menu"
-  state:"game"
+  state: "menu"
+//  state:"game"
 
   // 场景状态切换
   states: [
