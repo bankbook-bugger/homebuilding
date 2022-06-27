@@ -1,4 +1,4 @@
-﻿/*2022.6.27
+/*2022.6.27
   wanglingzhi*/
 
 import Felgo 3.0
@@ -33,45 +33,36 @@ PinchArea {
 
     property var lastCreateTime: 0  //添加时间 在每个所创建的实体之间
 
-    // store previous mouse location to calculate drag movement for camera
+    // 存储上一个实体的位置 为了进行下一个位置的拖动
     property point prevMouseLocation: Qt.point(0, 0)
 
-    // to check how much the camera was moved in a whole drag
+    //检查拖动过程中的拖动量
     property point dragStartPosition
 
-    // here we store the distance of the last mouse drag
+    //存储最后一次鼠标拖动的距离
     property real dragDistance: 0
 
-    // When draw-creating, or -removing entities, we want to be able to undo/redo
-    // the whole draw stroke at once. This list temporarily holds all created/removed
-    // entities, while the drawing is in progress. onRelease this list is pushed to
-    // the undoHandler and reset.
+    //创建或删除实体时，用一个列表去存储所创建或删除的实体
     property var undoObjectsSubList: []
 
-    onClicked: {
-      // if in draw mode,
-      // OR if in hand mode AND the mouse moved just a little bit...
-      // (We add this dragDistance check, because we also want to place an entity
-      // if the user clicks to place, but the mouse/finger moves a little bit
-      // during the click)
+    onTapped: {
+      // 在绘图模式中 鼠标拖动可以一直使用当前图片放置
       if(editorOverlay.sidebar.activeTool === "draw" || (editorOverlay.sidebar.activeTool === "hand" && dragDistance < 4)) {
-        // ...place entity
-        var entity = editorOverlay.placeEntityAtPosition(mouseX, mouseY)
+        var entity = editorOverlay.placeEntityAtPosition(point.X, point.Y)
 
-        // if entity was successfully created
-        if(entity) {
-          // add undoObject to undoHandler
+        if(entity) {//如果创建成功 添加此实体
           var undoObjectProperties = {"target": entity, "action": "create",
             "currentPosition": Qt.point(entity.x, entity.y)}
+
           var undoObject = editorOverlay.undoHandler.createUndoObject(undoObjectProperties)
           editorOverlay.undoHandler.push([undoObject])
         }
       }
+
     }
 
-    onPressed: {
-      // if draw editorOverlay.sidebar.activeTool is active, set editorOverlay.selectedButton property to currently
-      // selected BuildEntityButton
+    onLongPressed: {//如果当前编辑器处于活动状态 则设置侧边栏被选择button的数组
+        //为了撤回功能准备
       if(editorOverlay.sidebar.activeTool === "draw") {
         for(var i=0; i<editorOverlay.sidebar.buttons.length; i++) {
           if(editorOverlay.sidebar.buttons[i].isSelected) {
@@ -80,111 +71,100 @@ PinchArea {
         }
       }
 
+      //如果当前为移动（手）的模式 则保存最后移动或则拖拽的位置
       if(editorOverlay.sidebar.activeTool === "hand") {
-        // save current mouse location
-        prevMouseLocation.x = mouseX
-        prevMouseLocation.y = mouseY
-
-        // save drag start position
-        dragStartPosition = Qt.point(mouseX, mouseY)
+        prevMouseLocation.x = point.X
+        prevMouseLocation.y = point.Y
+        dragStartPosition = Qt.point(point.X, point.Y)
       }
     }
 
-    // this is called every time the mouse is moved while it's pressed
-    onPositionChanged: {
+    //按下鼠标时 切换为编辑模式
+    onPointChanged: {
       if(editorOverlay.sidebar.activeTool === "draw") {
         var currentTime = new Date().getTime() // get current time
 
-        // Calculate time since last try to create an entity.
-        // If it's over a threshold, try to place another entity.
-        // This improves the performance, as we don't have to
-        // check for collisions on every position change.
-        if(currentTime - lastCreateTime > 5) {
-          // place entity
-          var entity = editorOverlay.placeEntityAtPosition(mouseX, mouseY)
 
-          // if entity was successfully created
+          //检查上次创建实体以来的属性 查看是否超过所定的值
+        if(currentTime - lastCreateTime > 5) {
+          var entity = editorOverlay.placeEntityAtPosition(point.X, point.Y)
+
+          //如果实体成功创建，则将此实体放在地图列表里
           if(entity) {
-            // add undoObject of entity to temporary undoObjectsSubList
             var undoObjectProperties = {"target": entity, "action": "create",
               "currentPosition": Qt.point(entity.x, entity.y)}
             var undoObject = editorOverlay.undoHandler.createUndoObject(undoObjectProperties)
 
             undoObjectsSubList.push(undoObject)
 
-            // save new lastCreateTime
+            // 保存最后一个创建的时间
             lastCreateTime = new Date().getTime()
           }
         }
       }
       else if(editorOverlay.sidebar.activeTool === "erase") {
-        // convert mouse to level coordinates
-        var mousePosInLevel = editorOverlay.mouseToLevelCoordinates(mouseX, mouseY)
-        // get body at mouse position
+        var mousePosInLevel = editorOverlay.mouseToLevelCoordinates(point.X, point.Y)
+          //将鼠标位置转化为坐标
         var body = physicsWorld.bodyAt(mousePosInLevel)
 
-        // if body exists, remove entity
-        if(body) {
-          // get target object
+        if(body) {  //如果body被撤销，添加到临时的数组里
           var target = body.target
-
-          // remove entitiy
           var undoObject = editorOverlay.removeEntity(target)
-
-          // add undoObject to temporary undoObjectsSubList
           undoObjectsSubList.push(undoObject)
         }
       }
       else if(editorOverlay.sidebar.activeTool === "hand"){
-        // move camera
-        // calculate mouse movement since last frame
-        var deltaX = prevMouseLocation.x - mouseX
-        var deltaY = prevMouseLocation.y - mouseY
-
-        // update camera position
+        var deltaX = prevMouseLocation.x - point.X
+        var deltaY = prevMouseLocation.y - point.Y
         scene.camera.moveFreeCamera(deltaX, deltaY)
 
-        // save current mouse location as previous mouse location
-        prevMouseLocation.x = mouseX
-        prevMouseLocation.y = mouseY
+        // 保存当前鼠标的位置
+        prevMouseLocation.x = point.X
+        prevMouseLocation.y = point.Y
       }
+
     }
 
-    onReleased: {
+
+    onCanceled: {
       if(editorOverlay.sidebar.activeTool === "draw" || editorOverlay.sidebar.activeTool === "erase") {
         if(undoObjectsSubList.length > 0) {
-          // push undoObjectsSubList to undoHandler
+          // 将撤回或则添加的实体放在 实体列表里
           editorOverlay.undoHandler.push(undoObjectsSubList)
 
-          // reset undoObjectsSubList
+          // 重置实体列表
           undoObjectsSubList = []
         }
       }
       else if(editorOverlay.sidebar.activeTool === "hand") {
-        // calculate moving distance since pressed event
-        var deltaX = dragStartPosition.x - mouseX
-        var deltaY = dragStartPosition.y - mouseY
+        // 计算鼠标按下后移动的距离
+        var deltaX = dragStartPosition.x - point.X
+        var deltaY = dragStartPosition.y - point.Y
 
-        // calculate the total distance of the drag
+        // 计算鼠标拖动的距离
         dragDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY)
 
-        // apply the current movement velocity to the camera
+        // 在相机位置 移动相应的距离
         scene.camera.applyVelocity()
       }
-    } // onReleased end
-
-    onWheel: {
-      // get mouse position
-      var mousePos = Qt.point(wheel.x, wheel.y)
-
-      // determine if the mouse wheel is rotated upwards or downwards
-      // zoom in or out, depending on the rotation direction
-      if(wheel.angleDelta.y > 0)
-        scene.camera.applyZoom(1.05, mousePos)
-      else
-        scene.camera.applyZoom(1 / 1.05, mousePos)
-
-      console.debug("zoom via mouseWheel")
     }
-  } // MouseArea end
+
+
+  }
+
+  WheelHandler{    //使用滚轮类型的Handler 进行缩放
+      onWheel: {
+        var mousePos = Qt.point(event.x, event.y) //得到当前鼠标点的位置
+
+        //确认鼠标向上还是向下 所对应的旋转方向
+        if(event.angleDelta.y > 0)
+          scene.camera.applyZoom(1.05, mousePos)
+        else
+          scene.camera.applyZoom(1 / 1.05, mousePos)
+
+        console.debug("zoom via mouseWheel")
+      }
+  }
+
+
 }
