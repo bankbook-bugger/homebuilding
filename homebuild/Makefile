@@ -95,7 +95,6 @@ DIST          = qml/Bottle.qml \
 		qml/SceneBase.qml \
 		qml/Spikes.qml \
 		qml/ResetSensor.qml \
-		qml/PublishDialog.qml \
 		qml/SaveLevelDialog.qml \
 		qml/SceneBase.qml \
 		qml/GameScene.qml \

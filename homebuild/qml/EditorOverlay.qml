@@ -30,8 +30,8 @@ Item {
     container: containerComponent
   }
 
-//左侧工具栏
-  LeftSidebar {
+
+  LeftSidebar {    //左侧工具栏
     id: sidebar
 
     visible: inEditMode
@@ -40,8 +40,8 @@ Item {
     grid: grid
     undoHandler: undoHandler
   }
-//右侧扩展栏
-  ItemEditor {
+
+  ItemEditor {     //右侧扩展栏
     id: itemEditor
 
 
@@ -52,14 +52,12 @@ Item {
     opacity: 0.9
   }
 
-  HomeTextButton {
-      //右边的扩展属性栏
+  HomeTextButton {  //右边的扩展属性栏
+
     id: itemEditorButton
 
     screenText: itemEditorVisible ? ">" : "<"
-
     width: 12
-
     anchors.right: itemEditor.visible ? itemEditor.left : parent.right
     anchors.verticalCenter: parent.verticalCenter
 
@@ -69,17 +67,14 @@ Item {
   }
 
 
-  HomeImageButton{
-      //上部功能按钮
+  HomeImageButton{      //上部功能按钮
     id: testButton
     width: 50
     height: 30
 
     anchors.horizontalCenter: editorOverlay.horizontalCenter
     anchors.top: editorOverlay.top
-
     image.source: inEditMode ? "../../assets/ui/play.png" : "../../assets/ui/edit.png"
-
     opacity: inEditMode ? 1 : 0.5
 
     onClicked: {
@@ -93,61 +88,44 @@ Item {
 
   Row {
     id: topbar
-
     visible: inEditMode
-
     height: 30
-
     anchors.right: editorOverlay.right
     anchors.top: editorOverlay.top
 
     spacing: 4
 
     HomeImageButton{  //右上角的保存按钮
-
       id: saveButton
-
       width: 40
-
-      image.source: "../../assets/ui/save.png"
+      image.source: "../assets/ui/save.png"
 
       onClicked: {
         saveLevel()
-
         savedTextAnimation.restart()
       }
 
       Text {
         text: "saved"
         color: "#ffffff"
-
         opacity: 0
-
         anchors.top: saveButton.bottom
-
         style: Text.Outline
         styleColor: "#009900"
         //保存后的提示动画
         NumberAnimation on opacity {
           id: savedTextAnimation
-
           from: 1
           to: 0
-}
-
+        }
       }
-
 
     }
 
     HomeImageButton{
-
       id: menuButton
-
       width: 40
-
-      image.source: "../../assets/ui/home.png"
-
+      image.source: "../assets/ui/home.png"
       onClicked: saveLevelDialog.opacity = 1
     }
   }
@@ -156,15 +134,15 @@ Item {
     id: undoHandler
   }
 
-  SaveLevelDialog {//保存关卡对话框
+  SaveLevelDialog {           //保存关卡对话框
     id: saveLevelDialog
   }
 
-  PublishDialog {//准备发布自定义关卡对话框
+  PublishDialog {             //准备发布自定义关卡对话框
     id: publishDialog
   }
 
-  //一下功能在js中实现的
+  //以下功能在js中实现的
 
   function clickEntity(entity) {
     EditorLogic.clickEntity(entity);

@@ -1,14 +1,16 @@
 ﻿import Felgo 3.0
-import QtQuick 2.0
+import QtQuick 2.15
 
 import QtQuick.Controls.Styles 1.0
 
 /*
-  2020051615113wangmin
+  2020051615113wangmin,chenzhexi,wanglingzhi
   function:gameScene
   */
 
 SceneBase {
+
+    Scene.title:"Home Building"
     id:gameScene
     z:3
     gridSize: 32
@@ -78,6 +80,7 @@ SceneBase {
         //发送信号
         onClicked: backPressed()
     }
+
     //  游戏场景的背景
     BackgroundImage {
         id: bgImage
@@ -112,10 +115,7 @@ SceneBase {
 
             debugDrawVisible: false
             z: 1000
-
             running: true
-
-
             onPreSolve: {
                 var entityA = contact.fixtureA.getBody().target
                 var entityB = contact.fixtureB.getBody().target
@@ -145,10 +145,7 @@ SceneBase {
 
         Player {
             id: player
-
             z: 1
-
-
             onFinish: {
                 if(gameScene.state == "test")
                     resetLevel()
@@ -164,8 +161,6 @@ SceneBase {
             }
         }
         ResetSensor {
-
-
             player: player
 
             onContact: {
@@ -174,58 +169,54 @@ SceneBase {
         }
     }
 
-    MoveButton {
+    MoveTouchButton {
         id: moveTouchButton
         controller: controller
     }
-    JumpButton {
+    JumpTouchButton {
         id: jumpTouchButton
-        onPressed: player.startJump(true)
-        onReleased: player.endJump()
+        TapHandler{
+            onTapped: player.startJump(true)
+            onCanceled: player.endJump()
+        }
+
+
     }
     //将键盘键转发到控制器
     Keys.forwardTo: controller
     //以下是人对屏幕的操作
+
     EditorUnderlay {
         id: editorUnderlay
     }
+
     Camera {
         id: camera
-
-
         // 设置场景的大小
         gameWindowSize: Qt.point(gameScene.gameWindowAnchorItem.width, gameScene.gameWindowAnchorItem.height)
         entityContainer: container
 
         // 禁用相机的鼠标earea，在编辑时中自动移动相机(手的移动)
         mouseAreaEnabled: false
-
-
         focusedObject: gameScene.state != "edit" ? player : null
-
-
         focusOffset: Qt.point(0.5, 0.3)
-
-
         limitLeft: 0
         limitBottom: 0
-
         freeOffset: gameScene.state != "edit" ? Qt.point(0, 0) : Qt.point(100, 0)
     }
+
+
     EditorOverlay {
         id: editorOverlay
-
         visible: false
-
         scene: gameScene
     }
+
     //轴控制器
     TwoAxisController {
         id: controller
-
         // 只有在玩游戏的时候才启用控制器
         enabled: gameScene.state != "edit"
-
         // 键盘输入
         onInputActionPressed: {
             console.debug("key pressed actionName " + actionName)
@@ -243,6 +234,7 @@ SceneBase {
         // 如果x轴改变，就随着人物改变的方向改变人物的视线方向
         onXAxisChanged: player.changeSpriteOrientation()
     }
+
     //抬头显示器
     HUDIconAndText {
         id: timeDisplay
@@ -251,33 +243,33 @@ SceneBase {
     }
     Timer {
         id: levelTimer
-
         interval: 100
-
         repeat: true
-
         onTriggered: {
             time += 1
         }
     }
+
+
     FinishDialog {
         id: finishDialog
     }
+
     HomeImageButton {
         id: menuButton
-
         width: 40
         height: 30
-
         anchors.right: editorOverlay.right
         anchors.top: editorOverlay.top
-
         image.source: "../assets/ui/home.png"
-
         visible: gameScene.state == "play"
 
         onClicked: backPressed()
     }
+
+
+
+
     //js实现的功能
     function handleScore() {
         // id仅存在于已发布的级别中
@@ -320,7 +312,6 @@ SceneBase {
 
 
     function resetLevel() {
-
         editorOverlay.resetEditor()
 
         player.reset()
@@ -339,13 +330,11 @@ SceneBase {
         for(var mushroom in mushrooms) {
             mushrooms[mushroom].reset()
         }
-
         // 重新开始
         var stars = entityManager.getEntityArrayByType("star")
         for(var star in stars) {
             stars[star].reset()
         }
-
         // 重置时间和计时器
         time = 0
         levelTimer.restart()
