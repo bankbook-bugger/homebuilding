@@ -7,7 +7,11 @@
         "-I",
         "/opt/Qt6.3.1/Tools/QtCreator/share/qtcreator/cplusplus/wrappedQtHeaders/QtCore",
         "-I",
+<<<<<<< HEAD
         "/tmp/QtCreator-eHUANQ/clang-uiheader-MpbAxd",
+=======
+        "/tmp/QtCreator-jUrBhg/clang-uiheader-cWDlyO",
+>>>>>>> 7be3c602e322aaae09bb74b1a14eb28a9ce32026
         "-nostdinc",
         "-nostdinc++",
         "-pipe",
@@ -21,6 +25,7 @@
         "--target=x86_64-pc-linux-gnu",
         "-std=gnu++17",
         "-DQ_CREATOR_RUN",
+<<<<<<< HEAD
         "-DQT_QML_DEBUG",
         "-DQT_QUICK_LIB",
         "-DQT_WIDGETS_LIB",
@@ -65,6 +70,20 @@
         "/usr/include/libdrm",
         "-I",
         "/opt/felgo/Felgo/gcc_64/mkspecs/linux-g++",
+=======
+        "-DQT_GUI_LIB",
+        "-DQT_CORE_LIB",
+        "-I",
+        "/root/MyGit/homebuilding/homebuild",
+        "-I",
+        "/opt/Qt6.3.1/6.3.1/gcc_64/include",
+        "-I",
+        "/opt/Qt6.3.1/6.3.1/gcc_64/include/QtGui",
+        "-I",
+        "/opt/Qt6.3.1/6.3.1/gcc_64/include/QtCore",
+        "-I",
+        "/opt/Qt6.3.1/6.3.1/gcc_64/mkspecs/linux-g++",
+>>>>>>> 7be3c602e322aaae09bb74b1a14eb28a9ce32026
         "-isystem",
         "/usr/include/c++/12.1.0",
         "-isystem",
@@ -87,9 +106,16 @@
         "-Wno-unknown-pragmas",
         "-Wno-unknown-warning-option",
         "-Wno-documentation-unknown-command",
+<<<<<<< HEAD
         "/run/media/root/linux/homebuilding/homebuild/main.cpp"
     ],
     "directory": "/run/media/root/linux/homebuilding/homebuild/.qtc_clangd",
     "file": "/run/media/root/linux/homebuilding/homebuild/main.cpp"
+=======
+        "/root/MyGit/homebuilding/homebuild/main.cpp"
+    ],
+    "directory": "/root/MyGit/homebuilding/homebuild/.qtc_clangd",
+    "file": "/root/MyGit/homebuilding/homebuild/main.cpp"
+>>>>>>> 7be3c602e322aaae09bb74b1a14eb28a9ce32026
 }
 ]

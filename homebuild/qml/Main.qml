@@ -1,3 +1,6 @@
+/*2022.6.24
+  wanglingzhi*/
+
 import Felgo 3.0
 import QtQuick 2.0
 
@@ -6,16 +9,46 @@ GameWindow {
   id: gameWindow
 
   activeScene: menuScene  //活动窗口
-//  activeScene: gameScene
   screenWidth: 960
   screenHeight: 640
 
 
- // property alias levelEditor: levelEditor
+  property alias levelEditor: levelEditor
   //property alias itemEditor: gameScene.itemEditor
 
   onActiveSceneChanged: {     //活动场景改变更改背景音乐
     musicManager.handleMusic()
+  }
+  LevelEditor {
+    id: levelEditor
+
+    Component.onCompleted: levelEditor.loadAllLevelsFromStorageLocation(authorGeneratedLevelsLocation)
+
+    //这些是entityManager可以存储和删除的实体类型。
+    //请注意，玩家不在这里。这是因为我们
+    //想要一个玩家实例-我们不想
+    //其他玩家或删除现有玩家。
+    toRemoveEntityTypes: [ "ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish" ]
+    toStoreEntityTypes: [ "ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish" ]
+
+    // set the gameNetwork
+    //gameNetworkItem: gameNetwork
+
+    // directory where the predefined json levels are
+    //applicationJSONLevelsDirectory: "levels/"
+
+    onLevelPublished: {
+      // save level
+      gameScene.editorOverlay.saveLevel()
+
+      //report a dummy score, to initialize the leaderboard
+      var leaderboard = levelId
+      if(leaderboard) {
+        gameNetwork.reportScore(100000, leaderboard, null, "lowest_is_best")
+      }
+
+      gameWindow.state = "level"
+    }
   }
 
   MusicManager {
@@ -23,19 +56,15 @@ GameWindow {
   }
 
 
-
-
   EntityManager {             //通过容器管理实体 所创建的实体在里面
     id: entityManager
-//    entityContainer: gameScene.container
-    entityContainer: gameScene
+    entityContainer: gameScene.container
     poolingEnabled: true
   }
 
 
    FelgoGameNetwork { //用于在游戏中使用排行榜、成就和挑战的根 Felgo 游戏网络组件。
     id: gameNetwork
-
     gameId: 220
     secret: "platformerEditorDevPasswordForVPlayGameNetwork"
 
@@ -48,7 +77,6 @@ GameWindow {
     source: "../assets/fonts/SuperMario256.ttf"
   }
 
-  // Scenes -----------------------------------------
   GameScene{                        //游戏场景
       id:gameScene
       onBackButtonPressed: gameWindow.state = "kinds"
@@ -65,6 +93,7 @@ GameWindow {
       id:kindsScene
 
       onNewLevelPressed: {    //创建种类
+          console.log("hhhhhhh")
         var creationProperties = {
           levelMetaData: {
             levelName: "newLevel"
@@ -79,14 +108,10 @@ GameWindow {
       }
 
       onPlayLevelPressed: {
-        // load level
-        levelEditor.loadSingleLevel(levelData)
 
-        // switch to gameScene, play mode
+        levelEditor.loadSingleLevel(levelData)
         gameWindow.state = "game"
         gameScene.state = "play"
-
-        // initialize level
         gameScene.initLevel()
       }
       onBackPressed: {
@@ -94,8 +119,7 @@ GameWindow {
       }
   }
   // 当前状态
-//  state: "menu"
-  state:"game"
+  state:"menu"
 
   // 场景状态切换
   states: [

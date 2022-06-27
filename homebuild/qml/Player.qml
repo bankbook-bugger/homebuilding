@@ -21,70 +21,55 @@ HomeEntityBaseDraggable {
   // kill-jumps
   property int normalJumpForce: 210
   property int killJumpForce: 420
-
-  // This property holds how many more iterations the player's
-  // jump height can increase. We use this to control the jump height.
-  // See the ascentControl Timer for more details.
-  //只能往左跳不能往右跳吗？？
+  //此属性保存玩家的迭代次数
+  //跳跃高度可以增加。我们用它来控制跳跃高度。
+  //有关更多详细信息，请参阅ascentControl Timer
   property int jumpForceLeft: 20
 
-  // the player's accelerationForce
+  //玩家的加速力（加速度？？
   property int accelerationForce: 1000
 
-  // the factor by how much the player's speed decreases when
-  // the user stops pressing left or right
+  //当用户停止向左或向右按，根据什么减少玩家的速度
   property real decelerationFactor: 0.6
 
-  // the player's maximum movement speed
+  //玩家的最大移动速度
   property int maxSpeed: 230
 
-  // maximum falling speed
+  //玩家啊的最大下降速度
   property int maxFallingSpeed: 800
 
   /**
    * Signals ----------------------------------------------------
    */
 
-  // signal for finishing the level
+  // 游戏结束
   signal finish
 
   /**
    * Object properties ----------------------------------------------------
    */
 
-  // set the player's size to his image size
   width: image.width
   height: image.height
 
-  // define colliderComponent for collision detection while dragging
   colliderComponent: collider
 
-  // set image
   image.source: "../assets/player/player.png"
 
-  // make player smaller, if isBig is false
-  scale: isBig ? 1 : 0.64
-  // animate scale changes
-  Behavior on scale { NumberAnimation { duration: 500 } }
-
-  // transform from the center of the bottom
-  transformOrigin: Item.Bottom
-
-  // If the player touches another solid object, we set his state
-  // to "walking". Otherwise we set it to "jumping".
-  // The player can only jump when "walking", or by using the doubleJump.
+  //如果玩家接触到另一个实体，我们将设置他的状态“步行”。否则，我们将其设置为“跳跃”。
+  //玩家只能在“步行”时跳跃
   state: contacts > 0 ? "walking" : "jumping"
 
-  // make player unremovable
+  //如果设置了这个属性，EntityManager::removeAllEntities() 的调用不会删除这个实体
   preventFromRemovalFromEntityManager: true
 
-  // limit falling speed
+  //下降的最大速度
   onVerticalVelocityChanged: {
     if(verticalVelocity > maxFallingSpeed)
       verticalVelocity = maxFallingSpeed
   }
 
-  onFinish: audioManager.playSound("finish")
+  onFinish: musicManager.playSound("finish")
 
   /**
    * 碰撞检测部分---------------------------------------
@@ -256,7 +241,7 @@ HomeEntityBaseDraggable {
     }
   }
 
-  //跳的控制
+  //跳的控制（看不懂
   Timer {
     id: ascentControl
 
@@ -268,43 +253,36 @@ HomeEntityBaseDraggable {
       if(jumpForceLeft > 0) {
 
         var verticalImpulse = 0
-
-        // At the beginning of the jump we set the verticalVelocity to 0 and
-        // apply a high vertical impulse, to get a high initial vertical
-        // velocity.
+          //在跳跃开始时，我们将垂直度设置为0
+          //施加较高的垂直脉冲，以获得较高的初始垂直
+          //速度
         if(jumpForceLeft == 20) {
           verticalVelocity = 0
 
           verticalImpulse = -normalJumpForce
-        }
-        // After the first strong impulse, we only want to increase the
-        // verticalVelocity slower.
+        }      
+        //在第一次强烈的冲动之后，我们只想慢慢的曾加垂直速度
         else if(jumpForceLeft >= 14) {
           verticalImpulse = -normalJumpForce / 5
         }
-        // Then, after about a third of our maximum jump time, we further
-        // reduce the verticalImpulse.
+        //然后，在大约三分之一的最大跳跃时间之后，我们进一步
+        //减少垂直脉冲。
         else {
           verticalImpulse = -normalJumpForce / 15
-        }
-        // Reducing the verticalImpulse over time allows for a more precise
-        // controlling of the jump height.
-        // Also it gives the jump a more natural feeling, than using a constant
-        // value.
-
-        // apply the impulse
+        }      
+        //随着时间的推移，减少垂直脉冲可以实现更精确的
+        //控制跳跃高度。
+        //此外，与使用常量相比，它给跳跃带来更自然的感觉
+        //施加脉冲
         collider.applyLinearImpulse(Qt.point(0, verticalImpulse))
-
-        // decrease jumpForceLeft
+        // 减小jumpForceLeft
         jumpForceLeft--
       }
     }
   }
 
-  /**
-   * Item editor -----------------------------------------
-   */
-  // make properties editable via itemEditor
+  //加在ItemEditor里的调节各种属性的
+
   EditableComponent {
     editableType: "Balance"
     properties: {
@@ -314,9 +292,6 @@ HomeEntityBaseDraggable {
         "accelerationForce": {"min": 0, "max": 5000, "stepSize": 10, "label": "Acceleration"},
         "maxSpeed": {"min": 0, "max": 400, "stepSize": 5, "label": "Speed"},
         "maxFallingSpeed": {"min": 5, "max": 1000, "stepSize": 5, "label": "Max Falling Speed"}
-      },
-      "Power-Ups" : {
-        "starInvincibilityTime": {"min": 500, "max": 10000, "stepSize": 100, "label": "Star Duration (ms)"}
       }
     }
   }
@@ -324,36 +299,24 @@ HomeEntityBaseDraggable {
   /**
    * Game related JS functions --------------------------------------------------
    */
-
-  // This function is called, when the user presses the jump button or, when
-  // the player jumps on an opponent.
-  // isNormalJump is true, when the user pressed the jump button.
-  // When jumping after a kill jump, isNormalJump is false.
+  //当用户按下跳转按钮或玩家跳到对手身上。
+  //当用户按下跳转按钮时，isNormalJump为true。
+  //当在致命跳跃后跳跃时，isNormalJump为false。
   function startJump(isNormalJump) {
     if(isNormalJump) {
-      // when the player stands on the ground and the jump
-      // button is pressed, we start the ascentControl
+      //ascentControl跳的控制timer
       if(player.state == "walking") {
         ascentControl.start()
-        audioManager.playSound("playerJump")
-      }
-      // if doubleJumpEnabled, the player can also jump without
-      // standing on the ground
-      else if(doubleJumpEnabled) {
-        ascentControl.start()
-        doubleJumpEnabled = false
-        audioManager.playSound("playerJump")
+        musicManager.playSound("playerJump")
       }
     }
-    else {
-      // When killing an opponent, we want the player to jump
-      // a little. We do that by just setting the verticalVelocity
-      // to a negative value.
+    else {   
+        //当杀死对手时，我们希望玩家跳跃一点点。我们只需设置verticalVelocity为负值。
       verticalVelocity = -killJumpForce
     }
   }
 
-  // this function is called, when the user releases the jump button
+  //当用户释放跳转按钮时，调用此函数
   function endJump() {
     // stop ascentControl
     ascentControl.stop()
@@ -361,104 +324,45 @@ HomeEntityBaseDraggable {
     // reset jumpForceLeft
     jumpForceLeft = 20
   }
-
-
-  function startInvincibility(interval) {
-    // this is the time the player is warned, that the invincibility will
-    // end soon
-    var warningTime = 500
-
-    // the interval (invincibility time) must be at least as long as the
-    // warning time
-    if(interval < warningTime)
-      interval = warningTime
-
-    // show invincibility overlay
-    invincibilityOverlayImage.opacity = 1
-
-    // Calculate and set time until the invincibility warning.
-    // This value is at least 0.
-    invincibilityWarningTimer.interval = interval - warningTime
-    // start timer
-    invincibilityWarningTimer.start()
-
-    // Calculate and set time until the invincibility ends.
-    // This value is at least warningTime.
-    invincibilityTimer.interval = interval
-    // start timer
-    invincibilityTimer.start()
-
-    // enable invincibility
-    invincible = true
-
-    audioManager.playSound("playerInvincible")
-
-    console.debug("start invincibility; interval: "+interval)
-  }
-
-  function warnInvincibility() {
-    // fade out the invincibilityOverlayImage
-    invincibilityOverlayImageFadeOut.start()
-
-    console.debug("warn invincibility")
-  }
-
-  function endInvincibility() {
-    // disable invincibility again
-    invincible = false
-
-    audioManager.stopSound("playerInvincible")
-
-    console.debug("stop invincibility")
-  }
-
-  // changes the direction in which the player looks, depending on the direction
-  // he moves in
+  //根据玩家移动的方向更改玩家的图片的样式
   function changeSpriteOrientation() {
-    if(controller.xAxis == -1) {
+    if(controller.xAxis === -1) {
       image.mirrorX = true
-      invincibilityOverlayImage.mirrorX = true
     }
-    else if (controller.xAxis == 1) {
+    else if (controller.xAxis === 1) {
       image.mirrorX = false
-      invincibilityOverlayImage.mirrorX = false
     }
   }
 
   /**
    * Start position JS functions -----------------------------------------------
    */
-
-  // every time the player is released in edit mode, we update his start position
+    //当实体被释放时调用此处理程序。
+    //每次在编辑模式下释放玩家时，我们都会调用此函数
   onEntityReleased: updateStartPosition()
-
   function updateStartPosition() {
     startX = x
     startY = y
   }
-
-  // this function tries to load the start position from a saved level, or sets
-  // it to a default value
+  //此函数尝试从保存的地方加载起始位置，或加载为默认值
   function loadStartPosition() {
-    // load startX if it is saved in the current level
+    //加载startx从保存的地方
     if(gameWindow.levelEditor && gameWindow.levelEditor.currentLevelData
         && gameWindow.levelEditor.currentLevelData["customData"]
         && gameWindow.levelEditor.currentLevelData["customData"]["playerX"]) {
       startX = parseInt(gameWindow.levelEditor.currentLevelData["customData"]["playerX"])
     }
     else {
-      // if there is no startX saved, we set it to a default value
+      //如果没有保存的startx就默认加载
       startX = 32
     }
-
-    // load startY if it is saved in the current level
     if(gameWindow.levelEditor && gameWindow.levelEditor.currentLevelData
         && gameWindow.levelEditor.currentLevelData["customData"]
         && gameWindow.levelEditor.currentLevelData["customData"]["playerY"]) {
       startY = parseInt(gameWindow.levelEditor.currentLevelData["customData"]["playerY"])
     }
     else {
-      // if there is no startY saved, we set it to a default value
+        //为什么有负值？？
       startY = -96
     }
   }
@@ -468,13 +372,8 @@ HomeEntityBaseDraggable {
    */
 
   function initialize() {
-    // load the player's start position from the level
     loadStartPosition()
-
-    // reset the player
     reset()
-
-    // set PlatformerEntityBaseDraggable's lastPosition property
     lastPosition = Qt.point(x, y)
   }
 
@@ -489,24 +388,10 @@ HomeEntityBaseDraggable {
 
     // reset score
     score = 0
-
-    // reset doubleJumpEnabled
-    doubleJumpEnabled = true
-
-    // reset isBig
-    isBig = false
-
-    // reset invincibility
-    invincible = false
-    invincibilityTimer.stop()
-    invincibilityWarningTimer.stop()
-    invincibilityOverlayImage.opacity = 0
-    audioManager.stopSound("playerInvincible")
   }
 
   function resetContacts() {
-    // Reset the contacts to ensure the player starts each level
-    // with zero contacts.
+      //重置contact以确保玩家启动每个关卡时都是零触点。
     contacts = 0
   }
 }

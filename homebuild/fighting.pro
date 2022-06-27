@@ -90,6 +90,7 @@ DISTFILES += \
     qml/Player.qml \
     qml/SceneBase.qml \
     qml/Spikes.qml \
+    qml/ResetSensor.qml \
     qml/PublishDialog.qml \
     qml/SaveLevelDialog.qml \
     qml/SceneBase.qml \
