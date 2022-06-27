@@ -13,11 +13,42 @@ GameWindow {
   screenHeight: 640
 
 
- // property alias levelEditor: levelEditor
+  property alias levelEditor: levelEditor
   //property alias itemEditor: gameScene.itemEditor
 
   onActiveSceneChanged: {     //活动场景改变更改背景音乐
     musicManager.handleMusic()
+  }
+  LevelEditor {
+    id: levelEditor
+
+    Component.onCompleted: levelEditor.loadAllLevelsFromStorageLocation(authorGeneratedLevelsLocation)
+
+    //这些是entityManager可以存储和删除的实体类型。
+    //请注意，玩家不在这里。这是因为我们
+    //想要一个玩家实例-我们不想
+    //其他玩家或删除现有玩家。
+    toRemoveEntityTypes: [ "ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish" ]
+    toStoreEntityTypes: [ "ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish" ]
+
+    // set the gameNetwork
+    //gameNetworkItem: gameNetwork
+
+    // directory where the predefined json levels are
+    //applicationJSONLevelsDirectory: "levels/"
+
+    onLevelPublished: {
+      // save level
+      gameScene.editorOverlay.saveLevel()
+
+      //report a dummy score, to initialize the leaderboard
+      var leaderboard = levelId
+      if(leaderboard) {
+        gameNetwork.reportScore(100000, leaderboard, null, "lowest_is_best")
+      }
+
+      gameWindow.state = "level"
+    }
   }
 
   MusicManager {
@@ -62,6 +93,7 @@ GameWindow {
       id:kindsScene
 
       onNewLevelPressed: {    //创建种类
+          console.log("hhhhhhh")
         var creationProperties = {
           levelMetaData: {
             levelName: "newLevel"
