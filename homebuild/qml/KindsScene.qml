@@ -136,21 +136,6 @@ SceneBase{
         }
       }
     }
-<<<<<<< HEAD
     //关卡选择
-    Grid {
-      anchors.centerIn: parent
-      spacing: 10
-      columns: 5
-      Buttons {
-        text: "1"
-        width: 50
-        height: 50
-        onClicked: {
-           gameWindow.state = "test"
-        }
-      }
-    }
-=======
->>>>>>> 50d4287f518f34511069d8b196beb7ad8e167d7b
+
 }

@@ -140,46 +140,9 @@ Item {
         id: undoHandler
     }
 
-<<<<<<< HEAD
-  PublishDialog {//准备发布自定义关卡对话框
-    id: publishDialog
-  }
 
   //一下功能在js中实现的
 
-  function clickEntity(entity) {
-    EditorLogic.clickEntity(entity);
-  }
-
-  // if entity is removable: remove entity and return the undoObject of this action
-  function removeEntity(entity) {
-    return EditorLogic.removeEntity(entity);
-  }
-
-  // returns the top-left coordinate of the grid the mouse is in
-  function getMouseGridPos(mouseX, mouseY) {
-    return EditorLogic.getMouseGridPos(mouseX, mouseY);
-  }
-
-  function isBodyIn32Grid(position) {
-    return EditorLogic.isBodyIn32Grid(position);
-  }
-
-  function placeEntityAtPosition(mouseX, mouseY) {
-    return EditorLogic.placeEntityAtPosition(mouseX, mouseY);
-  }
-
-  function mouseToLevelCoordinates(mouseX, mouseY) {
-    return EditorLogic.mouseToLevelCoordinates(mouseX, mouseY);
-  }
-
-  function snapToGrid(levelX, levelY) {
-    return EditorLogic.snapToGrid(levelX, levelY);
-  }
-=======
-    SaveLevelDialog {//保存关卡对话框
-        id: saveLevelDialog
-    }
 
 
     //一下功能在js中实现的
@@ -215,7 +178,6 @@ Item {
     function snapToGrid(levelX, levelY) {
         return EditorLogic.snapToGrid(levelX, levelY);
     }
->>>>>>> 50d4287f518f34511069d8b196beb7ad8e167d7b
 
   function saveLevel() {
     EditorLogic.saveLevel();

@@ -121,9 +121,7 @@ GameWindow {
         gameWindow.state = "menu"
       }
   }
-  TestScene{
-  id:testScene
-  }
+
   // 当前状态
 
   state:"menu"
@@ -143,17 +141,9 @@ GameWindow {
     State {
       name: "game"
       PropertyChanges {target: gameScene; opacity: 1}
-<<<<<<< HEAD
-=======
-      PropertyChanges {target: menuScene; opacity: 0}
->>>>>>> 50d4287f518f34511069d8b196beb7ad8e167d7b
       PropertyChanges {target: gameWindow; activeScene: gameScene}
-    },
-      State {
-        name: "test"
-        PropertyChanges {target: testScene; opacity: 1}
-        PropertyChanges {target: gameWindow; activeScene: testScene}
-      }
+    }
+
 
   ]
   MusicManager {
