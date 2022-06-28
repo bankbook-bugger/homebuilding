@@ -1,6 +1,7 @@
-import QtQuick 2.15
+﻿import QtQuick 2.15
+import QtQuick.Controls.Styles 1.0
 import Felgo 3.0
-Item {
+AppButton {
     id: kindsSelectionItem
 
     width: 50

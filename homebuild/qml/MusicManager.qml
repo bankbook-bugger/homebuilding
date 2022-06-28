@@ -1,4 +1,4 @@
-/*2022.6.22
+﻿/*2022.6.22
 wanglingzhi*/
 import Felgo 3.0
 import QtQuick 2.0
@@ -16,86 +16,86 @@ Item {
   BackgroundMusic {
     id: menuMusic                    //菜单的音乐
     autoPlay: false           // 默认不播放
-    source: "../assets/audio/music/menuMusic.mp3"
+    source: "../assets/music/music/menuMusic.mp3"
   }
 
   BackgroundMusic {
     id: playMusic                    //玩游戏时的音乐
     autoPlay: false
-    source: "../assets/audio/music/playMusic.mp3"
+    source: "../assets/music/music/playMusic.mp3"
   }
 
   BackgroundMusic {
     id: editMusic                     //编辑界面的bgm
     autoPlay: false
-    source: "../assets/audio/music/editMusic.mp3"
+    source: "../assets/music/music/editMusic.mp3"
   }
 
   /*音效*/
 
   SoundEffect {
     id: playerJump                   //跳
-    source: "../assets/audio/sounds/phaseJump1.wav"
+    source: "../assets/music/sounds/phaseJump1.wav"
   }
 
   SoundEffect {
     id: playerHit
-    source: "../assets/audio/sounds/whizz.wav"
+    source: "../assets/music/sounds/whizz.wav"
   }
 
   SoundEffect {
     id: playerDie                   //die
-    source: "../assets/audio/sounds/lose.wav"
+    source: "../assets/music/sounds/lose.wav"
   }
 
   SoundEffect {
     id: collectMaterials              //收集物资(塑料瓶）
-    source: "../assets/audio/sounds/coin_3.wav"
+    source: "../assets/music/sounds/coin_3.wav"
   }
 
   SoundEffect {
     id: collectHeart                  //生命
-    source: "../assets/audio/sounds/zapThreeToneUp.wav"
+    source: "../assets/music/sounds/zapThreeToneUp.wav"
   }
 
   SoundEffect {
     id: finish                          //完成
-    source: "../assets/audio/sounds/coin-04.wav"
+    source: "../assets/music/sounds/coin-04.wav"
   }
 
   SoundEffect {
     id: opponentWalkerDie             //走路对手die
-    source: "../assets/audio/sounds/bird-chirp.wav"
+    source: "../assets/music/sounds/bird-chirp.wav"
   }
 
   SoundEffect {
     id: opponentJumperDie             //跳跃对手die
-    source: "../assets/audio/sounds/twitch.wav"
+    source: "../assets/music/sounds/twitch.wav"
   }
 
   SoundEffect {
     id: start                         //开始
-    source: "../assets/audio/sounds/yahoo.wav"
+    source: "../assets/music/sounds/yahoo.wav"
   }
 
   SoundEffect {
     id: click                         //点击
-    source: "../assets/audio/sounds/click1.wav"
+    source: "../assets/music/sounds/click1.wav"
   }
 
   SoundEffect {
     id: dragEntity                  //拖动实体
-    source: "../assets/audio/sounds/slide-network.wav"
+    source: "../assets/music/sounds/slide-network.wav"
   }
 
   SoundEffect {
     id: createOrDropEntity          //实体创建或掉落
-    source: "../assets/audio/sounds/tap_professional.wav"
+    source: "../assets/music/sounds/tap_professional.wav"
   }
 
   SoundEffect {
     id: removeEntity                 //移动实体
-    source: "../assets/audio/sounds/tap_mellow.wav"
+    source: "../assets/music/sounds/tap_mellow.wav"
   }
 
 
@@ -103,12 +103,12 @@ function handleMusic() {            //查看场景状态设置音乐
     if(activeScene === gameScene)
     {
       if(gameScene.state == "play" || gameScene.state == "test")
-        audioManager.startMusic(playMusic)
+        musicManager.startMusic(playMusic)
       else if(gameScene.state == "edit")
-        audioManager.startMusic(editMusic)
+        musicManager.startMusic(editMusic)
     }
     else {
-      audioManager.startMusic(menuMusic)
+      musicManager.startMusic(menuMusic)
     }
   }
 

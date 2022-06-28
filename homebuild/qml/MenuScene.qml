@@ -1,4 +1,4 @@
-/*2022.6.23
+﻿/*2022.6.23
   wanglingzhi*/
 
 import QtQuick 2.0
@@ -58,7 +58,6 @@ Scene {
 
       style:ButtonStyle{
           background:  Rectangle {
-              radius: imageButton.radius
               color: "transparent"
             }
       }
@@ -84,7 +83,6 @@ Scene {
       radius: height / 4
       style:ButtonStyle{
           background:  Rectangle {
-              radius: imageButton.radius
               color: "transparent"
             }
       }

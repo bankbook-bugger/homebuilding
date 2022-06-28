@@ -100,7 +100,6 @@ Item {
             image.source: "../assets/ui/save.png"
             style: ButtonStyle {
                 background: Rectangle {
-                    radius: imageButton.radius
                     color: "transparent"
                 }
             }
@@ -136,7 +135,6 @@ Item {
 
             style:ButtonStyle {
                 background: Rectangle {
-                    radius: imageButton.radius
                     color: "transparent"
                 }
             }
@@ -154,7 +152,7 @@ Item {
     }
 
 
-  //一下功能在js中实现的
+    //一下功能在js中实现的
     SaveLevelDialog {//保存关卡对话框
         id: saveLevelDialog
     }
@@ -164,47 +162,47 @@ Item {
     //以下功能在js中实现的
 
     function clickEntity(entity) {
-      EditorLogic.clickEntity(entity);
+        EditorLogic.clickEntity(entity);
     }
 
     function removeEntity(entity) {
-      return EditorLogic.removeEntity(entity);
+        return EditorLogic.removeEntity(entity);
     }
 
 
     function getMouseGridPos(mouseX, mouseY) {
-      return EditorLogic.getMouseGridPos(mouseX, mouseY);
+        return EditorLogic.getMouseGridPos(mouseX, mouseY);
     }
 
     function isBodyIn32Grid(position) {
-      return EditorLogic.isBodyIn32Grid(position);
+        return EditorLogic.isBodyIn32Grid(position);
     }
 
     function placeEntityAtPosition(mouseX, mouseY) {
-      return EditorLogic.placeEntityAtPosition(mouseX, mouseY);
+        return EditorLogic.placeEntityAtPosition(mouseX, mouseY);
     }
 
     function mouseToLevelCoordinates(mouseX, mouseY) {
-      return EditorLogic.mouseToLevelCoordinates(mouseX, mouseY);
+        return EditorLogic.mouseToLevelCoordinates(mouseX, mouseY);
     }
 
     function snapToGrid(levelX, levelY) {
-      return EditorLogic.snapToGrid(levelX, levelY);
+        return EditorLogic.snapToGrid(levelX, levelY);
     }
 
 
 
     function initEditor() {
-      EditorLogic.initEditor();
+        EditorLogic.initEditor();
     }
 
     function resetEditor() {
-      EditorLogic.resetEditor();
+        EditorLogic.resetEditor();
     }
 
-  function saveLevel() {
-    EditorLogic.saveLevel();
-  }
+    function saveLevel() {
+        EditorLogic.saveLevel();
+    }
 
 
 }

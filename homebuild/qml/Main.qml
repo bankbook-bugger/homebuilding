@@ -116,7 +116,8 @@ GameWindow {
     State {
       name: "game"
       PropertyChanges {target: gameScene; opacity: 1}
-      PropertyChanges {target: menuScene; opacity: 0}
+      PropertyChanges {target: menuScene;opacity:0 }
+
       PropertyChanges {target: gameWindow; activeScene: gameScene}
     }
 

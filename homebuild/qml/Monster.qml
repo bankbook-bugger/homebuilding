@@ -12,6 +12,10 @@ HomeEntityBaseDraggable{
     property bool alive:true
     //隐藏掉怪物的尸体
     property bool hidden:false
+    /*
+      *signal
+      */
+    signal die;
     width:image.width
     height:image.height
     //如果死了就隐藏
@@ -26,7 +30,7 @@ HomeEntityBaseDraggable{
         interval: 2000
         onTriggered: hidden=true
     }
-    function updataStartPosition(){
+    function updateStartPosition(){
         startX=x
         startY=y
     }
@@ -41,8 +45,11 @@ HomeEntityBaseDraggable{
         collider.force = Qt.point(0, 0)
     }
     function die(){
+    onDie:{
+
         alive=false
         hideTimer.start()
         musicManager.playSound("opponentWalkerDie")
     }
+}
 }

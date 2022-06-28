@@ -138,4 +138,9 @@ Monster{
         direction = -1
         collider.linearVelocity.x = Qt.point(direction * speed, 0)
     }
+    onDie:{
+        alive=false
+        hideTimer.start()
+        musicManager.playSound("opponentWalkerDie")
+    }
 }
