@@ -3,6 +3,7 @@ import QtQuick 2.0
 HomeEntityBaseDraggable {
   id: player
   entityType: "player"
+
   property int startX
   property int startY
   //两个方向上的速度

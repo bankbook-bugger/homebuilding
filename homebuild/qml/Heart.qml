@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Felgo 3.0
+
 //所有可收集的素材的基类
 HomeEntityBaseDraggable{
     id:heart
@@ -10,6 +11,10 @@ HomeEntityBaseDraggable{
     image.visible: !collected
     //没有碰撞发生事才允许构建
     colliderComponent: collider
+
+
+    image.source: "../assets/ui/red_heart.png"
+
     CircleCollider{
         id:collider
         //碰撞检测的部分比实际区域小
