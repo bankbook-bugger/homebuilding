@@ -66,6 +66,7 @@ DIST          = qml/Bottle.qml \
 		qml/GroundMud.qml \
 		qml/EditorGrid.qml \
 		qml/GroundRight.qml \
+		qml/HUDHeart.qml \
 		qml/Heart.qml \
 		qml/DialogBase.qml \
 		qml/EditorGrid.qml \

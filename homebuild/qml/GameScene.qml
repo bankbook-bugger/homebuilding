@@ -84,12 +84,12 @@ SceneBase {
 
     // if available, load background from levelData
     property int loadedBackground: {
-        if(gameWindow.levelEditor && gameWindow.levelEditor.currentLevelData
-            && gameWindow.levelEditor.currentLevelData["customData"]
-            && gameWindow.levelEditor.currentLevelData["customData"]["background"])
-          parseInt(gameWindow.levelEditor.currentLevelData["customData"]["background"])
-        else
-          -1 // set to -1 if background property is not available
+      if(gameWindow.levelEditor && gameWindow.levelEditor.currentLevelData
+          && gameWindow.levelEditor.currentLevelData["customData"]
+          && gameWindow.levelEditor.currentLevelData["customData"]["background"])
+        parseInt(gameWindow.levelEditor.currentLevelData["customData"]["background"])
+      else
+        -1 // set to -1 if background property is not available
     }
 
     // set image source depending on bg-property value
@@ -134,25 +134,11 @@ SceneBase {
         var entityA = contact.fixtureA.getBody().target
         var entityB = contact.fixtureB.getBody().target
 
-        // We want our platforms to be cloud platforms.
-        // A cloud platform is a platform through which you can jump
-        // from below.
-
-        // If one of the colliding entities is a platform,
-        // and the other a moving entity (player or opponent),
-        // and the moving entity is below the platform...
-//        if(entityA.entityType === "platform" && (entityB.entityType === "player" || entityB.entityType === "opponent") && entityB.y + entityB.height > entityA.y + 1 // add +1 to avoid wrong border-line decisions
-//            || (entityA.entityType === "player" || entityA.entityType === "opponent") && entityB.entityType === "platform" && entityA.y + entityA.height > entityB.y + 1) {
-
-//          // ...disable the contact
-//          contact.enabled = false
-//        }
-
         // Disable physical collision handling between player
         // and opponents. This way, we can still handle them,
         // but their physics are not affected.
-        if(entityA.entityType === "player" && entityB.entityType === "opponent"
-            || entityB.entityType === "player" && entityA.entityType === "opponent") {
+        if(entityA.entityType === "player" && entityB.entityType === "monster"
+            || entityB.entityType === "player" && entityA.entityType === "monster") {
           contact.enabled = false
         }
       }
@@ -182,10 +168,6 @@ SceneBase {
           // set state to finish, to freeze the game
           gameScene.state = "finish"
 
-          // handle score
-          //handleScore()
-
-          // show finish dialog
           finishDialog.score = time
           finishDialog.opacity = 1
         }
@@ -307,19 +289,6 @@ SceneBase {
     icon.source: "../../assets/ui/time.png"
   }
 
-  // this timer keeps track of the time, the user plays a level
-  Timer {
-    id: levelTimer
-
-    interval: 100
-
-    repeat: true
-
-    onTriggered: {
-      // increase time
-      time += 1
-    }
-  }
 
   // this displays the player's score
   HUDIconAndText {
@@ -345,7 +314,7 @@ SceneBase {
     anchors.right: editorOverlay.right
     anchors.top: editorOverlay.top
 
-    image.source: "../../assets/ui/home.png"
+    image.source: "../assets/ui/home.png"
 
     // this button should only be visible in play or edit mode
     visible: gameScene.state == "play"
@@ -378,20 +347,6 @@ SceneBase {
    * JAVASCRIPT FUNCTIONS --------------------------------------
    */
 
-//  function handleScore() {
-//    // id only exists in published levels
-//    var leaderboard = levelEditor.currentLevelData.levelMetaData ? levelEditor.currentLevelData.levelMetaData.id : undefined
-
-//    // if current levelMetaData doesn't have an id, check if it has publishedLevelId
-//    if(!leaderboard)
-//      leaderboard = levelEditor.currentLevelData.levelMetaData ? levelEditor.currentLevelData.levelMetaData.publishedLevelId : undefined
-
-//    // if level is published...
-//    if(leaderboard) {
-//      // ...report the score; the lower the score, the better
-//      gameNetwork.reportScore(time, leaderboard, null, "lowest_is_best")
-//    }
-//  }
 
   // initializes the level
   // this function is called after a level was loaded
