@@ -1,4 +1,4 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import Felgo 3.0
 
 Item {
@@ -33,7 +33,6 @@ Item {
         flickableDirection: Flickable.VerticalFlick
         Grid{
             id:grid
-            anchors.top: offset.bottom
             columns: 4
             spacing: 10
             //加载关卡
