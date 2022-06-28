@@ -41,7 +41,7 @@ HomeEntityBaseDraggable{
         collider.force = Qt.point(0, 0)
     }
     function die(){
-        alive=flase
+        alive=false
         hideTimer.start()
         musicManager.playSound("opponentWalkerDie")
     }

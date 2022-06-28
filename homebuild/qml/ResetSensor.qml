@@ -1,4 +1,4 @@
-/*2022.6.8
+﻿/*2022.6.8
 wanglingzhi*/
 
 import Felgo 3.0
@@ -28,13 +28,13 @@ EntityBase {      //实体基类
     anchors.fill: parent
     collisionTestingOnlyMode: true
 
-    categories: Box.Category6  // 类别6：对手只能和1类型相碰撞
+    categories: Box.Category7 // 类别6：对手只能和1类型相碰撞
     collidesWith: Box.Category1 // 类别1：玩家身体与6相碰撞
 
     fixture.onBeginContact: {    //击中对手检测
       var otherEntity = other.getBody().target
 
-      // 如果玩家击中传感器 我们会发出一个信号 用于重置播放器
+      // 如果玩家被传感器击中 我们会发出一个信号 玩家die
       if(otherEntity.entityType === "player") {
         //直接修改实体玩家的位置
         resetSensor.contact()
