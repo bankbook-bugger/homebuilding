@@ -95,6 +95,7 @@ DIST          = qml/Bottle.qml \
 		qml/SaveLevelDialog.qml \
 		qml/SceneBase.qml \
 		qml/GameScene.qml \
+		qml/Spirit.qml \
 		qml/TestScene.qml \
 		qml/TestScene.qml \
 		qml/UndoHandler.qml \
