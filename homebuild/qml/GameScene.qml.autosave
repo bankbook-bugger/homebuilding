@@ -184,8 +184,8 @@ SceneBase {
     }
     //显示得分
     HUDIconAndText {
-        id: timeDisplay
-        text: time
+        id: scoreDisplay
+        text: score
         icon.source: "../assets/ui/time.png"
     }
     HomeImageButton {
