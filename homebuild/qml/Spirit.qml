@@ -5,7 +5,7 @@ Rectangle {
    color:"white"
    property var style
    Item {
-       //获取键盘输入的房产=方向键
+       //获取键盘输入的方向键
        anchors.fill: parent
           id: keyHandler
           focus: true

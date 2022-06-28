@@ -54,7 +54,7 @@ HomeEntityBaseDraggable {
 
   colliderComponent: collider
 
-  image.source: "../assets/player/player.png"
+  image.source: "../assets/player/playerhh.png"
 
   //如果玩家接触到另一个实体，我们将设置他的状态“步行”。否则，我们将其设置为“跳跃”。
   //玩家只能在“步行”时跳跃
@@ -260,7 +260,7 @@ HomeEntityBaseDraggable {
           verticalVelocity = 0
 
           verticalImpulse = -normalJumpForce
-        }      
+        }
         //在第一次强烈的冲动之后，我们只想慢慢的曾加垂直速度
         else if(jumpForceLeft >= 14) {
           verticalImpulse = -normalJumpForce / 5
@@ -269,7 +269,7 @@ HomeEntityBaseDraggable {
         //减少垂直脉冲。
         else {
           verticalImpulse = -normalJumpForce / 15
-        }      
+        }
         //随着时间的推移，减少垂直脉冲可以实现更精确的
         //控制跳跃高度。
         //此外，与使用常量相比，它给跳跃带来更自然的感觉
@@ -310,7 +310,7 @@ HomeEntityBaseDraggable {
         musicManager.playSound("playerJump")
       }
     }
-    else {   
+    else {
         //当杀死对手时，我们希望玩家跳跃一点点。我们只需设置verticalVelocity为负值。
       verticalVelocity = -killJumpForce
     }

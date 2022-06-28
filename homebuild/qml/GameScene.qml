@@ -1,3 +1,4 @@
+
 import Felgo 3.0
 import QtQuick 2.15
 import QtQuick.Controls.Styles 1.0
@@ -26,6 +27,7 @@ SceneBase {
     function setLevel(fileName) {
         activeLevelFileName = fileName
     }
+    //状态
     state: "edit"
     states: [
         State {
@@ -63,6 +65,7 @@ SceneBase {
         anchors.centerIn: parent.gameWindowAnchorItem
         source: "../assets/backgroundImage/bg.jpg"
     }
+    //显示当前关卡的关数
     Text {
         anchors.left: gameScene.gameWindowAnchorItem.left
         anchors.leftMargin: 10
@@ -103,20 +106,7 @@ SceneBase {
                 }
             }
         }
-        Player {
-            id: player
-            z: 1
-            onFinish: {
-                if(gameScene.state == "test")
-                    resetLevel()
-                else if(gameScene.state == "play") {
-                    gameScene.state = "finish"
-                    handleScore()
-                    finishDialog.score = time
-                    finishDialog.opacity = 1
-                }
-            }
-        }
+
         ResetSensor {
             player: player
             onContact: {
@@ -156,6 +146,20 @@ SceneBase {
         id: editorOverlay
         visible: false
         scene: gameScene
+    }
+       Player {
+            id: player
+            z: 1
+            onFinish: {
+               if(gameScene.state == "test")
+                     resetLevel()
+               else if(gameScene.state == "play") {
+                     gameScene.state = "finish"
+                     handleScore()
+                     finishDialog.score = time
+                     finishDialog.opacity = 1
+                 }
+            }
     }
     //轴控制器
     TwoAxisController {
