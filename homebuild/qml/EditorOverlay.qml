@@ -39,6 +39,7 @@ Item {
         bgImage: scene.bgImage
         grid: grid
         undoHandler: undoHandler
+
     }
 
     //右侧扩展栏
