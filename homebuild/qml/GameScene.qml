@@ -1,5 +1,4 @@
-
-import Felgo 3.0
+﻿import Felgo 3.0
 import QtQuick 2.15
 import QtQuick.Controls.Styles 1.0
 /*
@@ -13,8 +12,9 @@ SceneBase {
     sceneAlignmentX: "left"
     sceneAlignmentY: "top"
     property int time: 0
-    property string activeLevelFileName
-    property variant activeLevel
+
+//    property string activeLevelFileName
+//    property variant activeLevel
     property alias editorOverlay: editorOverlay
     property alias container: container
     property alias player: player
@@ -23,12 +23,15 @@ SceneBase {
     property alias camera: camera
     property alias itemEditor: editorOverlay.itemEditor
     signal backPressed
+
+
     //得到选择关卡名字
     function setLevel(fileName) {
         activeLevelFileName = fileName
     }
     //状态
-    state: "edit"
+
+    state: "play"         //编辑
     states: [
         State {
             name: "play"
@@ -36,6 +39,7 @@ SceneBase {
         },
         State {
             name: "edit"
+            //设置为没有重力
             PropertyChanges {target: physicsWorld; gravity: Qt.point(0,0)}
             PropertyChanges {target: editorUnderlay; enabled: true}
             PropertyChanges {target: editorOverlay; visible: true}
@@ -58,6 +62,8 @@ SceneBase {
             PropertyChanges {target: physicsWorld; running: false} // disable physics
         }
     ]
+
+
     //  游戏场景的背景
     BackgroundImage {
         id: bgImage
@@ -75,11 +81,14 @@ SceneBase {
         font.pixelSize: 20
         text: activeLevel !== undefined ? activeLevel.levelName : ""
     }
+
+
     //游戏元素
     Item {
         id: container
         transformOrigin: Item.TopLeft
-        PhysicsWorld {
+
+        PhysicsWorld {    //物理处理
             id: physicsWorld
             property int gravityY: 40
             gravity: Qt.point(0, gravityY)
@@ -89,16 +98,16 @@ SceneBase {
             onPreSolve: {
                 var entityA = contact.fixtureA.getBody().target
                 var entityB = contact.fixtureB.getBody().target
-                if(entityA.entityType === "platform" && (entityB.entityType === "player" || entityB.entityType === "opponent") && entityB.y + entityB.height > entityA.y + 1
-                        || (entityA.entityType === "player" || entityA.entityType === "opponent") && entityB.entityType === "platform" && entityA.y + entityA.height > entityB.y + 1) {
-                    contact.enabled = false
-                }
-                if(entityA.entityType === "player" && entityB.entityType === "opponent"
-                        || entityB.entityType === "player" && entityA.entityType === "opponent") {
+
+                //禁用玩家之间的物理碰撞处理和对手  物理性质不改变
+
+                if(entityA.entityType === "player" && entityB.entityType === "monster"
+                        || entityB.entityType === "player" && entityA.entityType === "monster") {
                     contact.enabled = false
                 }
             }
-            EditableComponent {
+
+            EditableComponent {      //右边调试整体重力
                 editableType: "Balance"
                 defaultGroup: "Physics"
                 properties: {
@@ -107,28 +116,55 @@ SceneBase {
             }
         }
 
-        ResetSensor {
+        Player {
+            id: player
+            z: 1
+            onFinish: {
+                if(gameScene.state == "test")
+                    //如果是test状态下赢了，就直接重来，不显示对话框
+                    resetLevel()
+                else if(gameScene.state == "play") {
+                    //显示对话框
+                    gameScene.state = "finish"
+
+                    finishDialog.score =score
+                    finishDialog.opacity = 1
+                }
+            }
+        }
+
+        ResetSensor {        //玩家是否die
             player: player
             onContact: {
                 player.die(true)
             }
         }
+
     }
+
+
+
     MoveTouchButton {
         id: moveTouchButton
         controller: controller
     }
+
+
     JumpTouchButton {
         id: jumpTouchButton
 //        onPressed: player.startJump(true)
 //        onReleased: player.endJump()
     }
+
     //将键盘键转发到控制器
     Keys.forwardTo: controller
+
+
     //以下是人对屏幕的操作
     EditorUnderlay {
         id: editorUnderlay
     }
+
     Camera {
         id: camera
         // 设置场景的大小
@@ -142,25 +178,14 @@ SceneBase {
         limitBottom: 0
         freeOffset: gameScene.state != "edit" ? Qt.point(0, 0) : Qt.point(100, 0)
     }
+
     EditorOverlay {
         id: editorOverlay
         visible: false
         scene: gameScene
     }
-       Player {
-            id: player
-            z: 1
-            onFinish: {
-               if(gameScene.state == "test")
-                     resetLevel()
-               else if(gameScene.state == "play") {
-                     gameScene.state = "finish"
-                     handleScore()
-                     finishDialog.score = time
-                     finishDialog.opacity = 1
-                 }
-            }
-    }
+
+
     //轴控制器
     TwoAxisController {
         id: controller
@@ -181,51 +206,66 @@ SceneBase {
         // 如果x轴改变，就随着人物改变的方向改变人物的视线方向
         onXAxisChanged: player.changeSpriteOrientation()
     }
-    //抬头显示器
-    HUDIconAndText {
-        id: timeDisplay
-        text: time
-        icon.source: "../assets/ui/time.png"
+
+
+
+
+
+    HUDHeart {           //第一条生命显示
+        id: heartDisplay1
+        heart.source: player.heart>=1?"../assets/ui/red_heart.png":"../assets/ui/black_heart.png"
     }
-    Timer {
-        id: levelTimer
-        interval: 100
-        repeat: true
-        onTriggered: {
-            time += 1
-        }
+
+    HUDHeart {           //第二条生命显示
+        id: heartDisplay2
+        heart.source:player.heart>=2?"../assets/ui/red_heart.png":"../assets/ui/black_heart.png"
+        anchors.left:heartDisplay1.right
     }
-    FinishDialog {
-        id: finishDialog
+
+    HUDHeart {           //第三条生命显示
+        id: heartDisplay3
+        heart.source: player.heart>=3?"../assets/ui/red_heart.png":"../assets/ui/black_heart.png"
+        anchors.left:heartDisplay2.right
     }
-    HomeImageButton {
+
+    HUDIconAndText {            //收入(金币)显示
+        id: coinDisplay
+        text: player.score
+        icon.source: "../assets/ui/coin.png"
+        anchors.top:heartDisplay1.bottom
+    }
+
+
+    HomeImageButton {            //菜单按钮
         id: menuButton
         width: 40
         height: 30
+        style: ButtonStyle{
+            background: Rectangle{
+                radius: 3
+                color:"transparent"
+            }
+        }
         anchors.right: editorOverlay.right
         anchors.top: editorOverlay.top
         image.source: "../assets/ui/home.png"
         visible: gameScene.state == "play"
         onClicked: backPressed()
     }
-    //js实现的功能
-    function handleScore() {
-        // id仅存在于已发布的级别中
-        var leaderboard = levelEditor.currentLevelData.levelMetaData ? levelEditor.currentLevelData.levelMetaData.id : undefined
-        // 如果当前levelMetaData没有id，请检查它是否具有publishedLevelId
-        if(!leaderboard)
-            leaderboard = levelEditor.currentLevelData.levelMetaData ? levelEditor.currentLevelData.levelMetaData.publishedLevelId : undefined
-        // 关卡已经发布了
-        if(leaderboard) {
-            // 报告得分
-            gameNetwork.reportScore(time, leaderboard, null, "lowest_is_best")
-        }
+
+
+    FinishDialog {
+        id: finishDialog
     }
+
+
+
+
+    //js实现的功能
     // 初始化关卡加载级别后调用此函数
     function initLevel() {
-        console.log("hhhhhhhh")
         editorOverlay.initEditor()
-        if(bgImage.loadedBackground && bgImage.loadedBackground != -1)
+        if(bgImage.loadedBackground && bgImage.loadedBackground !== -1)
             bgImage.bg = bgImage.loadedBackground
         else
             bgImage.bg = 0
@@ -234,31 +274,17 @@ SceneBase {
         player.initialize()
         player.resetContacts()
         controller.xAxis = 0
-        time = 0
-        levelTimer.restart()
     }
     function resetLevel() {
         editorOverlay.resetEditor()
         player.reset()
-        var opponents = entityManager.getEntityArrayByType("opponent")
+        var opponents = entityManager.getEntityArrayByType("monster")
         for(var opp in opponents) {
             opponents[opp].reset()
         }
-        var coins = entityManager.getEntityArrayByType("coin")
-        for(var coin in coins) {
-            coins[coin].reset()
+        var materials = entityManager.getEntityArrayByType("material")
+        for(var material in materials) {
+            materials[material].reset()
         }
-        var mushrooms = entityManager.getEntityArrayByType("mushroom")
-        for(var mushroom in mushrooms) {
-            mushrooms[mushroom].reset()
-        }
-        // 重新开始
-        var stars = entityManager.getEntityArrayByType("star")
-        for(var star in stars) {
-            stars[star].reset()
-        }
-        // 重置时间和计时器
-        time = 0
-        levelTimer.restart()
     }
 }

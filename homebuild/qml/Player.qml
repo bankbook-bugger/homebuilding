@@ -1,17 +1,22 @@
-import Felgo 3.0
+﻿import Felgo 3.0
 import QtQuick 2.0
+
 HomeEntityBaseDraggable {
   id: player
   entityType: "player"
+
   property int startX
   property int startY
+
   //两个方向上的速度
   property alias horizontalVelocity: collider.linearVelocity.x
   property alias verticalVelocity: collider.linearVelocity.y
+
   //收集到的金额
   property int score: 0
   //收集生命
   property int heart: 1
+
   // 不可以二连跳
   property bool doubleJumpEnabled: flase
   //如果玩家的脚下有地就不为0
@@ -95,7 +100,7 @@ HomeEntityBaseDraggable {
     // Category1: 玩家
     categories: Box.Category1
     // Category2: 怪物, Category4:地
-    // Category3: 收集的素材, Category7: reset sensor（是啥）（和怪物的sensor同一类别
+    // Category3: 收集的素材, Category7: 怪物的sensor
     collidesWith: Box.Category2 | Box.Category4 | Box.Category4| Box.Category7
     //不会处于休眠状态
     sleepingAllowed: false

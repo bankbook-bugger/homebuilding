@@ -11,44 +11,30 @@ GameWindow {
   screenWidth: 960
   screenHeight: 640
 
-
   property alias levelEditor: levelEditor
   //property alias itemEditor: gameScene.itemEditor
 
   onActiveSceneChanged: {     //活动场景改变更改背景音乐
     musicManager.handleMusic()
   }
+
   LevelEditor {
     id: levelEditor
 
     Component.onCompleted: levelEditor.loadAllLevelsFromStorageLocation(authorGeneratedLevelsLocation)
 
-    //这些是entityManager可以存储和删除的实体类型。
-    //请注意，玩家不在这里。这是因为我们
-    //想要一个玩家实例-我们不想
-    //其他玩家或删除现有玩家。
+    //这些是entityManager可以存储和删除的实体类型
+    //玩家不在这里，我们要一个玩家实例，其他玩家不能删除现有玩家
+
     toRemoveEntityTypes: [ "ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish" ]
     toStoreEntityTypes: [ "ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish" ]
 
 
-    //gameNetworkItem: gameNetwork
     //applicationJSONLevelsDirectory: "levels/"
 
-    onLevelPublished: {
-
-      gameScene.editorOverlay.saveLevel()
-
-
-      var leaderboard = levelId
-      if(leaderboard) {
-        gameNetwork.reportScore(100000, leaderboard, null, "lowest_is_best")
-      }
-
-      gameWindow.state = "level"
-    }
   }
 
-  MusicManager {
+  MusicManager {              //加入音乐播放管理
     id: musicManager
   }
 
@@ -57,15 +43,6 @@ GameWindow {
     id: entityManager
     entityContainer: gameScene.container
     poolingEnabled: true
-  }
-
-
-   FelgoGameNetwork { //用于在游戏中使用排行榜、成就和挑战的根 Felgo 游戏网络组件。
-    id: gameNetwork
-    gameId: 220
-    secret: "platformerEditorDevPasswordForVPlayGameNetwork"
-
-    gameNetworkView: myGameNetworkView  //使用预定义的UI
   }
 
 
@@ -85,7 +62,7 @@ GameWindow {
 
   MenuScene {                             //菜单场景
     id: menuScene
-    onKindsScenePressed: {       //kinds的槽函数
+    onKindsScenePressed: {        //kinds的槽函数
       gameWindow.state = "kinds"
     }
   }
@@ -110,7 +87,6 @@ GameWindow {
       }
 
       onPlayLevelPressed: {
-
         //levelEditor.loadSingleLevel(levelData)
         gameWindow.state = "game"
         gameScene.state = "play"
@@ -131,7 +107,7 @@ GameWindow {
       name: "menu"
       PropertyChanges {target: menuScene; opacity: 1}
       PropertyChanges {target: gameWindow; activeScene: menuScene}
-    },      // if the player collides with the reset sensor, he dies
+    },
     State {
       name: "kinds"
       PropertyChanges {target: kindsScene; opacity: 1}
@@ -143,11 +119,7 @@ GameWindow {
       PropertyChanges {target: gameWindow; activeScene: gameScene}
     }
 
-
   ]
-  MusicManager {
-    id: audioManager
-  }
 
 }
 

@@ -45,6 +45,7 @@ PinchArea {
     //创建或删除实体时，用一个列表去存储所创建或删除的实体
     property var undoObjectsSubList: []
     //=按下松开
+
     onTapped: {
       // 在绘图模式中 鼠标拖动可以一直使用当前图片放置
       if(editorOverlay.sidebar.activeTool === "draw" || (editorOverlay.sidebar.activeTool === "hand" && dragDistance < 4)) {
