@@ -1,18 +1,22 @@
 ﻿import Felgo 3.0
 import QtQuick 2.0
+
 HomeEntityBaseDraggable {
   id: player
   entityType: "player"
 
   property int startX
   property int startY
+
   //两个方向上的速度
   property alias horizontalVelocity: collider.linearVelocity.x
   property alias verticalVelocity: collider.linearVelocity.y
+
   //收集到的金额
   property int score: 0
   //收集生命
   property int heart: 1
+
   // 不可以二连跳
   property bool doubleJumpEnabled: flase
   //如果玩家的脚下有地就不为0

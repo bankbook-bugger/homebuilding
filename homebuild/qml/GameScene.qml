@@ -12,8 +12,9 @@ SceneBase {
     sceneAlignmentX: "left"
     sceneAlignmentY: "top"
     property int time: 0
-    property string activeLevelFileName
-    property variant activeLevel
+
+//    property string activeLevelFileName
+//    property variant activeLevel
     property alias editorOverlay: editorOverlay
     property alias container: container
     property alias player: player
@@ -30,7 +31,7 @@ SceneBase {
     }
 
 
-    state: "edit"         //编辑
+    state: "play"         //编辑
     states: [
         State {
             name: "play"
@@ -85,7 +86,8 @@ SceneBase {
     Item {
         id: container
         transformOrigin: Item.TopLeft
-        PhysicsWorld {
+
+        PhysicsWorld {    //物理处理
             id: physicsWorld
             property int gravityY: 40
             gravity: Qt.point(0, gravityY)
@@ -95,21 +97,16 @@ SceneBase {
             onPreSolve: {
                 var entityA = contact.fixtureA.getBody().target
                 var entityB = contact.fixtureB.getBody().target
-<<<<<<< HEAD
-                //禁用玩家之间的物理碰撞处理
-                //和对手。这样，我们仍然可以处理它们，
-                //但它们的物理特性没有受到影响。
-=======
 
->>>>>>> 3be81b09c27ffe90c132d7c3db828e938d7b20f9
+                //禁用玩家之间的物理碰撞处理和对手  物理性质不改变
+
                 if(entityA.entityType === "player" && entityB.entityType === "monster"
                         || entityB.entityType === "player" && entityA.entityType === "monster") {
                     contact.enabled = false
                 }
             }
 
-
-            EditableComponent {
+            EditableComponent {      //右边调试整体重力
                 editableType: "Balance"
                 defaultGroup: "Physics"
                 properties: {
@@ -117,7 +114,6 @@ SceneBase {
                 }
             }
         }
-
 
         Player {
             id: player
@@ -136,7 +132,7 @@ SceneBase {
             }
         }
 
-        ResetSensor {
+        ResetSensor {        //玩家是否die
             player: player
             onContact: {
                 player.die(true)
@@ -144,6 +140,9 @@ SceneBase {
         }
 
     }
+
+
+
     MoveTouchButton {
         id: moveTouchButton
         controller: controller
@@ -156,13 +155,15 @@ SceneBase {
 //        onReleased: player.endJump()
     }
 
-
     //将键盘键转发到控制器
     Keys.forwardTo: controller
+
+
     //以下是人对屏幕的操作
     EditorUnderlay {
         id: editorUnderlay
     }
+
     Camera {
         id: camera
         // 设置场景的大小
@@ -176,11 +177,13 @@ SceneBase {
         limitBottom: 0
         freeOffset: gameScene.state != "edit" ? Qt.point(0, 0) : Qt.point(100, 0)
     }
+
     EditorOverlay {
         id: editorOverlay
         visible: false
         scene: gameScene
     }
+
     //轴控制器
     TwoAxisController {
         id: controller
@@ -201,16 +204,37 @@ SceneBase {
         // 如果x轴改变，就随着人物改变的方向改变人物的视线方向
         onXAxisChanged: player.changeSpriteOrientation()
     }
-    FinishDialog {
-        id: finishDialog
+
+
+
+
+
+    HUDHeart {           //第一条生命显示
+        id: heartDisplay1
+        heart.source: player.heart>=1?"../assets/ui/red_heart.png":"../assets/ui/black_heart.png"
     }
-    //显示得分
-    HUDIconAndText {
-        id: timeDisplay
-        text: time
-        icon.source: "../assets/ui/time.png"
+
+    HUDHeart {           //第二条生命显示
+        id: heartDisplay2
+        heart.source:player.heart>=2?"../assets/ui/red_heart.png":"../assets/ui/black_heart.png"
+        anchors.left:heartDisplay1.right
     }
-    HomeImageButton {
+
+    HUDHeart {           //第三条生命显示
+        id: heartDisplay3
+        heart.source: player.heart>=3?"../assets/ui/red_heart.png":"../assets/ui/black_heart.png"
+        anchors.left:heartDisplay2.right
+    }
+
+    HUDIconAndText {            //收入(金币)显示
+        id: coinDisplay
+        text: player.score
+        icon.source: "../assets/ui/coin.png"
+        anchors.top:heartDisplay1.bottom
+    }
+
+
+    HomeImageButton {            //菜单按钮
         id: menuButton
         width: 40
         height: 30
@@ -225,6 +249,11 @@ SceneBase {
         image.source: "../assets/ui/home.png"
         visible: gameScene.state == "play"
         onClicked: backPressed()
+    }
+
+
+    FinishDialog {
+        id: finishDialog
     }
 
 
