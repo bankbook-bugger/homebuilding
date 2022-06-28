@@ -1,4 +1,4 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import Felgo 3.0
 
 HomeEntityBaseDraggable{
@@ -10,11 +10,8 @@ HomeEntityBaseDraggable{
     property bool alive:true
     //隐藏掉怪物的尸体
     property bool hidden:false
-
-    //怪物在平台的前边
-    z:1
     width:image.width
-    height:image.heights
+    height:image.height
     //如果死了就隐藏
     image.visible: !hidden
     //更新实体的位置
