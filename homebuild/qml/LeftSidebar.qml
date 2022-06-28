@@ -56,7 +56,6 @@ MultiResolutionImage {
         image.source: undoHandler.pointer >= 0 ? "../assets/ui/undo.png" : "../assets/ui/undo_grey.png"
         style: ButtonStyle {         //覆盖默认felgo的样式
           background: Rectangle {
-            radius: imageButton.radius
             color: "#c0c0c0"
           }
         }
@@ -70,7 +69,6 @@ MultiResolutionImage {
         width: parent.buttonWidth
         style: ButtonStyle {         //覆盖默认felgo的样式
           background: Rectangle {
-            radius: imageButton.radius
             color: "#c0c0c0"
           }
         }
@@ -242,7 +240,6 @@ MultiResolutionImage {
             id: nameLevelButton
             style: ButtonStyle {
                 background: Rectangle {
-                    radius: imageButton.radius
                     color: "transparent"
                 }
             }
@@ -305,7 +302,6 @@ MultiResolutionImage {
             anchors.right: parent.right
             style: ButtonStyle {
                 background: Rectangle {
-                    radius: imageButton.radius
                     color: "transparent"
                 }
             }

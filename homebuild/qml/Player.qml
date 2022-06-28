@@ -18,7 +18,7 @@ HomeEntityBaseDraggable {
     property int heart: 1
 
     // 不可以二连跳
-    property bool doubleJumpEnabled: flase
+    property bool doubleJumpEnabled: false
     //如果玩家的脚下有地就不为0
     property int contacts: 0
 
@@ -122,6 +122,10 @@ HomeEntityBaseDraggable {
             if(otherEntity.entityType === "material") {
                 otherEntity.collect()
                 score += 10
+                if(score>=100)
+                    image.source="../assets/player/level1-stand.png"
+                if(score>=200)
+                    image.source="../assets/player/level2-stand.png"
             }
             if(otherEntity.entityType === "heart") {
                 otherEntity.collect()
@@ -149,28 +153,6 @@ HomeEntityBaseDraggable {
 
     //脚
     //因为玩家可以踩死怪物所以脚上有单独的碰撞检测
-    Rectangle{
-        color: "red"
-        width: 32
-        height: 10
-        visible: gameScene.state === "edit" ? false : true
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.bottom
-    }
-    Rectangle{
-        color: "green"
-        width: 5
-        height: 5
-        anchors.horizontalCenter: parent.horizontalCenter
-        y:player.y
-    }
-    Rectangle{
-        color: "blue"
-        width: 5
-        height: 5
-        anchors.horizontalCenter: parent.horizontalCenter
-        y:player.y + player.height
-    }
     BoxCollider {
         id: feetSensor
         width: 32
@@ -192,9 +174,12 @@ HomeEntityBaseDraggable {
         // this is called whenever the contact with another entity begins
         fixture.onBeginContact: {
             var otherEntity = other.getBody().target
-
             if(otherEntity.entityType === "monster") {
                 // 判断玩家脚的位置
+                console.log("\n")
+                console.log("\n")
+                console.log(player.y)
+
                 var playerLowestY = player.y + player.height
                 //怪物脚的位置
                 var oppLowestY = otherEntity.y + otherEntity.height
@@ -249,15 +234,8 @@ HomeEntityBaseDraggable {
         onTriggered: {
 
             var xAxis = controller.xAxis;
-
-            // if xAxis is 0 (no movement command) we slow the player down
-            // until he stops
-            //如果x方向，没有命令，速度就减慢
-            //那为什么不能直接停？？
+            //那为什么不能直接停
             if(xAxis === 0) {
-                //        if(Math.abs(player.horizontalVelocity) > 10)
-                //          player.horizontalVelocity *= decelerationFactor
-                //        else
                 player.horizontalVelocity = 0
             }
         }

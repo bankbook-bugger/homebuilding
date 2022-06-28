@@ -13,7 +13,7 @@ SceneBase{
     signal removeLevelPressed(var levelData)
     signal backPressed
     //当前活动的是选择关卡还是创建关卡
-    property var activeKindsGrid
+    property var activeLevelGrid
     property string subState: "createdKinds"
 
     onStateChanged: reloadLevels()
@@ -21,10 +21,10 @@ SceneBase{
 
     state: "demoKinds"
     Rectangle {
-      id: background
-      //gameWindowAnchorItem可用于将 Scene 的直接子项锚定到父 GameWindow ，而不是逻辑 Scene 大小
-      anchors.fill: parent.gameWindowAnchorItem
-      color: "#FFE4A5"
+        id: background
+        //gameWindowAnchorItem可用于将 Scene 的直接子项锚定到父 GameWindow ，而不是逻辑 Scene 大小
+        anchors.fill: parent.gameWindowAnchorItem
+        color: "#FFE4A5"
     }
     Rectangle{
         id:mainBar
@@ -39,39 +39,38 @@ SceneBase{
             anchors.centerIn: parent
             spacing: 5
             //demo
-             HomeSelectableTextButton{
+            HomeSelectableTextButton{
                 id:demoKinds
                 screenText: "Demos"
                 width: 80
                 isSelected: kindsScene.state==="demoKinds"
                 onClicked: kindsScene.state="demoKinds"
-             }
+            }
             //编辑关卡
-             HomeSelectableTextButton{
-                 id: myKinds
-                 screenText: "My Levels"
-                 width: 80
-                 isSelected: kindsScene.state === "myKinds"
-                 onClicked: kindsScene.state = "myKinds"
-             }
+            HomeSelectableTextButton{
+                id: myKinds
+                screenText: "My Levels"
+                width: 80
+                isSelected: kindsScene.state === "myKinds"
+                onClicked: kindsScene.state = "myKinds"
+            }
         }
         //返回首页
-         HomeImageButton{
-             image.source:"../assets/ui/home.png"
-             width: 40
-             height: 30
-             style: ButtonStyle {
-               background: Rectangle {
-                 radius: imageButton.radius
-                 color: "transparent"
-               }
-             }
-             anchors.verticalCenter: parent.verticalCenter
-             anchors.right: parent.right
-             anchors.rightMargin: 5
-             //发送信号
-             onClicked: backPressed()
-         }
+        HomeImageButton{
+            image.source:"../assets/ui/home.png"
+            width: 40
+            height: 30
+            style: ButtonStyle {
+                background: Rectangle {
+                    color: "transparent"
+                }
+            }
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.rightMargin: 5
+            //发送信号
+            onClicked: backPressed()
+        }
     }
     Rectangle{
         id:subBar
@@ -119,23 +118,28 @@ SceneBase{
     }
     //display all create kinds
     KindsGrid{
-        id: downloadedLevelGrid
-        visible: myDownloadedLevelsVisible
+        id: createdKindsGrid
+        visible:kindsScene.state==="myKinds"
 
         // we only show authorGeneratedLevels
         levelMetaDataArray: gameWindow.levelEditor.downloadedLevels
     }
+    onActiveLevelGridChanged: {
+
+        activeLevelGrid.finishLoading()
+    }
+
     function reloadLevels() {
-      if(state == "demoKinds") {
-        levelEditor.loadAllLevelsFromStorageLocation(levelEditor.applicationJSONLevelsLocation)
-        activeLevelGrid = demoLevelGrid
-      }
-      else if(state == "myKinds") {
-        if(subState == "createdKinds") {
-          levelEditor.loadAllLevelsFromStorageLocation(levelEditor.authorGeneratedLevelsLocation)
-          activeLevelGrid = createdLevelGrid
+        if(state == "demoKinds") {
+            levelEditor.loadAllLevelsFromStorageLocation(levelEditor.applicationJSONLevelsLocation)
+            activeLevelGrid = demoKindsGrid
         }
-      }
+        else if(state == "myKinds") {
+            if(subState == "createdKinds") {
+                levelEditor.loadAllLevelsFromStorageLocation(levelEditor.authorGeneratedLevelsLocation)
+                activeLevelGrid = createdKindsGrid
+            }
+        }
     }
     //关卡选择
 
