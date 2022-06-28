@@ -22,11 +22,15 @@ SceneBase {
     property alias camera: camera
     property alias itemEditor: editorOverlay.itemEditor
     signal backPressed
+
+
     //得到选择关卡名字
     function setLevel(fileName) {
         activeLevelFileName = fileName
     }
-    state: "edit"
+
+
+    state: "edit"         //编辑
     states: [
         State {
             name: "play"
@@ -56,6 +60,8 @@ SceneBase {
             PropertyChanges {target: physicsWorld; running: false} // disable physics
         }
     ]
+
+
     //  游戏场景的背景
     BackgroundImage {
         id: bgImage
@@ -72,6 +78,8 @@ SceneBase {
         font.pixelSize: 20
         text: activeLevel !== undefined ? activeLevel.levelName : ""
     }
+
+
     //游戏元素
     Item {
         id: container
@@ -86,15 +94,14 @@ SceneBase {
             onPreSolve: {
                 var entityA = contact.fixtureA.getBody().target
                 var entityB = contact.fixtureB.getBody().target
-                if(entityA.entityType === "platform" && (entityB.entityType === "player" || entityB.entityType === "opponent") && entityB.y + entityB.height > entityA.y + 1
-                        || (entityA.entityType === "player" || entityA.entityType === "opponent") && entityB.entityType === "platform" && entityA.y + entityA.height > entityB.y + 1) {
-                    contact.enabled = false
-                }
-                if(entityA.entityType === "player" && entityB.entityType === "opponent"
-                        || entityB.entityType === "player" && entityA.entityType === "opponent") {
+
+                if(entityA.entityType === "player" && entityB.entityType === "monster"
+                        || entityB.entityType === "player" && entityA.entityType === "monster") {
                     contact.enabled = false
                 }
             }
+
+
             EditableComponent {
                 editableType: "Balance"
                 defaultGroup: "Physics"
@@ -103,6 +110,8 @@ SceneBase {
                 }
             }
         }
+
+
         Player {
             id: player
             z: 1
@@ -117,22 +126,28 @@ SceneBase {
                 }
             }
         }
+
         ResetSensor {
             player: player
             onContact: {
                 player.die(true)
             }
         }
+
     }
     MoveTouchButton {
         id: moveTouchButton
         controller: controller
     }
+
+
     JumpTouchButton {
         id: jumpTouchButton
 //        onPressed: player.startJump(true)
 //        onReleased: player.endJump()
     }
+
+
     //将键盘键转发到控制器
     Keys.forwardTo: controller
     //以下是人对屏幕的操作
@@ -204,6 +219,10 @@ SceneBase {
         visible: gameScene.state == "play"
         onClicked: backPressed()
     }
+
+
+
+
     //js实现的功能
     function handleScore() {
         // id仅存在于已发布的级别中

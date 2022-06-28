@@ -211,7 +211,7 @@ MultiResolutionImage {
       flickableDirection: Flickable.VerticalFlick  //垂直翻转
       pressDelay: 100                  //按钮延迟
 
-      Column {                       //整个内容垂直布局
+      Column {                       //设置时候整个内容垂直布局
         id: buildColumn
         width: parent.width
         spacing: 5
@@ -322,17 +322,7 @@ MultiResolutionImage {
           }
 
         }
-//        HomeTextButton {            // 发布按钮
-//          id: publishButton
-//          screenText: "发布"
-//          width: parent.width
-//          height: 30
-//          visible: entityGroups.activeGroup == 0
 
-//          onClicked: {       //单击使得发布按钮可见性
-//            publishDialog.opacity = 1
-//          }
-//        }
         /*三组里面的内容  编辑地图模式*/
         HomeBuildEntityButton {           //地面button 第一个
           id: groundButton
@@ -434,6 +424,17 @@ MultiResolutionImage {
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
         }
+
+        HomeBuildEntityButton {             //生命数button
+          id: heartButton
+
+          visible: entityGroups.activeGroup == 3
+          toCreateEntityTypeUrl: "Heart.qml"
+
+          onSelected: selectBuildEntityButton(this)
+          onUnselected: unselectBuildEntityButton()
+        }
+
 
         HomeBuildEntityButton {             //完成button
           id: finishButton
