@@ -55,7 +55,7 @@ HomeEntityBaseDraggable {
 
   colliderComponent: collider
 
-  image.source: "../assets/player/playerhh.png"
+  image.source: "../assets/player/stand.png"
 
   //如果玩家接触到另一个实体，我们将设置他的状态“步行”。否则，我们将其设置为“跳跃”。
   //玩家只能在“步行”时跳跃
@@ -226,8 +226,8 @@ HomeEntityBaseDraggable {
     repeat: true
 
     onTriggered: {
-        //controller是那里的？？
-      var xAxis = controller.xAxis;
+
+      var xAxis = controstartXller.xAxis;
 
       // if xAxis is 0 (no movement command) we slow the player down
       // until he stops
