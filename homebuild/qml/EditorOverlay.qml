@@ -153,6 +153,7 @@ Item {
     }
 
 
+  //一下功能在js中实现的
     SaveLevelDialog {//保存关卡对话框
         id: saveLevelDialog
     }
@@ -190,9 +191,7 @@ Item {
       return EditorLogic.snapToGrid(levelX, levelY);
     }
 
-    function saveLevel() {
-      EditorLogic.saveLevel();
-    }
+
 
     function initEditor() {
       EditorLogic.initEditor();
@@ -201,5 +200,10 @@ Item {
     function resetEditor() {
       EditorLogic.resetEditor();
     }
+
+  function saveLevel() {
+    EditorLogic.saveLevel();
+  }
+
 
 }

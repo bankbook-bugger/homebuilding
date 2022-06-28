@@ -121,7 +121,6 @@ GameWindow {
       }
   }
 
-
   // 当前状态
 
   state:"menu"
@@ -141,9 +140,10 @@ GameWindow {
     State {
       name: "game"
       PropertyChanges {target: gameScene; opacity: 1}
-      PropertyChanges {target: menuScene; opacity: 0}
       PropertyChanges {target: gameWindow; activeScene: gameScene}
     }
+
+
   ]
   MusicManager {
     id: audioManager

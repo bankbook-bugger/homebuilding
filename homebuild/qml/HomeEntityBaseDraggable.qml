@@ -1,4 +1,4 @@
-/*2022.6.24
+﻿/*2022.6.24
   chenzexi wanglingzhi */
 
 import QtQuick 2.15
@@ -17,13 +17,6 @@ EntityBaseDraggable{
     height:sprite.height
     //gridSize是什么？？
     gridSize: scene.gridSize
-//    TapHandler{
-//        onLongPressed: {
-//            if(scene.editorOverlay.sidebar.activeTool === "hand") {
-//              mouse.accepted = false
-//            }
-//        }
-//    }
     selectionMouseArea {
       anchors.fill: sprite
       onPressed: {

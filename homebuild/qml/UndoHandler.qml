@@ -23,9 +23,6 @@ Item {
 
 
   function push(undoObjectList) {
-      console.log("\n")
-      console.log(undoObjectList)
-      console.log("\n")
       //在添加新undoObject之前，所有之前撤销的操作都已经删除
     if(undoArray.length > pointer + 1)
       undoArray.splice(pointer+1, undoArray.length)
