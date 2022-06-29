@@ -32,7 +32,7 @@ HomeEntityBaseDraggable{
         startX=x
         startY=y
     }
-    function reset_superz(){
+    function reset_super(){
         alive=true
         hideTimer.stop()
         hidden=false

@@ -87,8 +87,8 @@ HomeEntityBaseDraggable {
         vertices:
             [
             Qt.point(53, 10),
-            Qt.point(37, 94),
-            Qt.point(68, 94)
+            Qt.point(39, 94),
+            Qt.point(65, 94)
         ]
         bodyType: Body.Dynamic
         //在编辑就不生效
@@ -114,7 +114,7 @@ HomeEntityBaseDraggable {
             var otherEntity = other.getBody().target
             //如果在泥巴上就把摩擦力设为1，其他组件上没有摩擦
             if(otherEntity.entityType === "mud") {
-                collider.friction=1
+                collider.friction=0.8
             }
             else
                 collider.friction=0

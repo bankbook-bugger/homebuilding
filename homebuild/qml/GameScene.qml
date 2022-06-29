@@ -32,7 +32,7 @@ SceneBase {
   states: [
     State {
       name: "play"
-      StateChangeScript {script: audioManager.handleMusic()}
+      StateChangeScript {script: musicManager.handleMusic()}
     },
     State {
       name: "edit"
@@ -42,15 +42,15 @@ SceneBase {
       PropertyChanges {target: editorOverlay; inEditMode: true}
       StateChangeScript {script: resetLevel()}
       StateChangeScript {script: editorOverlay.grid.requestPaint()}
-      StateChangeScript {script: audioManager.handleMusic()}
+      StateChangeScript {script: musicManager.handleMusic()}
     },
     State {
       name: "test"
       PropertyChanges {target: editorOverlay; visible: true}
-      StateChangeScript {script: audioManager.playSound("start")}
-      StateChangeScript {script: audioManager.handleMusic()}
+      StateChangeScript {script: musicManager.playSound("start")}
+      StateChangeScript {script: musicManager.handleMusic()}
       PropertyChanges {target: gameScene; time: 0}
-      StateChangeScript {script: levelTimer.restart()}
+      //StateChangeScript {script: levelTimer.restart()}
       PropertyChanges {target: camera; zoom: 1}
     },
     State {
@@ -285,7 +285,6 @@ SceneBase {
 
 
       function resetLevel() {
-
         editorOverlay.resetEditor()
         player.reset()
         var opponents = entityManager.getEntityArrayByType("monster")
@@ -294,11 +293,11 @@ SceneBase {
         }
         var materials = entityManager.getEntityArrayByType("material")
         for(var material in materials) {
-          coins[material].reset()
+          materials[material].reset()
         }
         var hearts = entityManager.getEntityArrayByType("heart")
         for(var heart in hearts) {
-          mushrooms[heart].reset()
+          hearts[heart].reset()
         }
       }
   }
