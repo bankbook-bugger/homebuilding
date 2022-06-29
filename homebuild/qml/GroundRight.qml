@@ -7,12 +7,13 @@ Ground{
     colliderComponent: rightcollider
     PolygonCollider {
       id: rightcollider
-      anchors.fill: parent
+      //anchors.fill: parent
       vertices:
       [
-        Qt.point(30, 0),
-        Qt.point(0, 30),
-        Qt.point(30, 30),
+        Qt.point(3, 0),
+        Qt.point(0, 0),
+        Qt.point(0, 3),
+        Qt.point(3, 3),
       ]
       bodyType: Body.Static
       // Category4: 地

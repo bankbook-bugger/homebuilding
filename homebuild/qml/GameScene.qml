@@ -77,9 +77,9 @@ SceneBase {
             else
                 -1
         }
-        source:"../assets/backgroundImage/background.png"
-
+        source: bg == 0 ? bg0 : bg1
     }
+
 
 
     EditorUnderlay {
@@ -261,16 +261,6 @@ SceneBase {
         id: finishDialog
     }
 
-    Timer{
-        id:update
-        interval: 100
-        running:gameScene.state!="edit"
-        repeat: true
-        onTriggered: updateScene()
-
-    }
-
-
     //js实现的功能
     // 初始化关卡加载级别后调用此函数
     function initLevel() {
@@ -289,18 +279,7 @@ SceneBase {
         controller.xAxis = 0
     }
 
-    function updateScene(){
-        if(player.score>=30)
-        {
-            //entityManager.removeEntityById("finish")
-            entityManager.createEntityFromUrlWithProperties(Qt.resolvedUrl("Finish1.qml"),{"x": editorOverlay.x, "y": editorOverlay.y})
-        }
-        if(player.score>=400)
-            finish.img("../assets/ui/room3.png")
-    }
-
     function resetLevel() {
-
         editorOverlay.resetEditor()
         player.reset()
         var opponents = entityManager.getEntityArrayByType("monster")
@@ -311,6 +290,7 @@ SceneBase {
         for(var material in materials) {
             materials[material].reset()
         }
+
         var hearts = entityManager.getEntityArrayByType("heart")
         for(var heart in hearts) {
             hearts[heart].reset()

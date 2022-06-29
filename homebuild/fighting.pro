@@ -64,7 +64,6 @@ DISTFILES += \
     qml/Box.qml \
     qml/Can.qml \
     qml/Finish.qml \
-    qml/Finish1.qml \
     qml/FinishDialog.qml \
     qml/Ground.qml \
     qml/GroundBottom.qml \

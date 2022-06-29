@@ -9,7 +9,7 @@ Ground
     BoxCollider{
         id:mudcollider
         anchors.fill: parent
-        friction: 1
+        friction: 0.8
         bodyType: Body.Static
         //Category4:地
         categories: Box.Category4

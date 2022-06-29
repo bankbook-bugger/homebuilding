@@ -441,10 +441,6 @@ MultiResolutionImage {
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
-          onEntityWasBuilt: {
-              var finish = entityManager.getEntityById(builtEntityId)
-              finishPos=point(finish.x,finish.y)
-          }
         }
 
 

@@ -53,7 +53,8 @@ GameWindow {
   GameScene{                        //游戏场景
       id:gameScene
       onBackPressed: {
-        gameWindow.state = "kinds"
+          gameScene.resetLevel()
+          gameWindow.state = "kinds"
       }
   }
 
@@ -68,7 +69,6 @@ GameWindow {
 
   KindsScene{                             //类型场景
       id:kindsScene
-
       onNewLevelPressed: {    //创建种类
           console.log("hhhhhhh")
         var creationProperties = {
@@ -85,7 +85,7 @@ GameWindow {
       }
 
       onPlayLevelPressed: {
-        //levelEditor.loadSingleLevel(levelData)
+        levelEditor.loadSingleLevel(levelData)
         gameWindow.state = "game"
         gameScene.state = "play"
         gameScene.initLevel()
