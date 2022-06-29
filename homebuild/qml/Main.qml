@@ -26,11 +26,9 @@ GameWindow {
     //这些是entityManager可以存储和删除的实体类型
     //玩家不在这里，我们要一个玩家实例，其他玩家不能删除现有玩家
 
-    toRemoveEntityTypes: [ "ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish" ]
-    toStoreEntityTypes: [ "ground", "platform", "spikes", "opponent", "coin", "mushroom", "star", "finish" ]
-
-
-    //applicationJSONLevelsDirectory: "levels/"
+    toRemoveEntityTypes: [ "ground", "material", "spikes", "heart", "player", "monster", "finish" ]
+    toStoreEntityTypes: [ "ground", "material", "spikes", "heart", "player", "monster", "finish"  ]
+    applicationJSONLevelsDirectory: "levels/"
 
   }
 

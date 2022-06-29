@@ -1,14 +1,13 @@
-﻿import QtQuick 2.0
+﻿import QtQuick 2.15
 import Felgo 3.0
 
 HomeEntityBaseDraggable {
-  id: finish
+  id:finish
+  property var i:image
   entityType: "finish"
 
   colliderComponent: collider
-
   image.source: "../assets/ui/room1.png"
-
   BoxCollider {
     id: collider
     anchors.fill: parent
@@ -27,4 +26,5 @@ HomeEntityBaseDraggable {
       }
     }
   }
+
 }
