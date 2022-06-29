@@ -77,6 +77,7 @@ SceneBase {
             else
                 -1
         }
+
         source: bg == 0 ? bg0 : bg1
     }
 
@@ -160,7 +161,7 @@ SceneBase {
         gameWindowSize: Qt.point(gameScene.gameWindowAnchorItem.width, gameScene.gameWindowAnchorItem.height)
         entityContainer: container
 
-        // 禁用相机的鼠标earea，在编辑时中自动移动相机(手的移动)
+        // 禁用相机mousearea，在编辑时中自动移动相机(手的移动)
         mouseAreaEnabled: false
         focusedObject: gameScene.state != "edit" ? player : null
         focusOffset: Qt.point(0.5, 0.3)
@@ -265,16 +266,6 @@ SceneBase {
         id: finishDialog
     }
 
-//    Timer{
-//        id:update
-//        interval: 100
-//        running:gameScene.state!="edit"
-//        repeat: true
-//        onTriggered: updateScene()
-
-//    }
-
-
     //js实现的功能
     // 初始化关卡加载级别后调用此函数
     function initLevel() {
@@ -292,15 +283,6 @@ SceneBase {
         player.resetContacts()
         controller.xAxis = 0
     }
-
-//    function updateScene(){
-//        var finish = entityManager.getEntityById("finish")
-//        if(player.score>=30)
-//            finish.i.goalSprite="room2"
-//        if(player.score>=400)
-//            finish.image.source="../assets/ui/room3.png"
-//    }
-
 
     function resetLevel() {
         editorOverlay.resetEditor()

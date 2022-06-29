@@ -119,12 +119,14 @@ HomeEntityBaseDraggable {
 
         fixture.onBeginContact: {
             var otherEntity = other.getBody().target
-            if((otherEntity.entityType === "ground")&&(score<100))  //跳起来后落地检测
-                                                             //根据得分修改图片
+
+            if((otherEntity.entityType === "ground"||otherEntity.entityType === "mud")&&(score<100))  //跳起来后落地检测,根据得分修改图片
+
                 image.source ="../assets/player/stand.png"
-            if((otherEntity.entityType === "ground")&&(score>=100))
+
+            if((otherEntity.entityType === "ground"||otherEntity.entityType === "mud")&&(score>=100))
                 image.source ="../assets/player/level1-stand.png"
-            if((otherEntity.entityType === "ground")&&(score>=200))
+            if((otherEntity.entityType === "ground"||otherEntity.entityType === "mud")&&(score>=200))
                 image.source ="../assets/player/level2-stand.png"
 
 
@@ -160,6 +162,14 @@ HomeEntityBaseDraggable {
                 colliderActive.start()
                 musicManager.playSound("playerHit")
             }
+        }
+    }
+    Timer{
+        id:gameover
+        interval:10000
+        onTriggered: {
+            if(contacts===0)
+                gameScene.resetLevel()
         }
     }
 
@@ -199,11 +209,13 @@ HomeEntityBaseDraggable {
                 //如果玩家比怪物高出至少5px就算踩到
                 if(playerLowestY < oppLowestY - 5) {
                     //怪物死
+                    score+=5
                     otherEntity.die()
                     //玩家可以踩在这里往更高出跳
                     startJump(false)
                 }
             }
+            //if(otherEntity.entityType === "finish")
             //contacts等于0就掉下去
             else if(otherEntity.entityType === "mud" || otherEntity.entityType === "ground") {
                 contacts++
@@ -212,7 +224,11 @@ HomeEntityBaseDraggable {
         fixture.onEndContact: {
             var otherEntity = other.getBody().target
             if(otherEntity.entityType === "mud" || otherEntity.entityType === "ground")
+            {
                 contacts--
+                if(contacts==0)
+                    gameover.start()
+            }
         }
     }
 
@@ -398,10 +414,10 @@ HomeEntityBaseDraggable {
         loadStartPosition()
         reset()
         lastPosition = Qt.point(x, y)
+
     }
 
     function reset() {
-
         x = startX
         y = startY
 
