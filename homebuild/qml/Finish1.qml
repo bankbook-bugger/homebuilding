@@ -3,11 +3,10 @@ import Felgo 3.0
 
 HomeEntityBaseDraggable {
   id:finish
-  entityId:"finish"
+  property var i:image
   entityType: "finish"
   colliderComponent: collider
-  image.source: "../assets/ui/room1.png"
-  signal img(string url)
+  image.source: "../assets/ui/room2.png"
   BoxCollider {
     id: collider
     anchors.fill: parent
@@ -26,9 +25,6 @@ HomeEntityBaseDraggable {
       }
     }
   }
-  onImg: {
-      image.source= "../assets/ui/room2.png"
-      console.log("\n\n"+image.source)
-  }
+
 
 }

@@ -17,6 +17,7 @@ MultiResolutionImage {
   property var bgImage
   property var grid
   property var undoHandler    //撤销按钮
+  property point finishPos//存放终点的位置
 
   //左边所有种类的button
   property var buttons: [groundButton, mudButton, leftButton, rightButton, spikesButton,  opponentWalkerButton, canButton, bottleButton, boxButton, finishButton]
@@ -440,6 +441,10 @@ MultiResolutionImage {
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
+          onEntityWasBuilt: {
+              var finish = entityManager.getEntityById(builtEntityId)
+              finishPos=point(finish.x,finish.y)
+          }
         }
 
 

@@ -31,7 +31,7 @@ PinchArea {
 
         anchors.fill: parent
         enabled: pinchArea.enabled
-        property var lastCreateTime: 0
+        property int lastCreateTime: 0
         property point prevMouseLocation: Qt.point(0, 0)
         property point dragStartPosition
 
@@ -174,7 +174,7 @@ PinchArea {
             console.debug("zoom via mouseWheel")
         }
 
-    } // MouseArea end
+    }
     //    TapHandler {               //用于放在地图里的方块区域
     //        id: baseEditTap
     //        enabled: pinchArea.enabled
