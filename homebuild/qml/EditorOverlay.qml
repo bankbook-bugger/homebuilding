@@ -11,7 +11,7 @@ Item {
     property alias sidebar: sidebar
     property alias itemEditor: itemEditor
     property alias undoHandler: undoHandler
-
+    property alias finishPos:sidebar.finishPos
     property var selectedButton
 
     property var scene: parent
@@ -202,6 +202,7 @@ Item {
 
     function saveLevel() {
         EditorLogic.saveLevel();
+        entityManager.storeEntitiesAsJson(["ground", "material", "spikes", "heart", "player", "monster", "finish" ])
     }
 
 

@@ -132,7 +132,7 @@ Scene {
           }
           else {
             settings.soundEnabled = true
-            audioManager.playSound("playerJump")
+            musicManager.playSound("playerJump")
           }
         }
       }
