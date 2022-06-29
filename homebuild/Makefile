@@ -97,6 +97,8 @@ DIST          = qml/Bottle.qml \
 		qml/SceneBase.qml \
 		qml/GameScene.qml \
 		qml/Spirit.qml \
+		qml/TestEntityDraggable.qml \
+		qml/TestGround.qml \
 		qml/TestScene.qml \
 		qml/TestScene.qml \
 		qml/UndoHandler.qml \
