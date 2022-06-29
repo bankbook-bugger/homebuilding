@@ -1,4 +1,7 @@
-﻿import Felgo 3.0
+﻿/*2022.6 29
+wanglingzhi chenzexi*/
+
+import Felgo 3.0
 import QtQuick 2.0
 
 HomeEntityBaseDraggable {
@@ -7,6 +10,7 @@ HomeEntityBaseDraggable {
 
     property int startX
     property int startY
+    property alias playerScore: player
 
     //两个方向上的速度
     property alias horizontalVelocity: collider.linearVelocity.x
@@ -97,6 +101,7 @@ HomeEntityBaseDraggable {
         bodyType: Body.Dynamic
         //在编辑就不生效
         active: !inLevelEditingMode
+
         // Category1: 玩家
         categories: Box.Category1
         // Category2: 怪物, Category4:地
@@ -107,15 +112,22 @@ HomeEntityBaseDraggable {
 
         force: Qt.point(controller.xAxis * accelerationForce, 0)
 
-        // limit the horizontal velocity
         onLinearVelocityChanged: {
             if(linearVelocity.x > maxSpeed) linearVelocity.x = maxSpeed
             if(linearVelocity.x < -maxSpeed) linearVelocity.x = -maxSpeed
         }
 
-        // this is called whenever the contact with another entity begins
         fixture.onBeginContact: {
             var otherEntity = other.getBody().target
+            if((otherEntity.entityType === "ground")&&(score<100))  //跳起来后落地检测
+                                                                    //根据得分修改图片
+                image.source ="../assets/player/stand.png"
+            if((otherEntity.entityType === "ground")&&(score>=100))
+                image.source ="../assets/player/level1-stand.png"
+            if((otherEntity.entityType === "ground")&&(score>=200))
+                image.source ="../assets/player/level2-stand.png"
+
+
             //如果在泥巴上就把摩擦力设为1，其他组件上没有摩擦
             if(otherEntity.entityType === "mud") {
                 collider.friction=0.8
@@ -240,7 +252,7 @@ HomeEntityBaseDraggable {
         }
     }
 
-    //跳的控制（看不懂
+    //跳的控制
     Timer {
         id: ascentControl
 
@@ -250,6 +262,13 @@ HomeEntityBaseDraggable {
         onTriggered: {
             // 如果jumpForceLeft > 0就让他跳
             if(jumpForceLeft > 0) {
+
+                if(score<100)          //检测得分 根据得分修改jump的图片
+                    image.source="../assets/player/jump.png"
+                if(score>=100)
+                    image.source="../assets/player/level1-jump.png"
+                if(score>=200)
+                    image.source="../assets/player/level2-jump.png"
 
                 var verticalImpulse = 0
                 //在跳跃开始时，我们将垂直度设置为0
@@ -278,6 +297,7 @@ HomeEntityBaseDraggable {
                 jumpForceLeft--
             }
         }
+
     }
 
     //加在ItemEditor里的调节各种属性的
@@ -315,6 +335,9 @@ HomeEntityBaseDraggable {
         }
     }
 
+
+
+
     //当用户释放跳转按钮时，调用此函数
     function endJump() {
         // stop ascentControl
@@ -322,6 +345,7 @@ HomeEntityBaseDraggable {
 
         // reset jumpForceLeft
         jumpForceLeft = 20
+
     }
     //根据玩家移动的方向更改玩家的图片的样式
     function changeSpriteOrientation() {
@@ -361,13 +385,13 @@ HomeEntityBaseDraggable {
             startY = parseInt(gameWindow.levelEditor.currentLevelData["customData"]["playerY"])
         }
         else {
-            //为什么有负值？？
             startY = -196
         }
     }
 
+
     /**
-   * Init and reset JS functions -------------------------------------
+    JS functions
    */
 
     function initialize() {
@@ -377,15 +401,13 @@ HomeEntityBaseDraggable {
     }
 
     function reset() {
-        // reset position
+
         x = startX
         y = startY
 
-        // reset velocity
         collider.linearVelocity.x = 0
         collider.linearVelocity.y = 0
 
-        // reset score
         score = 0
         heart=1
         image.source="../assets/player/stand.png"

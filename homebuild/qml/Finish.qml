@@ -8,6 +8,7 @@ HomeEntityBaseDraggable {
 
   colliderComponent: collider
   image.source: "../assets/ui/room1.png"
+
   BoxCollider {
     id: collider
     anchors.fill: parent

@@ -77,7 +77,7 @@ SceneBase {
             else
                 -1
         }
-        source:"../assets/backgroundImage/background.png"
+        source: bg == 0 ? bg0 : bg1
     }
 
 
@@ -297,13 +297,8 @@ SceneBase {
 //            finish.image.source="../assets/ui/room3.png"
 //    }
 
-<<<<<<< HEAD
 
-      function resetLevel() {
-=======
     function resetLevel() {
-
->>>>>>> 711dd3ffcafeabda3526d7598d53f0f2deb5549b
         editorOverlay.resetEditor()
         player.reset()
         var opponents = entityManager.getEntityArrayByType("monster")
@@ -312,19 +307,12 @@ SceneBase {
         }
         var materials = entityManager.getEntityArrayByType("material")
         for(var material in materials) {
-<<<<<<< HEAD
-          materials[material].reset()
-        }
-        var hearts = entityManager.getEntityArrayByType("heart")
-        for(var heart in hearts) {
-          hearts[heart].reset()
-=======
             materials[material].reset()
         }
+
         var hearts = entityManager.getEntityArrayByType("heart")
         for(var heart in hearts) {
             hearts[heart].reset()
->>>>>>> 711dd3ffcafeabda3526d7598d53f0f2deb5549b
         }
     }
 }
