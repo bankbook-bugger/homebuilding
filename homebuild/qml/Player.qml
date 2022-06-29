@@ -79,7 +79,11 @@ HomeEntityBaseDraggable {
     /**
    * 碰撞检测部分---------------------------------------
    */
-
+    Timer{
+        id:colliderActive
+        interval: 1000
+        onTriggered: collider.active=true
+    }
     //主要部分
     PolygonCollider {
         id: collider
@@ -97,7 +101,7 @@ HomeEntityBaseDraggable {
         categories: Box.Category1
         // Category2: 怪物, Category4:地
         // Category3: 收集的素材, Category7: 怪物的sensor
-        collidesWith: Box.Category2 | Box.Category3 | Box.Category4| Box.Category7
+        collidesWith: Box.Category2 | Box.Category3 | Box.Category4
         //不会处于休眠状态
         sleepingAllowed: false
 
@@ -114,7 +118,7 @@ HomeEntityBaseDraggable {
             var otherEntity = other.getBody().target
             //如果在泥巴上就把摩擦力设为1，其他组件上没有摩擦
             if(otherEntity.entityType === "mud") {
-                collider.friction=1
+                collider.friction=0.8
             }
             else
                 collider.friction=0
@@ -137,16 +141,12 @@ HomeEntityBaseDraggable {
         fixture.onContactChanged: {
             var otherEntity = other.getBody().target
             if(otherEntity.entityType === "monster" || otherEntity.entityType === "spikes") {
+                heart-=1
                 if(heart==0)
-                {
-                    musicManager.playSound("playerDie")
                     gameScene.resetLevel()
-                }
-                else {
-                    heart-=1
-                    musicManager.playSound("playerHit")
-                }
-
+                active=false
+                colliderActive.start()
+                musicManager.playSound("playerHit")
             }
         }
     }
@@ -234,7 +234,6 @@ HomeEntityBaseDraggable {
         onTriggered: {
 
             var xAxis = controller.xAxis;
-            //那为什么不能直接停
             if(xAxis === 0) {
                 player.horizontalVelocity = 0
             }
@@ -363,7 +362,7 @@ HomeEntityBaseDraggable {
         }
         else {
             //为什么有负值？？
-            startY = -96
+            startY = -196
         }
     }
 
@@ -388,6 +387,8 @@ HomeEntityBaseDraggable {
 
         // reset score
         score = 0
+        heart=1
+        image.source="../assets/player/stand.png"
     }
 
     function resetContacts() {

@@ -149,6 +149,7 @@ function saveLevel() {
 
   // execute save
   gameWindow.levelEditor.saveCurrentLevel(saveProperties);
+
 }
 
 function initEditor() {

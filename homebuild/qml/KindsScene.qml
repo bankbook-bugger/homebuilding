@@ -113,16 +113,18 @@ SceneBase{
         anchors.topMargin: 0
         anchors.bottomMargin: 0
         visible: kindsScene.state==="demoKinds"
-        levelMetaDataArray:gameWindow.levelEditor.authorGeneratedLevels
+        levelMetaDataArray:gameWindow.levelEditor.applicationJSONLevels
 
     }
     //display all create kinds
     KindsGrid{
         id: createdKindsGrid
         visible:kindsScene.state==="myKinds"
-
+        anchors.margins: 100
+        anchors.topMargin: 0
+        anchors.bottomMargin: 0
         // we only show authorGeneratedLevels
-        levelMetaDataArray: gameWindow.levelEditor.downloadedLevels
+        levelMetaDataArray: gameWindow.levelEditor.authorGeneratedLevels
     }
     onActiveLevelGridChanged: {
 

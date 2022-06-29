@@ -1,4 +1,4 @@
-/*2022.6.23
+﻿/*2022.6.23
 wanglingzhi chenzexi*/
 
 import QtQuick 2.0
@@ -11,7 +11,7 @@ AppButton {
   height: 30
 
   property color color: "#413d3c"   //背景颜色
-  property var radius:3
+  property int radius:3
   property alias screenText: screenText.text
   property alias textColor: screenText.color
 

@@ -201,6 +201,7 @@ Item {
 
     function saveLevel() {
         EditorLogic.saveLevel();
+        entityManager.storeEntitiesAsJson(["ground", "material", "spikes", "heart", "player", "monster", "finish" ])
     }
 
 
