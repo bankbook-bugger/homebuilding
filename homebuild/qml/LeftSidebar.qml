@@ -432,15 +432,41 @@ MultiResolutionImage {
         }
 
 
-        HomeBuildEntityButton {             //完成button
-          id: finishButton
+        HomeBuildEntityButton {             //房子button1
+          id: finish1Button
 
           visible: entityGroups.activeGroup == 3
           toCreateEntityTypeUrl: "Finish.qml"
 
           onSelected: selectBuildEntityButton(this)
           onUnselected: unselectBuildEntityButton()
+
         }
+
+        HomeBuildEntityButton {             //房子button2
+          id: finish2Button
+
+          visible: entityGroups.activeGroup == 3
+          toCreateEntityTypeUrl: "Finish.qml"
+
+          onSelected: selectBuildEntityButton(this)
+          onUnselected: unselectBuildEntityButton()
+
+        }
+
+        HomeBuildEntityButton {             //房子button3
+          id: finish3Button
+
+          visible: entityGroups.activeGroup == 3
+          toCreateEntityTypeUrl: "Finish.qml"
+
+          onSelected: selectBuildEntityButton(this)
+          onUnselected: unselectBuildEntityButton()
+
+        }
+
+
+
 
 
       }

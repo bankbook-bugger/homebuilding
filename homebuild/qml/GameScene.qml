@@ -124,6 +124,10 @@ SceneBase {
             id: player
             z: 1
             onFinish: {
+
+//                if(score>=30)
+//                    finish.image.source= "../assets/ui/room2.png"
+
                 if(gameScene.state == "test")
                     //如果是test状态下赢了，就直接重来，不显示对话框
                     resetLevel()

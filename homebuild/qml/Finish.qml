@@ -21,11 +21,14 @@ HomeEntityBaseDraggable {
     fixture.onBeginContact: {
         //获取和终点发生碰撞的另一方
       var otherEntity = other.getBody().target
+
       // 如果是玩家就胜利
       if(otherEntity.entityType === "player") {
         gameScene.player.finish()
       }
+
     }
+
   }
 
 }

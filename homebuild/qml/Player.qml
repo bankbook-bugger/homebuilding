@@ -120,7 +120,7 @@ HomeEntityBaseDraggable {
         fixture.onBeginContact: {
             var otherEntity = other.getBody().target
             if((otherEntity.entityType === "ground")&&(score<100))  //跳起来后落地检测
-                                                                    //根据得分修改图片
+                                                             //根据得分修改图片
                 image.source ="../assets/player/stand.png"
             if((otherEntity.entityType === "ground")&&(score>=100))
                 image.source ="../assets/player/level1-stand.png"
