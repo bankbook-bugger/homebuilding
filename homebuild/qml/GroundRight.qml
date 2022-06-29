@@ -1,20 +1,18 @@
 ﻿import QtQuick 2.0
 import Felgo 3.0
 
-Ground{
+TestGround{
     variationType: "right"
     image.source: "../assets/ground/ground4.png"
     colliderComponent: rightcollider
     PolygonCollider {
       id: rightcollider
-      //anchors.fill: parent
-      vertices:
-      [
-        Qt.point(3, 0),
-        Qt.point(0, 0),
-        Qt.point(0, 3),
-        Qt.point(3, 3),
-      ]
+      anchors.fill: parent
+      vertices: [
+           Qt.point(0 ,30),
+           Qt.point(0 ,0),
+           Qt.point(30,30),
+               ]
       bodyType: Body.Static
       // Category4: 地
       categories: Box.Category4
@@ -24,3 +22,4 @@ Ground{
 
    }
 }
+

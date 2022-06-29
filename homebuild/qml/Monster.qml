@@ -1,11 +1,13 @@
 ﻿import QtQuick 2.0
 import Felgo 3.0
+import "../qml/scenes/editorElements"
 
 HomeEntityBaseDraggable{
     id:monster
     entityType: "monster"
     property int startX
     property int startY
+    z:1
     //是不是活着
     property bool alive:true
     //隐藏掉怪物的尸体
@@ -42,10 +44,12 @@ HomeEntityBaseDraggable{
         //施加力的点
         collider.force = Qt.point(0, 0)
     }
+    function die(){
     onDie:{
 
         alive=false
         hideTimer.start()
         musicManager.playSound("opponentWalkerDie")
     }
+}
 }

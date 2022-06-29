@@ -37,7 +37,15 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = fighting1.0.0
+<<<<<<< HEAD
 DISTDIR = /root/MyGit/homebuilding/homebuild/.tmp/fighting1.0.0
+=======
+<<<<<<< HEAD
+DISTDIR = /run/media/root/study/homebuilding/homebuilding/homebuild/.tmp/fighting1.0.0
+=======
+DISTDIR = /run/media/root/linux/homebuilding/homebuild/.tmp/fighting1.0.0
+>>>>>>> 55f924b4ef0ab34cfc910984cc471420afe9ce14
+>>>>>>> 4e321db8d403d831ca3912d1bf48e38bfd617609
 LINK          = g++
 LFLAGS        = -Wl,-rpath,'$$ORIGIN/lib' -Wl,-rpath,'$$ORIGIN/system' -Wl,-rpath,/opt/felgo/Felgo/gcc_64/lib -Wl,-rpath-link,/opt/felgo/Felgo/gcc_64/lib
 LIBS          = $(SUBLIBS) -L/opt/felgo/Felgo/gcc_64/lib -lFelgo -lz /opt/felgo/Felgo/gcc_64/lib/libQt5Quick.so /opt/felgo/Felgo/gcc_64/lib/libQt5Widgets.so /opt/felgo/Felgo/gcc_64/lib/libQt5Multimedia.so /opt/felgo/Felgo/gcc_64/lib/libQt5Gui.so /opt/felgo/Felgo/gcc_64/lib/libQt5QmlModels.so /opt/felgo/Felgo/gcc_64/lib/libQt5Qml.so /opt/felgo/Felgo/gcc_64/lib/libQt5WebSockets.so /opt/felgo/Felgo/gcc_64/lib/libQt5Network.so /opt/felgo/Felgo/gcc_64/lib/libQt5Sql.so /opt/felgo/Felgo/gcc_64/lib/libQt5Bluetooth.so /opt/felgo/Felgo/gcc_64/lib/libQt5Core.so -lGL -lpthread   
@@ -97,6 +105,8 @@ DIST          = qml/Bottle.qml \
 		qml/SceneBase.qml \
 		qml/GameScene.qml \
 		qml/Spirit.qml \
+		qml/TestEntityDraggable.qml \
+		qml/TestGround.qml \
 		qml/TestScene.qml \
 		qml/TestScene.qml \
 		qml/UndoHandler.qml \
@@ -928,8 +938,30 @@ qrc_resources_user.o: qrc_resources_user.cpp
 ####### Install
 
 install_itemqmlFolder: first FORCE
+<<<<<<< HEAD
 	@test -d $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild || mkdir -p $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild
 	$(QINSTALL) /root/MyGit/homebuilding/homebuild/qml $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/qml
+=======
+<<<<<<< HEAD
+	@test -d $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild || mkdir -p $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild
+	$(QINSTALL) /run/media/root/study/homebuilding/homebuilding/homebuild/qml $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild/qml
+
+uninstall_itemqmlFolder: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild/qml
+	-$(DEL_DIR) $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild/ 
+
+
+install_itemassetsFolder: first FORCE
+	@test -d $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild || mkdir -p $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild
+	$(QINSTALL) /run/media/root/study/homebuilding/homebuilding/homebuild/assets $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild/assets
+
+uninstall_itemassetsFolder: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild/assets
+	-$(DEL_DIR) $(INSTALL_ROOT)/run/media/root/study/homebuilding/homebuilding/homebuild/ 
+=======
+	@test -d $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild || mkdir -p $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild
+	$(QINSTALL) /run/media/root/linux/homebuilding/homebuild/qml $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild/qml
+>>>>>>> 4e321db8d403d831ca3912d1bf48e38bfd617609
 
 uninstall_itemqmlFolder: FORCE
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/qml
@@ -941,8 +973,14 @@ install_itemassetsFolder: first FORCE
 	$(QINSTALL) /root/MyGit/homebuilding/homebuild/assets $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/assets
 
 uninstall_itemassetsFolder: FORCE
+<<<<<<< HEAD
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/assets
 	-$(DEL_DIR) $(INSTALL_ROOT)/root/MyGit/homebuilding/homebuild/ 
+=======
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild/assets
+	-$(DEL_DIR) $(INSTALL_ROOT)/run/media/root/linux/homebuilding/homebuild/ 
+>>>>>>> 55f924b4ef0ab34cfc910984cc471420afe9ce14
+>>>>>>> 4e321db8d403d831ca3912d1bf48e38bfd617609
 
 
 install: install_itemqmlFolder install_itemassetsFolder  FORCE

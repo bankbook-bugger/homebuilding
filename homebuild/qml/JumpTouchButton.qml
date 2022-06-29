@@ -14,6 +14,9 @@ Item {
   enabled: visible
   //只有在触摸模式 hand 手模式下才能启用
 
+  signal pressed
+  signal released
+
   height: 60
   width: 80
 
